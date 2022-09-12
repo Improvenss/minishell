@@ -6,14 +6,13 @@
 /*   By: gsever <gsever@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/17 10:57:07 by akaraca           #+#    #+#             */
-/*   Updated: 2022/09/11 22:18:36 by gsever           ###   ########.fr       */
+/*   Updated: 2022/08/27 22:10:18 by gsever           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
-# include "../includes/libraries/includes/libft.h"
 # include <unistd.h> /*
 	write()		-> System call used to write data from the buffer,
 	read()		-> Read from a file descriptor,
@@ -121,18 +120,6 @@
 # define RESET	"\033[0m"
 # define COMMAND_SIGN	"\e[0;32m🅼 🅸 🅽 🅸 🆂 🅷 🅴 🅻 🅻 $\e[m "
 
-//	COLORS BOLD--> B🟥 B🟩 B🟦
-# define B_CYAN		"\033[1;36m"
-# define B_BLUE		"\033[1;34m"
-# define B_YELLOW	"\033[1;33m"
-# define B_GREEN	"\033[1;32m"
-# define B_RED		"\033[1;31m"
-# define B_RESET	"\033[1m"
-
-/* ************************************************************************** */
-/* STRUCT DEFINES AREA													  	  */
-/* ************************************************************************** */
-
 typedef struct s_main
 {
 	char		**line; //girilen komut satırını 2 boyutlu dizede tutuyorum
@@ -142,20 +129,14 @@ typedef struct s_main
 	char		*old_path; // yapılan cd komutuna göre bir önceki dizini tutar.
 }t_main;
 
-/* ************************************************************************** */
-/* FUNCTION PROTOTYPES														  */
-/* ************************************************************************** */
+//ft_strjoin.c
+char	*ft_strjoin(const char *s1, const char *s2);
 
-// //ft_strjoin.c
-// char	*ft_strjoin(const char *s1, const char *s2);
+//ft_split.c
+char	**ft_split(const char *s, char c);
 
-// //ft_split.c
-// char	**ft_split(const char *s, char c);
-
-// //minishell.c
-// int		ft_strlen(const char *str);
-// int		main(void);
-
-
+//minishell.c
+int		ft_strlen(const char *str);
+int		main(void);
 
 #endif
