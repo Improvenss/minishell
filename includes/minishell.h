@@ -6,7 +6,7 @@
 /*   By: gsever <gsever@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/17 10:57:07 by akaraca           #+#    #+#             */
-/*   Updated: 2022/09/15 18:03:09 by gsever           ###   ########.fr       */
+/*   Updated: 2022/09/15 18:21:36 by gsever           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,6 +121,15 @@
 # define RESET	"\033[0m"
 # define COMMAND_SIGN	"\e[0;32m🅼 🅸 🅽 🅸 🆂 🅷 🅴 🅻 🅻 $\e[m "
 
+# define ITALIC "\e[3;37m" //stringi eğik yazar.
+# define UNDERLINE "\e[4;37m" //Stringi altı çizgili yapar.
+# define SELECTED "\e[7;37m" //Stringi seçilmiş şekilde yazdırır. (yazının arka planı koyu olur.)
+# define SELECTED_2 "\e[0;40m" // stringi seçilmiş şekilde yazdırır. (arka plan hafif koyu olur.)
+# define HIDDEN "\e[8;37m" // stringi gizli bir şekilde ekrana bastırır.
+# define BLINK "\e[5;37m" // yanıp sönmeli şekilde çıktıyı verir, lakin bu özellik bizde yok :(
+//# define COMMAND_SIGN "\e[0;32m🅼 🅸 🅽 🅸 🆂 🅷 🅴 🅻 🅻 $\e[m" // readline(COMMAND_SIGN); şeklinde kullanılıyor.
+//# define COMMAND_SIGN "\e[0;32m$\e[m "
+
 //	COLORS BOLD--> B🟥 B🟩 B🟦
 # define B_CYAN		"\033[1;36m"
 # define B_BLUE		"\033[1;34m"
@@ -129,17 +138,30 @@
 # define B_RED		"\033[1;31m"
 # define B_RESET	"\033[1m"
 
+
+
 /* ************************************************************************** */
 /* STRUCT DEFINES AREA													  	  */
 /* ************************************************************************** */
 
-typedef struct s_main
+typedef struct s_env // env yapısını içerecek 
 {
-	char		**line; //girilen komut satırını 2 boyutlu dizede tutuyorum
-	int			word_count; //argüman uzunluğunu tutuyorum
-	int			i; //yardımcı fonk olarak kullanıyorum, forklar araya girerse kaldırılmak zorunda
-	char		*path; //anlık dizi konumunu tutar.
-	char		*old_path; // yapılan cd komutuna göre bir önceki dizini tutar.
+	char	**data; //data[0] -> PWD,OLDPWD,HOME,_ .... data[1] -> /Users/akaraca/Desktop/minishell/sources, /Users/akaraca/Desktop/minishell, /Users/akaraca ...
+	struct s_env *next; //env listesinin bir sonraki argümanını işaret ediyor.
+	struct s_env *prev; //env listesinden argüman silmek için kullandığım, bir önceki argümanı işaret eden işaretçi
+}t_env;
+
+typedef struct s_main
+{	
+	int			echo_val; // echo $? <enter> için geri dönüş değeri, 0 1 127 ve 130 değerlerine sahiptir.(arttırılabilir)
+	char		**PATH; //komut pathleri 2 boyutlu dizi olarak saklanmaktadır.
+	char		*terminal_name; //leak'i gidermek için ft_terminal_print çıktısını her döngüde buna eşitlemeliyiz.
+	char		*command_path; // ls, clear, man ... vb komutların "/bin/..." dizinin eşitliğini tutuyor.
+	char		*tmp_str; //pwd ve oldpwd eşitliğinde veri tutmak için kullanıyorum.
+	char		*input_line; //realine(), geri dönüş değerini tutuyor.
+	char		**array_line; //girilen komut satırını 2 boyutlu dizede tutuyorum, ekstra bir karakter girdisi yok.
+	char		**environ; // "extern char	**environ;" hafızaya alıyorum.
+	t_env		*env; //extern char **environ; 2 boyutlu dizisi üzerinde düzenleme yapabilmek için list yapısı oluşturduk.
 }t_main;
 
 /* ************************************************************************** */
@@ -156,5 +178,6 @@ typedef struct s_main
 // int		ft_strlen(const char *str);
 // int		main(void);
 
+int		main(void);
 
 #endif
