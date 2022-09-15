@@ -6,14 +6,14 @@
 /*   By: gsever <gsever@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/17 10:57:07 by akaraca           #+#    #+#             */
-/*   Updated: 2022/09/11 22:18:36 by gsever           ###   ########.fr       */
+/*   Updated: 2022/09/15 18:03:09 by gsever           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
-# include "../includes/libraries/includes/libft.h"
+# include "libft.h"
 # include <unistd.h> /*
 	write()		-> System call used to write data from the buffer,
 	read()		-> Read from a file descriptor,
@@ -155,7 +155,6 @@ typedef struct s_main
 // //minishell.c
 // int		ft_strlen(const char *str);
 // int		main(void);
-
 
 
 #endif

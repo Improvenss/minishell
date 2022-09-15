@@ -1,3 +1,15 @@
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: gsever <gsever@student.42kocaeli.com.tr    +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2022/09/15 17:54:15 by gsever            #+#    #+#              #
+#    Updated: 2022/09/15 18:06:45 by gsever           ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
+
 NAME		= minishell
 
 #	Flags for compile
@@ -10,10 +22,11 @@ FLAGS		= -Wall -Werror -Wextra
 
 #	Libft Part --> OK
 LIBFTDIR	= ./libraries/libft
+# LIBFT		= $(LIBFTDIR)/libft.a
 
 #	Locations Part --> OK
 LIBRARIES	= -L$(LIBFTDIR)/ -lft
-INCLUDES	= -I$(HEADERS_DIRECTORY)
+INCLUDES	= -I$(HEADERS_DIRECTORY) -I$(LIBFTDIR)/includes
 
 #	HEADERS Parts --> Kutuphane --> OK
 HEADERS_DIRECTORY = ./includes/
@@ -55,7 +68,7 @@ $(OBJECTS_DIRECTORY)%.o : $(SOURCES_DIRECTORY)%.c
 	@printf "%-57b %b" "$(BLUE)COMPILED $(LB)$@" "$(GREEN)[✓]$(X)\n"
 
 $(NAME): libft $(OBJECTS_DIRECTORY) $(OBJECTS)
-	@$(CC) $(FLAGS) -o $(NAME) $(OBJECTS)
+	@$(CC) $(FLAGS) $(OBJECTS) -o $(NAME) $(LIBRARIES)
 	@printf "%-57b %b" "$(GREEN)CREATED $(NAME)" "$(GREEN)[FINISHED]$(X)\n"
 
 #	Objects file creating
