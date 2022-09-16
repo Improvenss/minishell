@@ -6,7 +6,7 @@
 /*   By: gsever <gsever@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/17 10:57:07 by akaraca           #+#    #+#             */
-/*   Updated: 2022/09/15 18:24:03 by gsever           ###   ########.fr       */
+/*   Updated: 2022/09/16 18:02:06 by gsever           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,169 +23,169 @@ t_main	g_main;
 */
 
 //-----Functions Must be removed-------//
-//ft_strncmp
-int	ft_strncmp(const char *s1, const char *s2, size_t n)
-{
-	size_t	counter;
+// //ft_strncmp
+// int	ft_strncmp(const char *s1, const char *s2, size_t n)
+// {
+// 	size_t	counter;
 
-	if (n == 0)
-		return (0);
-	counter = 0;
-	while (counter < (n - 1) && s1[counter] && s2[counter])
-	{
-		if (s1[counter] != s2[counter])
-			break ;
-		counter++;
-	}
-	return (((unsigned char *)s1)[counter] - ((unsigned char *)s2)[counter]);
-}
+// 	if (n == 0)
+// 		return (0);
+// 	counter = 0;
+// 	while (counter < (n - 1) && s1[counter] && s2[counter])
+// 	{
+// 		if (s1[counter] != s2[counter])
+// 			break ;
+// 		counter++;
+// 	}
+// 	return (((unsigned char *)s1)[counter] - ((unsigned char *)s2)[counter]);
+// }
 
-//ft_strlen
-int	ft_strlen(const char *str)
-{
-	int	i;
+// //ft_strlen
+// int	ft_strlen(const char *str)
+// {
+// 	int	i;
 
-	i = 0;
-	if (!str)
-		return (0);
-	while (str[i] != '\0')
-		i++;
-	return (i);
-}
+// 	i = 0;
+// 	if (!str)
+// 		return (0);
+// 	while (str[i] != '\0')
+// 		i++;
+// 	return (i);
+// }
 
-//ft_lstsize
-int	ft_lstsize(t_env *lst)
-{
-	size_t	count;
+// //ft_lstsize
+// int	ft_lstsize(t_env *lst)
+// {
+// 	size_t	count;
 
-	count = 0;
-	while (lst && ++count)
-		lst = lst->next;
-	return (count);
-}
+// 	count = 0;
+// 	while (lst && ++count)
+// 		lst = lst->next;
+// 	return (count);
+// }
 
-//ft_split
-static size_t	ft_wordcount(char const *s, char c)
-{
-	size_t	i;
-	size_t	count;
+// //ft_split
+// static size_t	ft_wordcount(char const *s, char c)
+// {
+// 	size_t	i;
+// 	size_t	count;
 
-	i = 0;
-	count = 0;
-	while (s[i] == c && s[i])
-		i++;
-	while (s[i])
-	{
-		while (s[i] != c && s[i])
-			i++;
-		count++;
-		while (s[i] == c && s[i])
-			i++;
-	}
-	return (count);
-}
+// 	i = 0;
+// 	count = 0;
+// 	while (s[i] == c && s[i])
+// 		i++;
+// 	while (s[i])
+// 	{
+// 		while (s[i] != c && s[i])
+// 			i++;
+// 		count++;
+// 		while (s[i] == c && s[i])
+// 			i++;
+// 	}
+// 	return (count);
+// }
 
-static char	*stringf(const char *s, char c)
-{
-	char	*temp;
-	int		i;
+// static char	*stringf(const char *s, char c)
+// {
+// 	char	*temp;
+// 	int		i;
 
-	i = 0;
-	while (s[i] != '\0' && s[i] != c)
-		i++;
-	temp = (char *)malloc(sizeof(char) * (i + 1));
-	if (!temp)
-		return (NULL);
-	i = 0;
-	while (s[i] != '\0' && s[i] != c)
-	{
-		temp[i] = s[i];
-		i++;
-	}
-	temp[i] = '\0';
-	return (temp);
-}
+// 	i = 0;
+// 	while (s[i] != '\0' && s[i] != c)
+// 		i++;
+// 	temp = (char *)malloc(sizeof(char) * (i + 1));
+// 	if (!temp)
+// 		return (NULL);
+// 	i = 0;
+// 	while (s[i] != '\0' && s[i] != c)
+// 	{
+// 		temp[i] = s[i];
+// 		i++;
+// 	}
+// 	temp[i] = '\0';
+// 	return (temp);
+// }
 
-char	**ft_split(const char *s, char c)
-{
-	char	**temp;
-	int		wordc;
-	int		i;
+// char	**ft_split(const char *s, char c)
+// {
+// 	char	**temp;
+// 	int		wordc;
+// 	int		i;
 
-	i = 0;
-	if (!s)
-		return (NULL);
-	wordc = ft_wordcount(s, c);
-	temp = (char **)malloc(sizeof(char *) * (wordc + 1));
-	if (!temp)
-		return (NULL);
-	while (*s)
-	{
-		while (*s && *s == c)
-			s++;
-		if (*s)
-		{
-			temp[i] = stringf(s, c);
-			i++;
-		}
-		while (*s && *s != c)
-		s++;
-	}
-	temp[i] = NULL;
-	return (temp);
-}
+// 	i = 0;
+// 	if (!s)
+// 		return (NULL);
+// 	wordc = ft_wordcount(s, c);
+// 	temp = (char **)malloc(sizeof(char *) * (wordc + 1));
+// 	if (!temp)
+// 		return (NULL);
+// 	while (*s)
+// 	{
+// 		while (*s && *s == c)
+// 			s++;
+// 		if (*s)
+// 		{
+// 			temp[i] = stringf(s, c);
+// 			i++;
+// 		}
+// 		while (*s && *s != c)
+// 		s++;
+// 	}
+// 	temp[i] = NULL;
+// 	return (temp);
+// }
 
-//ft_strjoin
-char	*ft_strjoin(char const *s1, char const *s2)
-{
-	int		i;
-	int		k;
-	char	*temp;
+// //ft_strjoin
+// char	*ft_strjoin(char const *s1, char const *s2)
+// {
+// 	int		i;
+// 	int		k;
+// 	char	*temp;
 
-	i = 0;
-	k = 0;
-	temp = NULL;
-	if (!s1 || !s2)
-		return (NULL);
-	temp = (char *)malloc(sizeof(char) * (ft_strlen(s1) + \
-				ft_strlen(s2) + 1));
-	if (!temp)
-		return (NULL);
-	while (s1[i])
-	{
-		temp[i] = s1[i];
-		i++;
-	}
-	while (s2[k])
-	{
-		temp[k + i] = s2[k];
-		k++;
-	}
-	temp[k + i] = '\0';
-	return (temp);
-}
+// 	i = 0;
+// 	k = 0;
+// 	temp = NULL;
+// 	if (!s1 || !s2)
+// 		return (NULL);
+// 	temp = (char *)malloc(sizeof(char) * (ft_strlen(s1) + \
+// 				ft_strlen(s2) + 1));
+// 	if (!temp)
+// 		return (NULL);
+// 	while (s1[i])
+// 	{
+// 		temp[i] = s1[i];
+// 		i++;
+// 	}
+// 	while (s2[k])
+// 	{
+// 		temp[k + i] = s2[k];
+// 		k++;
+// 	}
+// 	temp[k + i] = '\0';
+// 	return (temp);
+// }
 
-//ft_strdup
-char	*ft_strdup(char *src)
-{
-	char	*new;
-	int		i;
-	int		size;
+// //ft_strdup
+// char	*ft_strdup(char *src)
+// {
+// 	char	*new;
+// 	int		i;
+// 	int		size;
 
-	size = 0;
-	while (src[size])
-		++size;
-	if (!(new = malloc(sizeof(char) * (size + 1))))
-		return (NULL);
-	i = 0;
-	while (src[i])
-	{
-		new[i] = src[i];
-		i++;
-	}
-	new[i] = '\0';
-	return (new);
-}
+// 	size = 0;
+// 	while (src[size])
+// 		++size;
+// 	if (!(new = malloc(sizeof(char) * (size + 1))))
+// 		return (NULL);
+// 	i = 0;
+// 	while (src[i])
+// 	{
+// 		new[i] = src[i];
+// 		i++;
+// 	}
+// 	new[i] = '\0';
+// 	return (new);
+// }
 
 //---------------------------//
 
@@ -308,12 +308,12 @@ char	*ft_env_findret(char *env_name)
 
 char	*ft_directory_name(char *path)
 {
-	char	*name;
+	// char	*name;
 	int		i;
-	int		l;
+	// int		l;
 
 	i = ft_strlen(path);
-	l = i;
+	// l = i;
 	if (i == 1)
 		return ("/");
 	while (path[i] != '/')
@@ -461,7 +461,7 @@ void	ft_echo_print(int word)
 //echo $(ls) <enter> fonk. için hazırlık yapılmalıdır.
 void	ft_echo_command(void)
 {
-	int	i;
+	// int	i;
 
 	if (g_main.array_line[1] == NULL) //echo <enter>
 		printf("\n");
@@ -788,7 +788,7 @@ char	*ft_clear_backslah(char *str)
 {
 	char	*tmp;
 	int		i;
-	int		l;
+	size_t		l;
 
 	l = 0;
 	i = 0;
