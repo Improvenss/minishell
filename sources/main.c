@@ -6,7 +6,7 @@
 /*   By: gsever <gsever@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/17 10:57:07 by akaraca           #+#    #+#             */
-/*   Updated: 2022/09/18 15:47:45 by gsever           ###   ########.fr       */
+/*   Updated: 2022/09/18 17:50:25 by gsever           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -989,7 +989,7 @@ void	ft_command_find(void)
 	> Yeni bir komut beklerken bir bilgi istemi görüntüleyin. ✓
 	> Girdileri hafıza tutarak history oluşturun. ✓
 	> Search and launch, dosyayı arayın ve başlatın. ✓
-	> Min 1 global değişken kullanılabilir. Açıklanmalıdır.
+!!! > Min 1 global değişken kullanılabilir. Açıklanmalıdır.
 	> Kapatılmamış alıntıları veya
 		özel karakterleri yorumlamayın. "\" (backslash) or ";" (semicolon)
 	> Alıntılanan dizideki meta karakterlerin tek tırnak içerisinde iken engellenmesi gerekmektedir.
