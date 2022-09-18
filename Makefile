@@ -6,7 +6,7 @@
 #    By: gsever <gsever@student.42kocaeli.com.tr    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/09/15 17:54:15 by gsever            #+#    #+#              #
-#    Updated: 2022/09/16 19:17:48 by gsever           ###   ########.fr        #
+#    Updated: 2022/09/18 15:57:34 by gsever           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,14 +22,18 @@ FLAGS		= -Wall -Werror -Wextra
 
 #	Libft Part --> OK
 LIBFTDIR		= ./libraries/libft
-READLINE_DIR	= ../includes/readline/lib
+# READLINE_DIR	= ../includes/readline/lib
 # LIBFT		= $(LIBFTDIR)/libft.a
 
 # gcc minishell.c -L../includes/readline/lib -I../includes/readline/include -lreadline && ./a.out
 
 #	Locations Part --> OK
-LIBRARIES	= -L$(LIBFTDIR)/ -lft -L$(READLINE_DIR)/ -lreadline
-INCLUDES	= -I$(HEADERS_DIRECTORY) -I$(LIBFTDIR)/includes -I$(READLINE_DIR)/include
+LIBRARIES	= -L$(LIBFTDIR)/ -lft \
+	-L/opt/homebrew/Cellar/readline/8.1.2/lib -lreadline
+# -L.brew/opt/readline/lib -lreadline
+INCLUDES	= -I$(HEADERS_DIRECTORY) -I$(LIBFTDIR)/includes \
+	-I/opt/homebrew/Cellar/readline/8.1.2/include/
+# -I$(READLINE_DIR)/include
 
 #	HEADERS Parts --> Kutuphane --> OK
 HEADERS_DIRECTORY = ./includes/
@@ -71,7 +75,7 @@ $(OBJECTS_DIRECTORY)%.o : $(SOURCES_DIRECTORY)%.c
 	@printf "%-57b %b" "$(BLUE)COMPILED $(LB)$@" "$(GREEN)[✓]$(X)\n"
 
 $(NAME): libft $(OBJECTS_DIRECTORY) $(OBJECTS)
-	@$(CC) $(FLAGS) $(OBJECTS) -o $(NAME) $(LIBRARIES)
+	@$(CC) $(FLAGS) $(OBJECTS) $(LIBRARIES) -o $(NAME)
 	@printf "%-57b %b" "$(GREEN)CREATED $(NAME)" "$(GREEN)[FINISHED]$(X)\n"
 
 #	Objects file creating
@@ -106,6 +110,9 @@ fclean: libft clean
 re:
 	@$(MAKE) fclean
 	@$(MAKE) all
+
+test:
+	@cd testers && bash tester.sh a
 
 leaksps:
 	$(LEAKS_PH)
