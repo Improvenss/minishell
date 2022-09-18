@@ -6,7 +6,7 @@
 /*   By: gsever <gsever@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/17 10:57:07 by akaraca           #+#    #+#             */
-/*   Updated: 2022/09/16 18:00:21 by gsever           ###   ########.fr       */
+/*   Updated: 2022/09/18 03:08:14 by gsever           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -220,25 +220,53 @@
 /* STRUCT DEFINES AREA													  	  */
 /* ************************************************************************** */
 
-typedef struct s_env // env yapısını içerecek 
+/**
+ * @brief env yapısını içerecek
+ * 
+ * @param data**	data[0] -> PWD,OLDPWD,HOME,_ .... data[1] 
+ * 	-> /Users/akaraca/Desktop/minishell/sources,
+ * 		/Users/akaraca/Desktop/minishell, /Users/akaraca ...
+ * @param next*		env listesinin bir sonraki argümanını işaret ediyor.
+ * @param prev*		env listesinden argüman silmek için kullandığım,
+ * 	bir önceki argümanı işaret eden işaretçi.
+ */
+typedef struct s_env
 {
-	char	**data; //data[0] -> PWD,OLDPWD,HOME,_ .... data[1] -> /Users/akaraca/Desktop/minishell/sources, /Users/akaraca/Desktop/minishell, /Users/akaraca ...
-	struct s_env *next; //env listesinin bir sonraki argümanını işaret ediyor.
-	struct s_env *prev; //env listesinden argüman silmek için kullandığım, bir önceki argümanı işaret eden işaretçi
-}t_env;
+	char	**data;
+	struct s_env *next;
+	struct s_env *prev;
+}		t_env;
 
+/**
+ * @brief 
+ * 
+ * @param echo_val		echo $? <enter> için geri dönüş değeri,
+ * 		0 1 127 ve 130 değerlerine sahiptir.(arttırılabilir)!
+ * @param PATH**		Komut pathleri 2 boyutlu dizi olarak saklanmaktadır.
+ * @param terminal_name*	Leak'i gidermek için ft_terminal_print
+ * 		çıktısını her döngüde buna eşitlemeliyiz.
+ * @param command_path*	ls, clear, man ... vb komutların
+ * 		"/bin/..." dizinin eşitliğini tutuyor.
+ * @param tmp_str*		pwd ve oldpwd eşitliğinde veri tutmak için kullanıyorum.
+ * @param input_line*	realine(), geri dönüş değerini tutuyor.
+ * @param array_line**	Girilen komut satırını 2 boyutlu dizede tutuyorum,
+ * 		ekstra bir karakter girdisi yok.
+ * @param environ**		"extern char	**environ;" hafızaya alıyorum.
+ * @param env*			extern char **environ; 2 boyutlu dizisi üzerinde
+ * 		düzenleme yapabilmek için list yapısı oluşturduk.
+ */
 typedef struct s_main
 {	
-	int			echo_val; // echo $? <enter> için geri dönüş değeri, 0 1 127 ve 130 değerlerine sahiptir.(arttırılabilir)
-	char		**PATH; //komut pathleri 2 boyutlu dizi olarak saklanmaktadır.
-	char		*terminal_name; //leak'i gidermek için ft_terminal_print çıktısını her döngüde buna eşitlemeliyiz.
-	char		*command_path; // ls, clear, man ... vb komutların "/bin/..." dizinin eşitliğini tutuyor.
-	char		*tmp_str; //pwd ve oldpwd eşitliğinde veri tutmak için kullanıyorum.
-	char		*input_line; //realine(), geri dönüş değerini tutuyor.
-	char		**array_line; //girilen komut satırını 2 boyutlu dizede tutuyorum, ekstra bir karakter girdisi yok.
-	char		**environ; // "extern char	**environ;" hafızaya alıyorum.
-	t_env		*env; //extern char **environ; 2 boyutlu dizisi üzerinde düzenleme yapabilmek için list yapısı oluşturduk.
-}t_main;
+	int			echo_val;
+	char		**PATH;
+	char		*terminal_name;
+	char		*command_path;
+	char		*tmp_str;
+	char		*input_line;
+	char		**array_line;
+	char		**environ;
+	t_env		*env;
+}		t_main;
 
 /* ************************************************************************** */
 /* FUNCTION PROTOTYPES														  */
@@ -254,6 +282,9 @@ typedef struct s_main
 // int		ft_strlen(const char *str);
 // int		main(void);
 
-int		main(void);
+// set_argument.c
+char	*ft_env_findret(char *env_name);
+void	ft_env_struct(char *env_arg);
+void	ft_set_argument(void);
 
 #endif
