@@ -6,7 +6,7 @@
 /*   By: gsever <gsever@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/17 10:57:07 by akaraca           #+#    #+#             */
-/*   Updated: 2022/09/18 03:08:14 by gsever           ###   ########.fr       */
+/*   Updated: 2022/09/19 14:39:09 by gsever           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,95 +116,22 @@
 # define PURPLE	"\e[0;35m"
 # define CYAN	"\e[0;36m"
 # define WHITE	"\e[0;37m"
-# define X		"\033[m"
-# define FINISH	"\e[m"
+# define END	"\e[m"
 # define RESET	"\033[0m"
-# define COMMAND_SIGN	"\e[0;32m🅼 🅸 🅽 🅸 🆂 🅷 🅴 🅻 🅻 $\e[m "
-
-//Regular text
-#define BLK "\e[0;30m"
-#define RED "\e[0;31m"
-#define GRN "\e[0;32m"
-#define YEL "\e[0;33m"
-#define BLU "\e[0;34m"
-#define MAG "\e[0;35m"
-#define CYN "\e[0;36m"
-#define WHT "\e[0;37m"
-
-//Regular bold text
-#define BBLK "\e[1;30m"
-#define BRED "\e[1;31m"
-#define BGRN "\e[1;32m"
-#define BYEL "\e[1;33m"
-#define BBLU "\e[1;34m"
-#define BMAG "\e[1;35m"
-#define BCYN "\e[1;36m"
-#define BWHT "\e[1;37m"
-
-//Regular underline text
-#define UBLK "\e[4;30m"
-#define URED "\e[4;31m"
-#define UGRN "\e[4;32m"
-#define UYEL "\e[4;33m"
-#define UBLU "\e[4;34m"
-#define UMAG "\e[4;35m"
-#define UCYN "\e[4;36m"
-#define UWHT "\e[4;37m"
-
-//Regular background
-#define BLKB "\e[40m"
-#define REDB "\e[41m"
-#define GRNB "\e[42m"
-#define YELB "\e[43m"
-#define BLUB "\e[44m"
-#define MAGB "\e[45m"
-#define CYNB "\e[46m"
-#define WHTB "\e[47m"
-
-//High intensty background 
-#define BLKHB "\e[0;100m"
-#define REDHB "\e[0;101m"
-#define GRNHB "\e[0;102m"
-#define YELHB "\e[0;103m"
-#define BLUHB "\e[0;104m"
-#define MAGHB "\e[0;105m"
-#define CYNHB "\e[0;106m"
-#define WHTHB "\e[0;107m"
-
-//High intensty text
-#define HBLK "\e[0;90m"
-#define HRED "\e[0;91m"
-#define HGRN "\e[0;92m"
-#define HYEL "\e[0;93m"
-#define HBLU "\e[0;94m"
-#define HMAG "\e[0;95m"
-#define HCYN "\e[0;96m"
-#define HWHT "\e[0;97m"
-
-//Bold high intensity text
-#define BHBLK "\e[1;90m"
-#define BHRED "\e[1;91m"
-#define BHGRN "\e[1;92m"
-#define BHYEL "\e[1;93m"
-#define BHBLU "\e[1;94m"
-#define BHMAG "\e[1;95m"
-#define BHCYN "\e[1;96m"
-#define BHWHT "\e[1;97m"
-
-//Reset
-#define reset "\e[0m"
-#define CRESET "\e[0m"
-#define COLOR_RESET "\e[0m"
 
 # define ITALIC "\e[3;37m" //stringi eğik yazar.
 # define UNDERLINE "\e[4;37m" //Stringi altı çizgili yapar.
-# define SELECTED "\e[7;37m" //Stringi seçilmiş şekilde yazdırır. (yazının arka planı koyu olur.)
-# define SELECTED_2 "\e[0;40m" // stringi seçilmiş şekilde yazdırır. (arka plan hafif koyu olur.)
+# define SELECTED "\e[7;37m" //Stringi seçilmiş şekilde yazdırır.
+//(yazının arka planı koyu olur.)
+# define SELECTED_2 "\e[0;40m" // stringi seçilmiş şekilde yazdırır.
+//(arka plan hafif koyu olur.)
 # define HIDDEN "\e[8;37m" // stringi gizli bir şekilde ekrana bastırır.
 # define BLINK "\e[5;37m" // yanıp sönmeli şekilde çıktıyı verir, lakin bu özellik bizde yok :(
-//# define COMMAND_SIGN "\e[0;32m🅼 🅸 🅽 🅸 🆂 🅷 🅴 🅻 🅻 $\e[m" // readline(COMMAND_SIGN); şeklinde kullanılıyor.
-//# define COMMAND_SIGN "\e[0;32m$\e[m "
-# define END		"\033[m"
+# define RED_BLINK "\e[1;3;5;31m"
+
+# define SHELL_META_CHARS "<>;|$"
+# define SHELL_QUOTE_CHARS	"'\""
+# define SHELL_ESCAPE "\\"
 
 //	COLORS BOLD--> B🟥 B🟩 B🟦
 # define B_CYAN		"\033[1;36m"
@@ -214,11 +141,27 @@
 # define B_RED		"\033[1;31m"
 # define B_RESET	"\033[1m"
 
-
-
 /* ************************************************************************** */
 /* STRUCT DEFINES AREA													  	  */
 /* ************************************************************************** */
+
+/**
+ * @brief Yazdigimiz komutun dogrulugunu kontrol ediyor.
+ * 
+ * @param first  
+ * @param last
+ * @param lenght
+ * @param count
+ * @param token
+ */
+typedef struct s_syntax
+{
+	int		first;
+	int		last;
+	int		lenght;
+	int		count;
+	char	token;
+}		t_syntax;
 
 /**
  * @brief env yapısını içerecek
@@ -240,6 +183,9 @@ typedef struct s_env
 /**
  * @brief 
  * 
+ * @param fd**			
+ * @param pid*			
+ * @param split_count	pipe kullanımında split edilen komut satırını tutuyor.
  * @param echo_val		echo $? <enter> için geri dönüş değeri,
  * 		0 1 127 ve 130 değerlerine sahiptir.(arttırılabilir)!
  * @param PATH**		Komut pathleri 2 boyutlu dizi olarak saklanmaktadır.
@@ -256,7 +202,10 @@ typedef struct s_env
  * 		düzenleme yapabilmek için list yapısı oluşturduk.
  */
 typedef struct s_main
-{	
+{
+	int			**fd;
+	int			*pid;
+	int			split_count;
 	int			echo_val;
 	char		**PATH;
 	char		*terminal_name;
@@ -266,25 +215,47 @@ typedef struct s_main
 	char		**array_line;
 	char		**environ;
 	t_env		*env;
+	t_syntax	syntax;
 }		t_main;
 
 /* ************************************************************************** */
 /* FUNCTION PROTOTYPES														  */
 /* ************************************************************************** */
 
-// //ft_strjoin.c
-// char	*ft_strjoin(const char *s1, const char *s2);
+t_main	g_main;
 
-// //ft_split.c
-// char	**ft_split(const char *s, char c);
+int		main(void);
 
-// //minishell.c
-// int		ft_strlen(const char *str);
-// int		main(void);
+//exit.c
+void	ft_exit(int error, char *str1, char *str2, char *str3);
+
+// history.c
+int		history_empty_check(char *str);
+
+// init_all.c
+void	init_syntax(void);
+
+// minishell.c
+void	minishell(void);
+
+// print.c
+char	*directory_name(char *path);
+char	*terminal_print(void);
 
 // set_argument.c
-char	*ft_env_findret(char *env_name);
-void	ft_env_struct(char *env_arg);
-void	ft_set_argument(void);
+void	login_print(void);
+char	*env_findret(char *env_name);
+void	env_struct(char *env_arg);
+void	set_argument(void);
+
+// signal.c
+void	action(int sig);
+
+//syntax.c
+void	command_run(void);
+void	double_quote(int i);
+void	single_quote(int i);
+int		syntax_loop(int i);
+int		syntax(void);
 
 #endif
