@@ -3,23 +3,23 @@
 /*                                                        :::      ::::::::   */
 /*   builtin.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hepple <hepple@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gsever <gsever@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/17 15:14:12 by hepple            #+#    #+#             */
-/*   Updated: 2022/01/17 15:22:28 by hepple           ###   ########.fr       */
+/*   Updated: 2022/09/19 14:54:58 by gsever           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtin.h"
 
 static const struct s_builtins	g_builtins[] = {
-	{"echo", builtin_echo},
-	{"cd", builtin_cd},
-	{"pwd", builtin_pwd},
-	{"env", builtin_env},
-	{"export", builtin_export},
-	{"unset", builtin_unset},
-	{NULL, NULL},
+{"echo", builtin_echo},
+{"cd", builtin_cd},
+{"pwd", builtin_pwd},
+{"env", builtin_env},
+{"export", builtin_export},
+{"unset", builtin_unset},
+{NULL, NULL},
 };
 
 int	builtin_check(char **argv)

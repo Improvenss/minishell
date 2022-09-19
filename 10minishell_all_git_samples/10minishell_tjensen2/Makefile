@@ -6,7 +6,7 @@
 #    By: gsever <gsever@student.42kocaeli.com.tr    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/10/27 22:03:08 by tjensen           #+#    #+#              #
-#    Updated: 2022/09/18 16:25:29 by gsever           ###   ########.fr        #
+#    Updated: 2022/09/19 14:45:56 by gsever           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,11 +16,13 @@ CC          := gcc
 CFLAGS      := -Wall -Wextra -Werror -O2
 
 CPPFLAGS    := -I./inc -I./lib/libft/inc \
-	-I/opt/homebrew/Cellar/readline/8.1.2/include/
+	-I/goinfre/homebrew/opt/readline/include
+# -I/opt/homebrew/Cellar/readline/8.1.2/include/
 DEPFLAGS     = -MT $@ -MMD -MP -MF $(DDIR)/$*.d
 
 LDFLAGS     := -L./lib/libft \
-	-L/opt/homebrew/Cellar/readline/8.1.2/lib
+	-L/goinfre/homebrew/opt/readline/lib -lreadline
+# -L/opt/homebrew/Cellar/readline/8.1.2/lib
 
 LDLIBS      := -lft -lreadline
 
