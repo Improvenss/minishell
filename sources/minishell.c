@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gsever <gsever@student.42kocaeli.com.tr    +#+  +:+       +#+        */
+/*   By: akaraca <akaraca@student.42.tr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/19 12:18:39 by gsever            #+#    #+#             */
-/*   Updated: 2022/09/19 14:19:26 by gsever           ###   ########.fr       */
+/*   Updated: 2022/09/20 14:18:15 by akaraca          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../includes/minishell.h"
 
 /**
  * @brief 
@@ -39,5 +39,8 @@ void	minishell(void)
 			add_history(g_main.input_line);
 		if (syntax())
 			command_run();
+		free(g_main.input_line);
+		free(g_main.terminal_name);
+		//system("leaks minishell");
 	}
 }

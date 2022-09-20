@@ -9,9 +9,9 @@
 /*   Updated: 2022/09/12 14:48:32 by akaraca          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
+/*
 # include "../includes/minishell.h"
-
+*/
 // gcc minishell.c ../includes/minishell.h -lreadline && ./a.out
 // gcc -Wall -Werror -Wextra minishell.c ../includes/minishell.h  -lreadline -o minishell && ./minishell
 // gcc minishell.c ../includes/minishell.h -lreadline -L .brew/opt/readline/lib -I .brew/opt/readline/include && ./a.out

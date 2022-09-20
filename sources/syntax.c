@@ -3,99 +3,61 @@
 /*                                                        :::      ::::::::   */
 /*   syntax.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gsever <gsever@student.42kocaeli.com.tr    +#+  +:+       +#+        */
+/*   By: akaraca <akaraca@student.42.tr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/19 13:41:13 by gsever            #+#    #+#             */
-/*   Updated: 2022/09/19 14:37:58 by gsever           ###   ########.fr       */
+/*   Updated: 2022/09/20 16:34:31 by akaraca          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
-
-void	command_run(void)
-{
-	printf("Çalışıyor.\n");
-}
-
-void	double_quote(int i)
-{
-	g_main.syntax.first = i;
-	g_main.syntax.token = SHELL_QUOTE_CHARS[1];
-	g_main.syntax.lenght = ++i;
-	g_main.syntax.count++;
-	while (g_main.input_line[g_main.syntax.lenght])
-	{
-		if (g_main.input_line[g_main.syntax.lenght]
-			== SHELL_QUOTE_CHARS[1]
-			&& g_main.syntax.last == 0
-			&& g_main.input_line[g_main.syntax.lenght - 1]
-			!= SHELL_ESCAPE[0])
-		{
-			g_main.syntax.last = ++g_main.syntax.lenght;
-			g_main.syntax.count++;
-		}
-		g_main.syntax.lenght++;
-	}
-}
-
-void	single_quote(int i)
-{
-	g_main.syntax.first = i;
-	g_main.syntax.token = SHELL_QUOTE_CHARS[0];
-	g_main.syntax.lenght = ++i;
-	g_main.syntax.count++;
-	while (g_main.input_line[g_main.syntax.lenght])
-	{
-		if (g_main.input_line[g_main.syntax.lenght]
-			== SHELL_QUOTE_CHARS[0] && g_main.syntax.last == 0)
-		{
-			g_main.syntax.last = ++g_main.syntax.lenght;
-			g_main.syntax.count++;
-		}
-		g_main.syntax.lenght++;
-	}
-}
+#include "../includes/minishell.h"
 
 /**
- * @brief 
+ * @brief Kaçış operatörü kontrol edilir.
  * 
- * while->if->while->if Tek tırnak içerisinde kaçış metası yok sayılıyor
- * 	bu yüzden buraya eklemeye gerek yok.
- * 
- * @param i 
+ * 	Operatörden sonra EOF var ise hatalıdır.
  * @return int 
  */
-int	syntax_loop(int i)
+int	ft_escape(void)
 {
-	init_syntax();
+	int	i;
+
+	i = 0;
 	while (g_main.input_line[i])
 	{
-		if (g_main.syntax.token == '\0' && g_main.input_line[i]
-			== SHELL_QUOTE_CHARS[0]
-			&& g_main.input_line[i - 1] != SHELL_ESCAPE[0])
-			single_quote(i);
-		else if (g_main.syntax.token == '\0' && g_main.input_line[i]
-			== SHELL_QUOTE_CHARS[1]
-			&& g_main.input_line[i - 1] != SHELL_ESCAPE[0])
-			double_quote(i);
+		if (g_main.input_line[i] == SHELL_ESCAPE[0] && g_main.input_line[i + 1] == '\0')
+		{
+			printf("Syntax Error\n");
+			return (-1);
+		}
 		i++;
 	}
-	if (g_main.syntax.first != -1 && g_main.syntax.last == 0)
-		return (-1);
-	if (g_main.syntax.count == 0)
-		return (ft_strlen(g_main.input_line));
-	return (g_main.syntax.last);
+	return (1);
 }
 
 /**
- * @brief 
+ * @brief Left, Right ve Heredoc operatörlerinin yapısı kontrol edilir.
+ * 
+ * @fn syntax_left_right()
+ * @fn syntax_heredoc()
+ * @return int 
+ */
+int	ft_redirection(void)
+{
+	if (syntax_left_right() == -1 || syntax_heredoc() == -1)
+		return (-1);
+	return (1);
+}
+
+/**
+ * @brief Pipe operatörünün sol ve sağ durumu kontrol edilir.
  * 
  * @fn ft_strlen()
- * @fn syntax_loop()
+ * @fn syntax_pipe()
  * @fn printf()
  * @return int 
  */
-int	syntax(void)
+int	ft_pipe(void)
 {
 	int	i;
 	int	l;
@@ -104,7 +66,36 @@ int	syntax(void)
 	l = ft_strlen(g_main.input_line);
 	while (i != -1)
 	{
-		i = syntax_loop(i);
+		i = syntax_pipe(i);
+		if (i == -1)
+		{
+			printf("syntax error near unexpected token `|'\n");
+			return (0);
+		}
+		if (i == l)
+			return (1);
+	}
+	return (1);
+}
+
+/**
+ * @brief Tırnak yapısı kontrol ediliyor.
+ * 
+ * @fn ft_strlen()
+ * @fn syntax_quote() Tırnak yapısının kontrolünü gerçekleştiriyor.
+ * @fn printf()
+ * @return int 
+ */
+int	ft_quote(void)
+{
+	int	i;
+	int	l;
+
+	i = 0;
+	l = ft_strlen(g_main.input_line);
+	while (i != -1)
+	{
+		i = syntax_quote(i);
 		if (i == -1)
 		{
 			printf("Syntax Error!\n");
@@ -114,4 +105,18 @@ int	syntax(void)
 			return (1);
 	}
 	return (1);
+}
+
+/**
+ * @brief Girdinin işleme alınmadan önce 
+ * 	belirli kurallara uygunmu kontrol ediliyor.
+ * 
+ * @fn ft_quote()
+ * @return int 
+ */
+int	syntax(void)
+{
+	if (ft_quote() == 1 && ft_redirection() == 1 && ft_pipe() == 1 && ft_escape() == 1)
+		return (1);
+	return (0);
 }

@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: gsever <gsever@student.42kocaeli.com.tr    +#+  +:+       +#+         #
+#    By: akaraca <akaraca@student.42.tr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/09/15 17:54:15 by gsever            #+#    #+#              #
-#    Updated: 2022/09/19 12:17:17 by gsever           ###   ########.fr        #
+#    Updated: 2022/09/20 14:30:53 by akaraca          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,12 +29,12 @@ LIBFTDIR		= ./libraries/libft
 
 #	Locations Part --> OK
 LIBRARIES	= -L$(LIBFTDIR)/ -lft \
-	-L/goinfre/homebrew/opt/readline/lib -lreadline
+	-L/goinfre/homebrew/opt/readline/lib -lreadline -fcommon
 # -L/opt/homebrew/Cellar/readline/8.1.2/lib -lreadline
 
 # -L.brew/opt/readline/lib -lreadline
 INCLUDES	= -I$(HEADERS_DIRECTORY) -I$(LIBFTDIR)/includes \
-	-I/goinfre/homebrew/opt/readline/include
+	-I/goinfre/homebrew/opt/readline/include -fcommon
 # -I/opt/homebrew/Cellar/readline/8.1.2/include/
 # -I$(READLINE_DIR)/include
 

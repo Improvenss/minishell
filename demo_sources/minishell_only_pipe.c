@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.c                                        :+:      :+:    :+:   */
+/*   minishell_only_pipe.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gsever <gsever@student.42kocaeli.com.tr    +#+  +:+       +#+        */
+/*   By: akaraca <akaraca@student.42.tr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/17 10:57:07 by akaraca           #+#    #+#             */
-/*   Updated: 2022/09/18 15:47:28 by gsever           ###   ########.fr       */
+/*   Updated: 2022/09/19 17:56:48 by akaraca          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 /*
@@ -14,8 +14,8 @@
 */
 t_main	g_main;
 /*
-// OK: gcc minishell.c ../includes/minishell.h -lreadline && ./a.out
-// OK: gcc -Wall -Werror -Wextra minishell.c ../includes/minishell.h  -lreadline -o minishell && ./minishell
+// gcc minishell.c ../includes/minishell.h -lreadline && ./a.out
+// gcc -Wall -Werror -Wextra minishell.c ../includes/minishell.h  -lreadline -o minishell && ./minishell
 // gcc minishell.c ../includes/minishell.h -lreadline -L .brew/opt/readline/lib -I .brew/opt/readline/include && ./a.out
 
 //brew goinfire'a kurulu ise; gcc minishell.c -L/goinfre/homebrew/opt/readline/lib -I/goinfre/homebrew/opt/readline/include -lreadline && ./a.out
@@ -23,169 +23,169 @@ t_main	g_main;
 */
 
 //-----Functions Must be removed-------//
-// //ft_strncmp
-// int	ft_strncmp(const char *s1, const char *s2, size_t n)
-// {
-// 	size_t	counter;
+//ft_strncmp
+int	ft_strncmp(const char *s1, const char *s2, size_t n)
+{
+	size_t	counter;
 
-// 	if (n == 0)
-// 		return (0);
-// 	counter = 0;
-// 	while (counter < (n - 1) && s1[counter] && s2[counter])
-// 	{
-// 		if (s1[counter] != s2[counter])
-// 			break ;
-// 		counter++;
-// 	}
-// 	return (((unsigned char *)s1)[counter] - ((unsigned char *)s2)[counter]);
-// }
+	if (n == 0)
+		return (0);
+	counter = 0;
+	while (counter < (n - 1) && s1[counter] && s2[counter])
+	{
+		if (s1[counter] != s2[counter])
+			break ;
+		counter++;
+	}
+	return (((unsigned char *)s1)[counter] - ((unsigned char *)s2)[counter]);
+}
 
-// //ft_strlen
-// int	ft_strlen(const char *str)
-// {
-// 	int	i;
+//ft_strlen
+int	ft_strlen(const char *str)
+{
+	int	i;
 
-// 	i = 0;
-// 	if (!str)
-// 		return (0);
-// 	while (str[i] != '\0')
-// 		i++;
-// 	return (i);
-// }
+	i = 0;
+	if (!str)
+		return (0);
+	while (str[i] != '\0')
+		i++;
+	return (i);
+}
 
-// //ft_lstsize
-// int	ft_lstsize(t_env *lst)
-// {
-// 	size_t	count;
+//ft_lstsize
+int	ft_lstsize(t_env *lst)
+{
+	size_t	count;
 
-// 	count = 0;
-// 	while (lst && ++count)
-// 		lst = lst->next;
-// 	return (count);
-// }
+	count = 0;
+	while (lst && ++count)
+		lst = lst->next;
+	return (count);
+}
 
-// //ft_split
-// static size_t	ft_wordcount(char const *s, char c)
-// {
-// 	size_t	i;
-// 	size_t	count;
+//ft_split
+static size_t	ft_wordcount(char const *s, char c)
+{
+	size_t	i;
+	size_t	count;
 
-// 	i = 0;
-// 	count = 0;
-// 	while (s[i] == c && s[i])
-// 		i++;
-// 	while (s[i])
-// 	{
-// 		while (s[i] != c && s[i])
-// 			i++;
-// 		count++;
-// 		while (s[i] == c && s[i])
-// 			i++;
-// 	}
-// 	return (count);
-// }
+	i = 0;
+	count = 0;
+	while (s[i] == c && s[i])
+		i++;
+	while (s[i])
+	{
+		while (s[i] != c && s[i])
+			i++;
+		count++;
+		while (s[i] == c && s[i])
+			i++;
+	}
+	return (count);
+}
 
-// static char	*stringf(const char *s, char c)
-// {
-// 	char	*temp;
-// 	int		i;
+static char	*stringf(const char *s, char c)
+{
+	char	*temp;
+	int		i;
 
-// 	i = 0;
-// 	while (s[i] != '\0' && s[i] != c)
-// 		i++;
-// 	temp = (char *)malloc(sizeof(char) * (i + 1));
-// 	if (!temp)
-// 		return (NULL);
-// 	i = 0;
-// 	while (s[i] != '\0' && s[i] != c)
-// 	{
-// 		temp[i] = s[i];
-// 		i++;
-// 	}
-// 	temp[i] = '\0';
-// 	return (temp);
-// }
+	i = 0;
+	while (s[i] != '\0' && s[i] != c)
+		i++;
+	temp = (char *)malloc(sizeof(char) * (i + 1));
+	if (!temp)
+		return (NULL);
+	i = 0;
+	while (s[i] != '\0' && s[i] != c)
+	{
+		temp[i] = s[i];
+		i++;
+	}
+	temp[i] = '\0';
+	return (temp);
+}
 
-// char	**ft_split(const char *s, char c)
-// {
-// 	char	**temp;
-// 	int		wordc;
-// 	int		i;
+char	**ft_split(const char *s, char c)
+{
+	char	**temp;
+	int		wordc;
+	int		i;
 
-// 	i = 0;
-// 	if (!s)
-// 		return (NULL);
-// 	wordc = ft_wordcount(s, c);
-// 	temp = (char **)malloc(sizeof(char *) * (wordc + 1));
-// 	if (!temp)
-// 		return (NULL);
-// 	while (*s)
-// 	{
-// 		while (*s && *s == c)
-// 			s++;
-// 		if (*s)
-// 		{
-// 			temp[i] = stringf(s, c);
-// 			i++;
-// 		}
-// 		while (*s && *s != c)
-// 		s++;
-// 	}
-// 	temp[i] = NULL;
-// 	return (temp);
-// }
+	i = 0;
+	if (!s)
+		return (NULL);
+	wordc = ft_wordcount(s, c);
+	temp = (char **)malloc(sizeof(char *) * (wordc + 1));
+	if (!temp)
+		return (NULL);
+	while (*s)
+	{
+		while (*s && *s == c)
+			s++;
+		if (*s)
+		{
+			temp[i] = stringf(s, c);
+			i++;
+		}
+		while (*s && *s != c)
+		s++;
+	}
+	temp[i] = NULL;
+	return (temp);
+}
 
-// //ft_strjoin
-// char	*ft_strjoin(char const *s1, char const *s2)
-// {
-// 	int		i;
-// 	int		k;
-// 	char	*temp;
+//ft_strjoin
+char	*ft_strjoin(char const *s1, char const *s2)
+{
+	int		i;
+	int		k;
+	char	*temp;
 
-// 	i = 0;
-// 	k = 0;
-// 	temp = NULL;
-// 	if (!s1 || !s2)
-// 		return (NULL);
-// 	temp = (char *)malloc(sizeof(char) * (ft_strlen(s1) + \
-// 				ft_strlen(s2) + 1));
-// 	if (!temp)
-// 		return (NULL);
-// 	while (s1[i])
-// 	{
-// 		temp[i] = s1[i];
-// 		i++;
-// 	}
-// 	while (s2[k])
-// 	{
-// 		temp[k + i] = s2[k];
-// 		k++;
-// 	}
-// 	temp[k + i] = '\0';
-// 	return (temp);
-// }
+	i = 0;
+	k = 0;
+	temp = NULL;
+	if (!s1 || !s2)
+		return (NULL);
+	temp = (char *)malloc(sizeof(char) * (ft_strlen(s1) + \
+				ft_strlen(s2) + 1));
+	if (!temp)
+		return (NULL);
+	while (s1[i])
+	{
+		temp[i] = s1[i];
+		i++;
+	}
+	while (s2[k])
+	{
+		temp[k + i] = s2[k];
+		k++;
+	}
+	temp[k + i] = '\0';
+	return (temp);
+}
 
-// //ft_strdup
-// char	*ft_strdup(char *src)
-// {
-// 	char	*new;
-// 	int		i;
-// 	int		size;
+//ft_strdup
+char	*ft_strdup(char *src)
+{
+	char	*new;
+	int		i;
+	int		size;
 
-// 	size = 0;
-// 	while (src[size])
-// 		++size;
-// 	if (!(new = malloc(sizeof(char) * (size + 1))))
-// 		return (NULL);
-// 	i = 0;
-// 	while (src[i])
-// 	{
-// 		new[i] = src[i];
-// 		i++;
-// 	}
-// 	new[i] = '\0';
-// 	return (new);
-// }
+	size = 0;
+	while (src[size])
+		++size;
+	if (!(new = malloc(sizeof(char) * (size + 1))))
+		return (NULL);
+	i = 0;
+	while (src[i])
+	{
+		new[i] = src[i];
+		i++;
+	}
+	new[i] = '\0';
+	return (new);
+}
 
 //---------------------------//
 
@@ -308,12 +308,12 @@ char	*ft_env_findret(char *env_name)
 
 char	*ft_directory_name(char *path)
 {
-	// char	*name;
+	char	*name;
 	int		i;
-	// int		l;
+	int		l;
 
 	i = ft_strlen(path);
-	// l = i;
+	l = i;
 	if (i == 1)
 		return ("/");
 	while (path[i] != '/')
@@ -356,15 +356,15 @@ void	ft_login_print(void)
 		name = "42kocaeli.com.tr";
 	printf(GREEN"\nLOGIN INFORMATION: "RED"%s%s%s\n"END,\
 		 ft_env_findret("LOGNAME"), "@" , name);
-	printf("%s\n", GREEN"                _           _          "RED
+	printf("%s\n", GREEN"                _           _          "RED_BLINK
 	"__  __  ______  __      __ ");
-	printf("%s\n", GREEN"   ____ ___    (_) ____    (_) "BLACK"_____  "RED
+	printf("%s\n", GREEN"   ____ ___    (_) ____    (_) "BLACK"_____  "RED_BLINK
 	"/ / / / / ____/ / /     / / ");
-	printf("%s\n", GREEN"  / __ `__ \\  / / / __ \\  / / "BLACK"/ ___/ "RED
+	printf("%s\n", GREEN"  / __ `__ \\  / / / __ \\  / / "BLACK"/ ___/ "RED_BLINK
 	"/ /_/ / / __/   / /     / /  ");
-	printf("%s\n", GREEN" / / / / / / / / / / / / / / "BLACK"(__  ) "RED
+	printf("%s\n", GREEN" / / / / / / / / / / / / / / "BLACK"(__  ) "RED_BLINK
 	"/ __  / / /___  / /___  / /___");
-	printf("%s\n", GREEN"/_/ /_/ /_/ /_/ /_/ /_/ /_/ "BLACK"/____/ "RED
+	printf("%s\n", GREEN"/_/ /_/ /_/ /_/ /_/ /_/ /_/ "BLACK"/____/ "RED_BLINK
 	"/_/ /_/ /_____/ /_____/ /_____/"END);
 	printf("\n");
 }
@@ -375,8 +375,8 @@ void	ft_login_print(void)
  */
 void	ft_set_argument(void)
 {
-	extern char	**environ;
-	int			i;
+	//extern char	**environ; kütüphanede belirtildi.
+	int	i;
 	
 	g_main.environ = environ;
 	g_main.env = NULL;  // Listeyi yeni oluşturduğumuzdan dolayı NULL'a eşitlemeliyiz.
@@ -461,7 +461,7 @@ void	ft_echo_print(int word)
 //echo $(ls) <enter> fonk. için hazırlık yapılmalıdır.
 void	ft_echo_command(void)
 {
-	// int	i;
+	int	i;
 
 	if (g_main.array_line[1] == NULL) //echo <enter>
 		printf("\n");
@@ -788,7 +788,7 @@ char	*ft_clear_backslah(char *str)
 {
 	char	*tmp;
 	int		i;
-	size_t		l;
+	int		l;
 
 	l = 0;
 	i = 0;
@@ -911,63 +911,162 @@ int	ft_command_path(void) //leak durumu düzeltildi, düzene çekilmeli
 	return (0);
 }
 
-void	ft_command_find(void)
+char *ft_delete_space(char *str)
 {
-	g_main.array_line = ft_split(g_main.input_line, ' '); //girdi argümanlarını içericek.
-	if (g_main.array_line[0] == NULL) // <enter>
-		printf("%s","\0");
-	else if (ft_strncmp_edited(g_main.array_line[0], "echo", 4)) // echo ... <enter>
-		ft_echo_command();
-	else if (ft_strncmp_edited(g_main.array_line[0], "cd", 2)) // cd ... <enter>
-		ft_cd_command();
-	else if (ft_strncmp_edited(g_main.array_line[0], "pwd", 3)) // pwd <enter>
+	char *tmp;
+	int i;
+	int l;
+	int k;
+
+	i = 0;
+	k = 0;
+	l = ft_strlen(str) - 1;
+	while (str[i] == 32 && str[i])
+		i++;
+	while (str[l] == 32 && str[l])
+		l--;
+	tmp = (char *)malloc(sizeof(char) * (l - i));
+	if (!tmp)
+		return (NULL);
+	while (str[i] && i <= l)
 	{
-		printf("%s\n", ft_env_findret("PWD"));
-		g_main.echo_val = 0;
+		while (str[i - 1] == 32 && str[i] == 32)
+			i++;
+		tmp[k] = str[i];
+		k++;
+		i++;
 	}
-	else if (ft_strncmp_edited(g_main.array_line[0], "unset", 5)) // export ile yapılan atama "unset ev" şeklinde kaldırılabiliniyor.
-		ft_unset_command();
-	else if (ft_strncmp_edited(g_main.array_line[0], "export", 6)) // "export ev=/mnt/c/Users/ViTT/Desktop" ataması env içerisine yapılabiliniyor. // export <enter> env'nin sıralanmış halini yazdırıyor. // env kendi içerisinde sıralanacak, export argümanları kendi içerisinde sıralanacak.
-		ft_export_command();
-	else if (ft_strncmp_edited(g_main.array_line[0], "env", 3)) // env <enter>
-		ft_env_command();
-	else if (ft_strncmp_edited(g_main.array_line[0], "exit", 4)) // exit <enter>
-		ft_exit(-1, "exit\n", "\0", "\0");
-	else if (ft_search_and_launch()) //dosya arama ve çalıştırma işlemini gerçekleştiriyor.
+	tmp[k] = '\0';
+	free(str);
+	return (tmp);
+}
+
+
+char	*ft_path(char **path, char *tmp)
+{
+	char **str = ft_split(tmp, ' '); //ls -la'nın ls kısmı lazım.
+	char *dir1;
+	char *dir2;
+	int i = -1;
+	while (path[++i])
 	{
-		if (ft_directory_search(g_main.array_line[0])) // "./sources <enter>" girdisi olur ve program isim girdisi olmaz ve son "/"'den sonrası dizin ise hata döndürür.
+		dir2 = ft_strjoin("/", str[0]);
+		dir1 = ft_strjoin(path[i], dir2);
+		free(dir2);
+		if (access(dir1, 0) == 0)
 		{
-			ft_exit(4, g_main.array_line[0], ": Is a directory\n", "\0");
-			g_main.echo_val = 1;
+			return (dir1);
 		}
-		else
+		free(dir1);
+	}
+	return (NULL);
+}
+
+void	ft_fork(void)
+{
+	int	l;
+	int	i;
+
+	l = 0;
+	while (l < g_main.split_count)
+	{
+		g_main.pid[l] = fork();
+		if (g_main.pid[l] == 0)
 		{
-			// "./sources/a.out" "./a.out" "../a.out" "./sources/.././a.out" "./sources/././a.out"
-			int pi = fork();
-			if (pi == 0)
-				g_main.echo_val = execve(g_main.array_line[0], g_main.array_line, g_main.environ);
-			wait(&g_main.echo_val); //değerin eşitlenmesini bekliyor.
-			waitpid(pi, 0, 0);
+			// printf("%d. Fork\n", l);
+			if (g_main.split_count == 1)
+			{
+				// printf("Tek\n");
+				dup2(g_main.fd[l][0], 0); //Tek argüman için close fonk gerek yok(içeride ve dışarıda). //waitpid gerekli.
+			}
+			else if (l == 0 && g_main.split_count != 1)
+			{
+				// printf("Başlangıç l: %d\n", l);
+				dup2(g_main.fd[l][1], 1);
+			}
+			else if (l + 1 != g_main.split_count)
+			{
+				// printf("Orta l: %d\n", l);
+				dup2(g_main.fd[l - 1][0], 0);
+				dup2(g_main.fd[l][1], 1);
+			}
+			else if (l + 1 == g_main.split_count)
+			{
+				// printf("Son l: %d\n", l);
+				dup2(g_main.fd[l - 1][0], 0);
+			}
+			i = 0;
+			while (i < g_main.split_count - 1) // -1 olmaz ise ekrana yazdırma işlemini yapacak olan son fork işlemini yapmadan kapanacaktır.
+			{
+				// printf("Close fd[%d]\n", i);
+				close(g_main.fd[i][0]);
+				close(g_main.fd[i][1]);
+				i++;
+			}
+			execve(ft_path(g_main.PATH, g_main.array_line[l]), ft_split(g_main.array_line[l], ' '), g_main.environ);
 		}
+		l++;
 	}
-	else if (ft_command_path()) //komutları path'te arama ve çalıştırma işlemini yapıyor.
+
+	i = 0;
+	while (i < g_main.split_count - 1)
 	{
-		int pi = fork(); //execve işlemi sonrasında sonlandırma yaptığından dolayı bu işlemi alt proseslerde yapıyoruz.
-		if (pi == 0)
-		{	
-			//printf("| path: %s, line[0]: %s, line[1]: %s, line[2]: %s |\n", g_main.command_path, g_main.array_line[0], g_main.array_line[1], g_main.array_line[2]);
-			g_main.echo_val = execve(g_main.command_path, g_main.array_line, g_main.environ);
-			//execve(const char *filename, char *const argv[], char *const envp[]);
-		}
-		wait(&g_main.echo_val); //değerin eşitlenmesini bekliyor.
-		waitpid(pi, 0, 0);
-		free(g_main.command_path);
+		//printf("%d. fd\n", i);
+		close(g_main.fd[i][0]);
+		close(g_main.fd[i][1]);
+		i++;
 	}
-	else
+	i = 0;
+	while (i < g_main.split_count)
 	{
-		ft_exit(0, g_main.array_line[0], ": command not found\n", "\0");
-		g_main.echo_val = 127;
+		//printf("%d. pid\n", i);
+		waitpid(g_main.pid[i], 0, 0);
+		i++;
 	}
+}
+
+void	ft_command_run(void)
+{
+	int	l;
+
+	l = 0;
+	g_main.fd = (int **)malloc(sizeof(int *) * g_main.split_count);
+	if (g_main.split_count == 1)
+	{
+		// printf("Tekli fd girdisi\n");
+		g_main.fd[0] = (int *)malloc(sizeof(int) * 2);
+	}
+	while (l < g_main.split_count - 1)
+	{
+		// printf("-fd l: %d\n", l);
+		g_main.fd[l++] = (int *)malloc(sizeof(int) * 2);
+	}
+	l = 0;
+	while (l < g_main.split_count - 1) //tek komut çalışığı için pipe gerek yok.
+	{
+		// printf("-pipe l: %d-\n", l);
+		pipe(g_main.fd[l++]);
+	}
+	g_main.pid = (int *)malloc(sizeof(int) * g_main.split_count);
+
+	ft_fork();
+
+}
+
+void	ft_command_set(void)
+{
+	g_main.split_count = 0;
+	g_main.array_line = ft_split(g_main.input_line, '|'); //komut bloklarını pipe'dan ayrı olarak oluşturuyoruz.
+	while (g_main.array_line[g_main.split_count])
+	{
+		g_main.array_line[g_main.split_count] = ft_delete_space(g_main.array_line[g_main.split_count]); //başındaki ve sonundaki boşluklar kaldırılıyor, kelimeler arasındaki boşluklar teke indirgeniyor.
+		//printf("--> ^%s^\n", g_main.array_line[g_main.split_count]);
+		g_main.split_count++;
+	}
+	//printf("split_count: %d\n", g_main.split_count);
+
+	ft_command_run();
+
 }
 
 
@@ -1042,7 +1141,7 @@ int main(void)
 			ft_exit(-1, "exit\n", "\0", "\0");
 		if (ft_history_empty_check(g_main.input_line)) // boş girilen satırları atlamak için. // arda arda giriş gerçekleşmiş ise yok sayılıyor.
 			add_history(g_main.input_line);
-		ft_command_find();
+		ft_command_set();
 		free(g_main.input_line);
 		free(g_main.terminal_name);
 		ft_free(g_main.array_line);
@@ -1050,6 +1149,3 @@ int main(void)
 	}
 	return (0);
 }
-
-// . <enter> girdisi sonucunda yeni fork girdisi oluşuyor. //forklarla alaklı
-// cd .. <enter>'ın ardından cd source girdisi olunca malloc hatası dönüyor. (ft_free() fonk. geçerliyken.) //cd ile alakalı

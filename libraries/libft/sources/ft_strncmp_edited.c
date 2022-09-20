@@ -20,7 +20,7 @@
  * @copyright Copyright (c) 2022
  * 
  */
-#include "libft.h"
+#include "../includes/libft.h"
 
 /**
  * @brief Ahmet's edited code.

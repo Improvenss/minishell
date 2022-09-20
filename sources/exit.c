@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gsever <gsever@student.42kocaeli.com.tr    +#+  +:+       +#+        */
+/*   By: akaraca <akaraca@student.42.tr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/19 13:19:43 by gsever            #+#    #+#             */
-/*   Updated: 2022/09/19 13:35:45 by gsever           ###   ########.fr       */
+/*   Updated: 2022/09/19 17:48:29 by akaraca          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../includes/minishell.h"
 
 /**
  * @brief Renkli, sekilli sukullu error falan yazsin diye.

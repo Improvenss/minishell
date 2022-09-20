@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gsever <gsever@student.42kocaeli.com.tr    +#+  +:+       +#+        */
+/*   By: akaraca <akaraca@student.42.tr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/17 10:57:07 by akaraca           #+#    #+#             */
-/*   Updated: 2022/09/19 14:39:09 by gsever           ###   ########.fr       */
+/*   Updated: 2022/09/20 16:37:22 by akaraca          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
-# include "libft.h"
+# include "../libraries/libft/includes/libft.h"
 # include <unistd.h> /*
 	write()		-> System call used to write data from the buffer,
 	read()		-> Read from a file descriptor,
@@ -129,7 +129,7 @@
 # define BLINK "\e[5;37m" // yanıp sönmeli şekilde çıktıyı verir, lakin bu özellik bizde yok :(
 # define RED_BLINK "\e[1;3;5;31m"
 
-# define SHELL_META_CHARS "<>;|$"
+# define SHELL_META_CHARS "|<>;$"
 # define SHELL_QUOTE_CHARS	"'\""
 # define SHELL_ESCAPE "\\"
 
@@ -242,6 +242,9 @@ void	minishell(void);
 char	*directory_name(char *path);
 char	*terminal_print(void);
 
+// run.c
+void	command_run(void);
+
 // set_argument.c
 void	login_print(void);
 char	*env_findret(char *env_name);
@@ -251,11 +254,24 @@ void	set_argument(void);
 // signal.c
 void	action(int sig);
 
-//syntax.c
-void	command_run(void);
+//syntax_pipe.c
+int		syntax_pipe(int i);
+
+// syntax_quote.c
 void	double_quote(int i);
 void	single_quote(int i);
-int		syntax_loop(int i);
+int		syntax_quote(int i);
+
+// syntax_redirection.c
+int		syntax_heredoc(void);
+int		syntax_right(void);
+int		syntax_left(void);
+int		syntax_left_right(void);
+
+// syntax.c
+int		ft_redirection(void);
+int		ft_pipe(void);
+int		ft_quote(void);
 int		syntax(void);
 
 #endif

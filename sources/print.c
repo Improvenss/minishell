@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   print.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gsever <gsever@student.42kocaeli.com.tr    +#+  +:+       +#+        */
+/*   By: akaraca <akaraca@student.42.tr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/19 13:12:54 by gsever            #+#    #+#             */
-/*   Updated: 2022/09/19 13:35:53 by gsever           ###   ########.fr       */
+/*   Updated: 2022/09/19 17:48:33 by akaraca          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../includes/minishell.h"
 
 /**
  * @brief Directory ismini aliyor.
@@ -21,10 +21,8 @@
 char	*directory_name(char *path)
 {
 	int		i;
-	int		l;
 
 	i = ft_strlen(path);
-	l = i;
 	if (i == 1)
 		return ("/");
 	while (path[i] != '/')

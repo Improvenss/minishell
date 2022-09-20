@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   set_argument.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gsever <gsever@student.42kocaeli.com.tr    +#+  +:+       +#+        */
+/*   By: akaraca <akaraca@student.42.tr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/18 02:48:55 by gsever            #+#    #+#             */
-/*   Updated: 2022/09/19 13:39:08 by gsever           ###   ########.fr       */
+/*   Updated: 2022/09/20 14:18:01 by akaraca          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../includes/minishell.h"
 
 void	login_print(void)
 {

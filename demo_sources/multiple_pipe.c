@@ -1,3 +1,4 @@
+/*
 #include  <fcntl.h>                              //
 #include  <stdio.h>                              //
 #include  <stdlib.h>                             //
@@ -7,7 +8,7 @@
 #include  <sys/stat.h>                           //
 #include  <termios.h>                            //
 #include  <unistd.h> 
-
+*/
 
 static size_t	ft_wordcount(char const *s, char c)
 {
