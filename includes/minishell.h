@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akaraca <akaraca@student.42.tr>            +#+  +:+       +#+        */
+/*   By: gsever <gsever@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/17 10:57:07 by akaraca           #+#    #+#             */
-/*   Updated: 2022/09/20 16:37:22 by akaraca          ###   ########.fr       */
+/*   Updated: 2022/09/21 21:08:32 by gsever           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,27 @@
 
 # include "../libraries/libft/includes/libft.h"
 # include <unistd.h> /*
-	write()		-> System call used to write data from the buffer,
-	read()		-> Read from a file descriptor,
-	fork()		-> Create thread from process,
-	access()	-> Check accessibility of a file,
-	getcwd()	-> Get current working directory,
-	chdir()		-> Change working directory,
-	unlink()	-> Delete a name and possibly the file it refers to,
+	write()		-> System call used to write data from the buffer
+		ssize_t	write(int fd, const void *buf, size_t count);
+https://man7.org/linux/man-pages/man2/write.2.html
+	read()		-> Read from a file descriptor
+		ssize_t read(int fd, void *buf, size_t count);
+https://man7.org/linux/man-pages/man2/read.2.html
+	fork()		-> Create thread from process
+		pid_t fork(void);
+https://man7.org/linux/man-pages/man2/fork.2.html
+	access()	-> Check accessibility of a file
+		int access(const char *pathname, int mode);
+https://man7.org/linux/man-pages/man2/faccessat.2.html
+	getcwd()	-> Get current working directory
+		char *getcwd(char *buf, size_t size);
+https://www.ibm.com/docs/en/i/7.4?topic=ssw_ibm_i_74/apis/getcwd.htm
+	chdir()		-> Change working directory
+		int	chdir(const char *path);
+https://www.ibm.com/docs/en/i/7.4?topic=ssw_ibm_i_74/apis/chdir.htm
+	unlink()	-> Delete a name and possibly the file it refers to
+		int	unlink(const char *path);
+https://shorturl.at/HKQ29
 	execve()	-> Execute program,
 	dup()		-> Duplicate a file descriptor(fd) -> int dup2(int oldfd);,
 	dup2()		-> Duplicate a fd with -> int dup2(int oldfd, int newfd);,

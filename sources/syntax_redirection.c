@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   syntax_redirection.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akaraca <akaraca@student.42.tr>            +#+  +:+       +#+        */
+/*   By: gsever <gsever@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/20 12:15:03 by akaraca           #+#    #+#             */
-/*   Updated: 2022/09/20 16:59:33 by akaraca          ###   ########.fr       */
+/*   Updated: 2022/09/21 20:18:54 by gsever           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,27 +21,24 @@ int	syntax_heredoc(void)
 int	syntax_right(void)
 {
 	int		i;
-	int		k;
-	int		first;
 	char	token;
 
 	i = 0;
-	k = 0;
-	first = 0;
 	token = '\0';
 	while (g_main.input_line[i])
 	{
 		if (token == '\0' && g_main.input_line[i] == '>')
-		{
 			token = '>';
-			first = i;
-		}
-		if (token != '\0' && (g_main.input_line[i + 2] == '>' || g_main.input_line[i + 2] == '<'))
+		if (token != '\0' && (g_main.input_line[i + 2]
+			== '>' || g_main.input_line[i + 2] == '<'))
 		{
-			if (g_main.input_line[i + 3] == '>' || g_main.input_line[i + 3] == '<')
-				printf("right: syntax error near unexpected token `%c%c'\n", g_main.input_line[i + 2], g_main.input_line[i + 3]);
+			if (g_main.input_line[i + 3] == '>'
+				|| g_main.input_line[i + 3] == '<')
+				printf("right: syntax error near unexpected token `%c%c'\n",
+					g_main.input_line[i + 2], g_main.input_line[i + 3]);
 			else
-				printf("right: syntax error near unexpected token `%c'\n", g_main.input_line[i + 2]);
+				printf("right: syntax error near unexpected token `%c'\n",
+					g_main.input_line[i + 2]);
 			return (-1);
 		}
 		i++;

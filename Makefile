@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: akaraca <akaraca@student.42.tr>            +#+  +:+       +#+         #
+#    By: gsever <gsever@student.42kocaeli.com.tr    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/09/15 17:54:15 by gsever            #+#    #+#              #
-#    Updated: 2022/09/20 14:30:53 by akaraca          ###   ########.fr        #
+#    Updated: 2022/09/21 20:18:01 by gsever           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,7 +18,21 @@ FLAGS		= -Wall -Werror -Wextra
 
 #	All process use for compiling.
 # UNAME	:= $(shell uname -s)
-# NUMPROC	:= 8
+NUMPROC	:= 8
+
+#	Compiling with all threads.
+ifeq ($(UNAME), Linux)
+	NUMPROC := $(shell grep -c ^processor /proc/cpuinfo)
+	echo "$(UNAME)'tan baglaniyorsun bruh Makefile'ye bak"
+else ifeq ($(UNAME), Darwin)
+	NUMPROC := $(shell sysctl -n hw.ncpu)
+	echo "MacOS'tan baglaniyorsun bruh Makefile'ye bak"
+endif
+# You can use --> man sysctl -> shell: sysctl -a | grep "hw.ncpu"
+
+ifeq ($(UNAME), Darwin)
+	printf "annen"
+endif
 
 #	Libft Part --> OK
 LIBFTDIR		= ./libraries/libft
@@ -27,15 +41,19 @@ LIBFTDIR		= ./libraries/libft
 
 # gcc minishell.c -L../includes/readline/lib -I../includes/readline/include -lreadline && ./a.out
 
+#	READLINE_H
+READLINE_LIB	= 
+READLINE_INC	=
+
 #	Locations Part --> OK
 LIBRARIES	= -L$(LIBFTDIR)/ -lft \
-	-L/goinfre/homebrew/opt/readline/lib -lreadline -fcommon
-# -L/opt/homebrew/Cellar/readline/8.1.2/lib -lreadline
+	-L/opt/homebrew/Cellar/readline/8.1.2/lib -lreadline
+#	-L/goinfre/homebrew/opt/readline/lib -lreadline -fcommon
 
 # -L.brew/opt/readline/lib -lreadline
 INCLUDES	= -I$(HEADERS_DIRECTORY) -I$(LIBFTDIR)/includes \
-	-I/goinfre/homebrew/opt/readline/include -fcommon
-# -I/opt/homebrew/Cellar/readline/8.1.2/include/
+	-I/opt/homebrew/Cellar/readline/8.1.2/include/
+#	-I/goinfre/homebrew/opt/readline/include -fcommon
 # -I$(READLINE_DIR)/include
 
 #	HEADERS Parts --> Kutuphane --> OK
@@ -79,7 +97,7 @@ $(OBJECTS_DIRECTORY)%.o : $(SOURCES_DIRECTORY)%.c
 
 $(NAME): libft $(OBJECTS_DIRECTORY) $(OBJECTS)
 	@$(CC) $(FLAGS) $(OBJECTS) $(LIBRARIES) -o $(NAME)
-	@printf "%-57b %b" "$(GREEN)CREATED $(NAME)" "$(GREEN)[FINISHED]$(X)\n"
+	@printf "%-57b %b" "$(GREEN)CREATED $(NAME)" "[FINISHED]$(X)\n"
 
 #	Objects file creating
 $(OBJECTS_DIRECTORY):
@@ -94,13 +112,6 @@ else
 	@make -C $(LIBFTDIR) --silent
 endif
 
-#	Compiling with all threads.
-ifeq ($(UNAME), Linux)
-	NUMPROC := $(shell grep -c ^processor /proc/cpuinfo)
-else ifeq ($(UNAME), Darwin)
-	NUMPROC := $(shell sysctl -n hw.ncpu)
-endif
-# You can use --> man sysctl -> shell: sysctl -a | grep "hw.ncpu"
 
 clean: libft
 	@rm -rf $(OBJECTS_DIRECTORY)
