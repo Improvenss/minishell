@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akaraca <akaraca@student.42.tr>            +#+  +:+       +#+        */
+/*   By: gsever <gsever@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/19 12:18:39 by gsever            #+#    #+#             */
-/*   Updated: 2022/09/20 14:18:15 by akaraca          ###   ########.fr       */
+/*   Updated: 2022/09/22 22:19:11 by gsever           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,9 @@
  */
 void	minishell(void)
 {
+	printf("This terminal PID	-> %d\n", getpid());
+	printf("This terminal name	-> %s\n", ttyname(STDIN_FILENO));
+	printf("%d\n", system("ps"));
 	set_argument();
 	while (1)
 	{

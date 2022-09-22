@@ -6,7 +6,7 @@
 /*   By: gsever <gsever@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/17 10:57:07 by akaraca           #+#    #+#             */
-/*   Updated: 2022/09/21 21:08:32 by gsever           ###   ########.fr       */
+/*   Updated: 2022/09/22 22:19:08 by gsever           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,22 +36,51 @@ https://www.ibm.com/docs/en/i/7.4?topic=ssw_ibm_i_74/apis/chdir.htm
 	unlink()	-> Delete a name and possibly the file it refers to
 		int	unlink(const char *path);
 https://shorturl.at/HKQ29
-	execve()	-> Execute program,
-	dup()		-> Duplicate a file descriptor(fd) -> int dup2(int oldfd);,
-	dup2()		-> Duplicate a fd with -> int dup2(int oldfd, int newfd);,
-	pipe()		-> Create pipe -> int pipe(int pipefd[2]);,
+	execve()	-> Execute program
+		int execve(const char *pathname, char *const argv[],
+			char *const envp[]);
+https://man7.org/linux/man-pages/man2/execve.2.html
+	dup()		-> Duplicate a file descriptor(fd).
+		int dup(int oldfd);
+https://man7.org/linux/man-pages/man2/dup2.2.html
+	dup2()		-> Duplicate a fd with
+		int dup2(int oldfd, int newfd);
+https://man7.org/linux/man-pages/man2/dup2.2.html
+	pipe()		-> Create pipe
+		int pipe(int pipefd[2]);
+https://www.ibm.com/docs/en/i/7.5?topic=ssw_ibm_i_75/apis/pipe2.htm
 	isatty()	-> Tests if there is an open file. If have open any file
-		return 1, not have opened file return 0. -> int isatty(int fd);,
+			return 1, not have opened file return 0.
+		int isatty(int fd);
+https://shorturl.at/afgUV
 	ttyname()	-> Get name of associated terminal (tty) from file descriptor.
-		It's working if isatty() is true.
-	ttyslot()	-> Find the slot of the current user's terminal in some file. */
+			It's working if isatty() is true.
+		char *ttyname(int fildes);
+https://shorturl.at/acosT
+	ttyslot()	-> Find the slot of the current user's terminal in some file.
+		int ttyslot(void);
+https://man7.org/linux/man-pages/man3/ttyslot.3.html
+*/
 # include <stdlib.h> /*
-	free()		-> Deallocatig all allocated memory,
-	exit()		-> Closing everything with atexit() and terminates program,
-	getenv()	-> Get an environment variable. */
+	free()		-> Deallocatig all allocated memory
+		void free(void *ptr);
+https://www.ibm.com/docs/en/i/7.5?topic=functions-free-release-storage-blocks
+	exit()		-> Closing everything with atexit() and terminates program
+		noreturn void exit(int status);
+https://man7.org/linux/man-pages/man3/exit.3.html
+	getenv()	-> Get an environment variable.
+		char *getenv(const char *name);
+https://www.ibm.com/docs/en/i/7.5?topic=ssw_ibm_i_75/apis/evgetenv.htm
+https://linuxhint.com/getenv-function-usage/
+*/
 # include <stdio.h> /*
-	printf()	-> A library function to send formatted output to the screen,
-	perror()	-> System error messages -> void perror(const char *s);. */
+	printf()	-> A library function to send formatted output to the screen
+		int printf(const char *restrict format, ...);
+https://shorturl.at/bMNQ8
+	perror()	-> System error messages
+		void perror(const char *string);
+https://www.ibm.com/docs/en/zos/2.3.0?topic=functions-perror-print-error-message
+*/
 # include <signal.h> /*
 	signal()	-> 
 	sigaction()	-> 
