@@ -3,16 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   run.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akaraca <akaraca@student.42.tr>            +#+  +:+       +#+        */
+/*   By: gsever <gsever@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/09/19 13:41:13 by gsever            #+#    #+#             */
-/*   Updated: 2022/09/20 12:26:46 by akaraca          ###   ########.fr       */
+/*   Created: 2022/09/23 17:10:15 by gsever            #+#    #+#             */
+/*   Updated: 2022/09/23 18:23:48 by gsever           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void	command_run(void)
+void	command_run(t_base *base)
 {
+	(void)*base;
 	printf("Çalışıyor.\n");
 }

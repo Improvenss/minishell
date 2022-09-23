@@ -5,45 +5,41 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: gsever <gsever@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/09/19 12:18:39 by gsever            #+#    #+#             */
-/*   Updated: 2022/09/22 22:19:11 by gsever           ###   ########.fr       */
+/*   Created: 2022/09/23 14:45:01 by gsever            #+#    #+#             */
+/*   Updated: 2022/09/23 18:34:13 by gsever           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
 /**
- * @brief 
+ * @brief Starting here.
  * 
- * @fn signal()
- * @fn terminal_print()
- * @fn readline() Ctrl+D bastigimizda readline (NULL) donduruyor.
- * 	NULL dondurdugunde de 1.if'te programi kapatmak icin kullaniliyor.
- * @fn ft_exit()
- * @fn history_empty_check() Boş girilen satırları atlamak için.
- * 	Ard arda giriş gerçekleşmiş ise yok sayılıyor.
- * @fn add_history()
+ * @fn signal(SIGINT, action) -> CTRL+C
+ * @fn signal(SIGQUIT, action) -> CTRL+\
+ * NOTE: CTRL+D -> readline = NULL oluyor, NULL kontrolunu yaparak exit();
+ * NOTE: 
+ * @fn 
+ * @not CTRL+C yapildiginda ^C yaziyor onu yazdirmamamiz lazim.
  */
 void	minishell(void)
 {
-	printf("This terminal PID	-> %d\n", getpid());
-	printf("This terminal name	-> %s\n", ttyname(STDIN_FILENO));
-	printf("%d\n", system("ps"));
-	set_argument();
+	t_base	base;
+
 	while (1)
 	{
 		signal(SIGINT, action);
-		signal(SIGQUIT, action);
-		g_main.terminal_name = terminal_print();
-		g_main.input_line = readline(g_main.terminal_name);
-		if (!g_main.input_line)
-			ft_exit(-1, "exit\n", "\0", "\0");
-		if (history_empty_check(g_main.input_line))
-			add_history(g_main.input_line);
-		if (syntax())
-			command_run();
-		free(g_main.input_line);
-		free(g_main.terminal_name);
-		//system("leaks minishell");
+		signal(SIGQUIT, SIG_IGN);
+		if (isatty(STDIN_FILENO))
+			base.input_line = readline(T_NAME);
+		if (!base.input_line)
+		{
+			printf("exit\n");
+			exit(0);
+		}
+		if (history_empty_check(base.input_line))
+			add_history(base.input_line);
+		if (syntax(&base))
+			command_run(&base);
 	}
 }

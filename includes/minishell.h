@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: gsever <gsever@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/08/17 10:57:07 by akaraca           #+#    #+#             */
-/*   Updated: 2022/09/22 22:19:08 by gsever           ###   ########.fr       */
+/*   Created: 2022/09/23 14:43:17 by gsever            #+#    #+#             */
+/*   Updated: 2022/09/23 18:57:28 by gsever           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,11 +52,11 @@ https://www.ibm.com/docs/en/i/7.5?topic=ssw_ibm_i_75/apis/pipe2.htm
 	isatty()	-> Tests if there is an open file. If have open any file
 			return 1, not have opened file return 0.
 		int isatty(int fd);
-https://shorturl.at/afgUV
+https://www.ibm.com/docs/en/zos/2.2.0?topic=functions-isatty-test-if-descriptor-represents-terminal
 	ttyname()	-> Get name of associated terminal (tty) from file descriptor.
 			It's working if isatty() is true.
 		char *ttyname(int fildes);
-https://shorturl.at/acosT
+https://www.ibm.com/docs/en/zos/2.2.0?topic=functions-ttyname-get-name-terminal#rttty
 	ttyslot()	-> Find the slot of the current user's terminal in some file.
 		int ttyslot(void);
 https://man7.org/linux/man-pages/man3/ttyslot.3.html
@@ -82,7 +82,10 @@ https://shorturl.at/bMNQ8
 https://www.ibm.com/docs/en/zos/2.3.0?topic=functions-perror-print-error-message
 */
 # include <signal.h> /*
-	signal()	-> 
+	signal()	->
+		sighandler_t signal(int signum, sighandler_t handler);
+		void (*signal(int sig, void (*func)(int)))(int);
+https://linuxhint.com/signal_handlers_c_programming_language/
 	sigaction()	-> 
 	sigemptyset()	-> 
 	sigaddset()	-> 
@@ -123,9 +126,8 @@ https://www.ibm.com/docs/en/zos/2.3.0?topic=functions-perror-print-error-message
 	tgoto()		-> Routine instantiates the parameters into the given capability. 
 		The output from this routine is to be passed to tputs(),
 	tputs()		-> Routine is described on the curs_terminfo() manual page. 
-		It can retrieve capabilities by either termcap or terminfo name. */
-# include <term.h> /*
-	*/
+		It can retrieve capabilities by either termcap or terminfo name.
+*/
 # include <sys/wait.h> /*
 	wait()		-> 
 	waitpid()	->
@@ -149,6 +151,8 @@ https://www.ibm.com/docs/en/zos/2.3.0?topic=functions-perror-print-error-message
 	*/
 # include <pthread.h> /*
 	*/
+// # include <term.h> /*
+// 	*/
 
 //	COLORS --> 🟥 🟩 🟦
 # define BLACK	"\e[0;30m"
@@ -162,20 +166,6 @@ https://www.ibm.com/docs/en/zos/2.3.0?topic=functions-perror-print-error-message
 # define END	"\e[m"
 # define RESET	"\033[0m"
 
-# define ITALIC "\e[3;37m" //stringi eğik yazar.
-# define UNDERLINE "\e[4;37m" //Stringi altı çizgili yapar.
-# define SELECTED "\e[7;37m" //Stringi seçilmiş şekilde yazdırır.
-//(yazının arka planı koyu olur.)
-# define SELECTED_2 "\e[0;40m" // stringi seçilmiş şekilde yazdırır.
-//(arka plan hafif koyu olur.)
-# define HIDDEN "\e[8;37m" // stringi gizli bir şekilde ekrana bastırır.
-# define BLINK "\e[5;37m" // yanıp sönmeli şekilde çıktıyı verir, lakin bu özellik bizde yok :(
-# define RED_BLINK "\e[1;3;5;31m"
-
-# define SHELL_META_CHARS "|<>;$"
-# define SHELL_QUOTE_CHARS	"'\""
-# define SHELL_ESCAPE "\\"
-
 //	COLORS BOLD--> B🟥 B🟩 B🟦
 # define B_CYAN		"\033[1;36m"
 # define B_BLUE		"\033[1;34m"
@@ -184,137 +174,74 @@ https://www.ibm.com/docs/en/zos/2.3.0?topic=functions-perror-print-error-message
 # define B_RED		"\033[1;31m"
 # define B_RESET	"\033[1m"
 
+//note: terminal isminin basina/sonuna renk kodlarini eklersek ust uste biniyor
+# define T_NAME		"$> "
+
 /* ************************************************************************** */
 /* STRUCT DEFINES AREA													  	  */
 /* ************************************************************************** */
 
-/**
- * @brief Yazdigimiz komutun dogrulugunu kontrol ediyor.
- * 
- * @param first  
- * @param last
- * @param lenght
- * @param count
- * @param token
- */
-typedef struct s_syntax
-{
-	int		first;
-	int		last;
-	int		lenght;
-	int		count;
-	char	token;
-}		t_syntax;
+// typedef struct s_base	t_base;
+// typedef struct s_syntax	t_syntax;
+
+// typedef struct s_syntax
+// {
+// 	t_base	*base;
+// 	char	token;
+// 	int		first;
+// 	int		last;
+// 	int		lenght;
+// 	int		count;
+// }		t_syntax;
 
 /**
- * @brief env yapısını içerecek
+ * @brief Main structure for project.
  * 
- * @param data**	data[0] -> PWD,OLDPWD,HOME,_ .... data[1] 
- * 	-> /Users/akaraca/Desktop/minishell/sources,
- * 		/Users/akaraca/Desktop/minishell, /Users/akaraca ...
- * @param next*		env listesinin bir sonraki argümanını işaret ediyor.
- * @param prev*		env listesinden argüman silmek için kullandığım,
- * 	bir önceki argümanı işaret eden işaretçi.
+ * @param input_line* Terminalimize girdigimiz satirlari aliyor.
+ * @param
  */
-typedef struct s_env
+typedef struct s_base
 {
-	char	**data;
-	struct s_env *next;
-	struct s_env *prev;
-}		t_env;
-
-/**
- * @brief 
- * 
- * @param fd**			
- * @param pid*			
- * @param split_count	pipe kullanımında split edilen komut satırını tutuyor.
- * @param echo_val		echo $? <enter> için geri dönüş değeri,
- * 		0 1 127 ve 130 değerlerine sahiptir.(arttırılabilir)!
- * @param PATH**		Komut pathleri 2 boyutlu dizi olarak saklanmaktadır.
- * @param terminal_name*	Leak'i gidermek için ft_terminal_print
- * 		çıktısını her döngüde buna eşitlemeliyiz.
- * @param command_path*	ls, clear, man ... vb komutların
- * 		"/bin/..." dizinin eşitliğini tutuyor.
- * @param tmp_str*		pwd ve oldpwd eşitliğinde veri tutmak için kullanıyorum.
- * @param input_line*	realine(), geri dönüş değerini tutuyor.
- * @param array_line**	Girilen komut satırını 2 boyutlu dizede tutuyorum,
- * 		ekstra bir karakter girdisi yok.
- * @param environ**		"extern char	**environ;" hafızaya alıyorum.
- * @param env*			extern char **environ; 2 boyutlu dizisi üzerinde
- * 		düzenleme yapabilmek için list yapısı oluşturduk.
- */
-typedef struct s_main
-{
-	int			**fd;
-	int			*pid;
-	int			split_count;
-	int			echo_val;
-	char		**PATH;
-	char		*terminal_name;
-	char		*command_path;
-	char		*tmp_str;
-	char		*input_line;
-	char		**array_line;
-	char		**environ;
-	t_env		*env;
-	t_syntax	syntax;
-}		t_main;
+	char	syntax_token;
+	int		syntax_first;
+	int		syntax_last;
+	int		syntax_lenght;
+	int		syntax_count;
+	char	*input_line;
+}		t_base;
 
 /* ************************************************************************** */
 /* FUNCTION PROTOTYPES														  */
 /* ************************************************************************** */
 
-t_main	g_main;
-
-int		main(void);
-
-//exit.c
-void	ft_exit(int error, char *str1, char *str2, char *str3);
+// action.c
+void	action(int sig);
 
 // history.c
 int		history_empty_check(char *str);
 
 // init_all.c
-void	init_syntax(void);
+void	init_syntax(t_base *base);
 
 // minishell.c
 void	minishell(void);
 
-// print.c
-char	*directory_name(char *path);
-char	*terminal_print(void);
+// redirection.c
+int		redirection(t_base *base);
 
 // run.c
-void	command_run(void);
-
-// set_argument.c
-void	login_print(void);
-char	*env_findret(char *env_name);
-void	env_struct(char *env_arg);
-void	set_argument(void);
-
-// signal.c
-void	action(int sig);
-
-//syntax_pipe.c
-int		syntax_pipe(int i);
+void	command_run(t_base *base);
 
 // syntax_quote.c
-void	double_quote(int i);
-void	single_quote(int i);
-int		syntax_quote(int i);
-
-// syntax_redirection.c
-int		syntax_heredoc(void);
-int		syntax_right(void);
-int		syntax_left(void);
-int		syntax_left_right(void);
+void	single_double_quote(t_base *base, int i, char c);
+int		syntax_quote(t_base *base, int i);
+int		quote(t_base *base);
 
 // syntax.c
-int		ft_redirection(void);
-int		ft_pipe(void);
-int		ft_quote(void);
-int		syntax(void);
+int		syntax(t_base *base);
+
+// utils.c
+int		look_the_quote(char *str, int i);
+char	*delete_space(char *str, int i, int k, int l);
 
 #endif

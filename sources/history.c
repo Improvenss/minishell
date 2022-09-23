@@ -3,13 +3,23 @@
 /*                                                        :::      ::::::::   */
 /*   history.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akaraca <akaraca@student.42.tr>            +#+  +:+       +#+        */
+/*   By: gsever <gsever@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/09/19 13:23:19 by gsever            #+#    #+#             */
-/*   Updated: 2022/09/19 17:48:31 by akaraca          ###   ########.fr       */
+/*   Created: 2022/09/23 15:51:38 by gsever            #+#    #+#             */
+/*   Updated: 2022/09/23 16:00:42 by gsever           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+/**
+ * @file history.c
+ * @author Gorkem SEVER (gsever)
+ * @brief 
+ * @version 0.1
+ * @date 2022-09-23
+ * 
+ * @copyright Copyright (c) 2022
+ * 
+ */
 #include "../includes/minishell.h"
 
 /**

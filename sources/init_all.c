@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_all.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akaraca <akaraca@student.42.tr>            +#+  +:+       +#+        */
+/*   By: gsever <gsever@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/09/19 14:37:25 by gsever            #+#    #+#             */
-/*   Updated: 2022/09/19 17:48:20 by akaraca          ###   ########.fr       */
+/*   Created: 2022/09/23 17:45:41 by gsever            #+#    #+#             */
+/*   Updated: 2022/09/23 18:33:01 by gsever           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,11 @@
  * @brief 
  * 
  */
-void	init_syntax(void)
+void	init_syntax(t_base *base)
 {
-	g_main.syntax.token = '\0';
-	g_main.syntax.first = -1;
-	g_main.syntax.last = 0;
-	g_main.syntax.lenght = 0;
-	g_main.syntax.count = 0;
+	base->syntax_token = '\0';
+	base->syntax_first = -1;
+	base->syntax_last = 0;
+	base->syntax_lenght = 0;
+	base->syntax_count = 0;
 }

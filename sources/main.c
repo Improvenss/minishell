@@ -3,16 +3,44 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akaraca <akaraca@student.42.tr>            +#+  +:+       +#+        */
+/*   By: gsever <gsever@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/09/19 12:20:36 by gsever            #+#    #+#             */
-/*   Updated: 2022/09/19 17:49:27 by akaraca          ###   ########.fr       */
+/*   Created: 2022/09/23 14:44:43 by gsever            #+#    #+#             */
+/*   Updated: 2022/09/23 15:36:23 by gsever           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+/**
+ * @file main.c
+ * @author Gorkem SEVER (gsever)
+ * @author Ahmet KARACA (akaraca)
+ * @brief 
+ * @version 0.1
+ * @date 2022-09-23
+ * 
+ * @copyright Copyright (c) 2022
+ * 
+ */
 #include "../includes/minishell.h"
+
+extern char	**g_env;
+
 /**
  * @brief 
+ * 
+ * brew install comands in /goinfre/$USER
+ * 
+step 1 git clone --depth=1 https://github.com/Homebrew/brew
+/goinfre/$USER/brew
+&& echo 'export PATH=/goinfre/$USER/brew/bin:$PATH' >> $HOME/.zshrc
+
+step 2 brew install readline
+step 3 brew link --force readline
+step 4 echo 'export C_INCLUDE_PATH="/goinfre/$USER/brew/
+include:$C_INCLUDE_PATH"'
+>> ~/.zshrc
+step 5 echo 'export LIBRARY_PATH="/goinfre/$USER/brew/
+lib:$LIBRARY_PATH"' >> ~/.zshrc
  * 
 > Tanım:
 	> Bu proje basit bir kabuk(shell) oluşturmakla ilgilidir.
