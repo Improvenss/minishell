@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirection.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gsever <gsever@student.42kocaeli.com.tr    +#+  +:+       +#+        */
+/*   By: akaraca <akaraca@student.42.tr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/23 18:35:16 by gsever            #+#    #+#             */
-/*   Updated: 2022/09/23 20:22:06 by gsever           ###   ########.fr       */
+/*   Updated: 2022/09/24 12:51:17 by akaraca          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,11 +39,11 @@ int	syntax_left_right(t_base *base, int i)
 				x = 1;
 			else if (base->input_line[i + 1] == '|' || base->input_line[i - 1] == '|')
 				x = 1;
-			else if ((base->input_line[i + 1] == 32 && base->input_line[i + 2] == '|') && (base->input_line[i - 1] == 32 && base->input_line[i - 2] == '|'))
-				x = 1;
 			else if (base->input_line[i + 1] == 32 && base->input_line[i + 2] == '|')
 				x = 1;
 			else if (base->input_line[i - 1] == 32 && base->input_line[i - 2] == '|')
+				x = 1;
+			else if (base->input_line[i + 1] == '\0')
 				x = 1;
 		}
 		if (base->input_line[i] == '>' && look_the_quote(base->input_line, i))
@@ -57,11 +57,11 @@ int	syntax_left_right(t_base *base, int i)
 				x = 1;
 			else if (base->input_line[i + 1] == '|' || base->input_line[i - 1] == '|')
 				x = 1;
-			else if ((base->input_line[i + 1] == 32 && base->input_line[i + 2] == '|') && (base->input_line[i - 1] == 32 && base->input_line[i - 2] == '|'))
-				x = 1;
 			else if (base->input_line[i + 1] == 32 && base->input_line[i + 2] == '|')
 				x = 1;
 			else if (base->input_line[i - 1] == 32 && base->input_line[i - 2] == '|')
+				x = 1;
+			else if (base->input_line[i + 1] == '\0')
 				x = 1;
 		}
 		i++;

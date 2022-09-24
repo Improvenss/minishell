@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: gsever <gsever@student.42kocaeli.com.tr    +#+  +:+       +#+         #
+#    By: akaraca <akaraca@student.42.tr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/09/15 17:54:15 by gsever            #+#    #+#              #
-#    Updated: 2022/09/23 14:37:18 by gsever           ###   ########.fr        #
+#    Updated: 2022/09/24 10:15:42 by akaraca          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -90,7 +90,7 @@ endif
 .PHONY: all clean fclean re leaksps
 
 all:
-	@$(MAKE) $(NAME) -j $(NUMPROC)
+	@$(MAKE) $(NAME) -j $(NUMPROC) --no-print-directory
 #	@$(MAKE) -s $(NAME) -j $(NUMPROC)
 
 #	Compiling
@@ -126,8 +126,8 @@ fclean: libft clean
 	@echo "$(NAME): $(RED)$(NAME) was deleted$(RESET)"
 
 re:
-	@$(MAKE) fclean
-	@$(MAKE) all
+	@$(MAKE) fclean --no-print-directory
+	@$(MAKE) all --no-print-directory
 
 test:
 	@cd testers && bash tester.sh a

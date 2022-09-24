@@ -3,14 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gsever <gsever@student.42kocaeli.com.tr    +#+  +:+       +#+        */
+/*   By: akaraca <akaraca@student.42.tr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/23 17:19:14 by gsever            #+#    #+#             */
-/*   Updated: 2022/09/23 18:46:18 by gsever           ###   ########.fr       */
+/*   Updated: 2022/09/24 10:52:24 by akaraca          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
+
 
 /**
  * @brief Tırnak içerisinde bulunan syntax hatalarının görmezden gelinilmesi gerekiyor.

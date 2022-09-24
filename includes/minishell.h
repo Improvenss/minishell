@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gsever <gsever@student.42kocaeli.com.tr    +#+  +:+       +#+        */
+/*   By: akaraca <akaraca@student.42.tr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/23 14:43:17 by gsever            #+#    #+#             */
-/*   Updated: 2022/09/23 18:57:28 by gsever           ###   ########.fr       */
+/*   Updated: 2022/09/25 02:44:11 by akaraca          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -217,6 +217,12 @@ typedef struct s_base
 // action.c
 void	action(int sig);
 
+// brackets.c
+int		syntax_brackets_near_reverse(t_base *base)
+int     syntax_brackets_near(t_base *base);
+int     syntax_brackets(t_base *base, int i);
+int		brackets(t_base *base);
+
 // history.c
 int		history_empty_check(char *str);
 
@@ -239,6 +245,10 @@ int		quote(t_base *base);
 
 // syntax.c
 int		syntax(t_base *base);
+
+// the_pipe.c
+int 	syntax_pipe(t_base *base, int i);
+int		the_pipe(t_base *base);
 
 // utils.c
 int		look_the_quote(char *str, int i);
