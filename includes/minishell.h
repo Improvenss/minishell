@@ -6,7 +6,7 @@
 /*   By: akaraca <akaraca@student.42.tr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/23 14:43:17 by gsever            #+#    #+#             */
-/*   Updated: 2022/09/25 02:44:11 by akaraca          ###   ########.fr       */
+/*   Updated: 2022/09/25 12:25:07 by akaraca          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -218,7 +218,7 @@ typedef struct s_base
 void	action(int sig);
 
 // brackets.c
-int		syntax_brackets_near_reverse(t_base *base)
+int		syntax_brackets_near_reverse(t_base *base);
 int     syntax_brackets_near(t_base *base);
 int     syntax_brackets(t_base *base, int i);
 int		brackets(t_base *base);

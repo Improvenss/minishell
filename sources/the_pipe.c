@@ -16,12 +16,16 @@ int syntax_pipe(t_base *base, int i)
 {
     while (base->input_line[i])
     {
-        if (base->input_line[i] == '|' && base->input_line[i + 1] == '|')
+        if (base->input_line[i] == '|' && base->input_line[i + 1] == '|' && look_the_quote(base->input_line, i)) // '||'
         {
-            if (base->input_line[i + 2] == '|' || (base->input_line[i + 3] == '|' && base->input_line[i + 2] == 32))
+            if (base->input_line[i + 2] == '|' || (base->input_line[i + 3] == '|' && base->input_line[i + 2] == 32 && look_the_quote(base->input_line, i))) // '|||' veya '|| |'
                 return (0);
         }
-        if (base->input_line[i] == '|' && base->input_line[i + 1] == 32 && base->input_line[i + 2] == '|')
+        if (base->input_line[i] == '|' && base->input_line[i + 1] == 32 && base->input_line[i + 2] == '|' && look_the_quote(base->input_line, i)) // '| |' 
+            return (0);
+        if (base->input_line[i] == '|' && (base->input_line[i + 1] == ')' || (base->input_line[i + 1] == 32 && base->input_line[i + 2] == ')')) && look_the_quote(base->input_line, i)) // '|)' veya '| )' hatalı bir kullanımdır.
+            return (0);
+        if (base->input_line[i] == '|' && (base->input_line[i - 1] == '(' || (base->input_line[i - 1] == 32 && base->input_line[i - 2] == '(')) && look_the_quote(base->input_line, i)) // '(|' veya '( |' hatalı bir kullanımdır.
             return (0);
         i++;
     }

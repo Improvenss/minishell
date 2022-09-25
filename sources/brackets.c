@@ -12,6 +12,7 @@
 
 # include "../includes/minishell.h"
 
+
 int syntax_brackets_near_reverse(t_base *base)
 {
     int i;
@@ -27,10 +28,10 @@ int syntax_brackets_near_reverse(t_base *base)
         last = -1;
         while (i >= 0) // birinci ve ikinci ')' bulmak için.
         {
-            if (base->input_line[i] == ')' && first == -1)
+            if (base->input_line[i] == ')' && first == -1 && look_the_quote(base->input_line, i))
                 first = i;
             i--;
-            if (base->input_line[i] == ')' && last == -1)
+            if (base->input_line[i] == ')' && last == -1 && look_the_quote(base->input_line, i))
             {
                 last = i;
                 break;
@@ -62,10 +63,10 @@ int syntax_brackets_near(t_base *base)
         last = -1;
         while (base->input_line[i]) // birinci ve ikinci '(' bulmak için.
         {
-            if (base->input_line[i] == '(' && first == -1)
+            if (base->input_line[i] == '(' && first == -1 && look_the_quote(base->input_line, i))
                 first = i;
             i++;
-            if (base->input_line[i] == '(' && last == -1)
+            if (base->input_line[i] == '(' && last == -1 && look_the_quote(base->input_line, i))
             {
                 last = i;
                 break;
@@ -91,10 +92,19 @@ int syntax_brackets(t_base *base, int i)
     right = 0;
     left = 0;
     last = 0;
+    int token = '\0';
     if (syntax_brackets_near(base) || syntax_brackets_near_reverse(base))
         return (-1);
     while (base->input_line[i])
     {
+        if (base->input_line[i] == '"' || base->input_line[i] == '\'') //(("()")) en içteki parantezler arası boş ve tırnak ile string yapıyoruz bu sayede hata vermiyor.
+        {
+            token = base->input_line[i];
+            i++;
+            while (base->input_line[i] != token)
+                i++;
+            token = '\0';
+        }
         if (base->input_line[i] == '(') // sol taraftakiler sayılır.
             left++;
         if (base->input_line[i] == ')') //sağ taraftakiler sayılır.
@@ -113,7 +123,6 @@ int syntax_brackets(t_base *base, int i)
         return (-1);
     return (ft_strlen(base->input_line));
 }
-
 
 int		brackets(t_base *base)
 {
