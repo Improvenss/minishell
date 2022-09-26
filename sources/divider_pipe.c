@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   divider_pipe.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akaraca <akaraca@student.42.tr>            +#+  +:+       +#+        */
+/*   By: gsever <gsever@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/26 16:37:09 by akaraca           #+#    #+#             */
-/*   Updated: 2022/09/26 17:22:28 by akaraca          ###   ########.fr       */
+/*   Updated: 2022/09/26 17:53:37 by gsever           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int	divider_pipe_counter(char *str)
 			count++;
 		i++;
 	}
-	printf("pipe_count: %d\n", count);
+	// printf("pipe_count: %d\n", count);
 	return (count);
 }
 
@@ -44,7 +44,7 @@ int word_counter(char *str, int i)
 		i++;
 		l++;
 	}
-	printf("word_count: %d\n", l);
+	// printf("word_count: %d\n", l);
 	return (l);
 }
 
@@ -69,7 +69,7 @@ void	pipe_to_pipe(char **new, char *str, int pipe_count)
 			x++;
 		}
 		new[l][i] = '\0';
-		printf("new[%d]: #%s#\n", l, new[l]);
+		// printf("new[%d]: #%s#\n", l, new[l]);
 		while (str[x] && str[x] == '|')
 			x++;
 	}

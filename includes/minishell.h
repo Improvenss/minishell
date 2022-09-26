@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akaraca <akaraca@student.42.tr>            +#+  +:+       +#+        */
+/*   By: gsever <gsever@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/23 14:43:17 by gsever            #+#    #+#             */
-/*   Updated: 2022/09/26 16:38:27 by akaraca          ###   ########.fr       */
+/*   Updated: 2022/09/26 18:24:23 by gsever           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -236,10 +236,13 @@ void	minishell(void);
 // run.c
 void	command_run(t_base *base);
 
+// syntax_ampersand.c
+int		ampersand(t_base *base);
+
 // syntax_brackets.c
 int		syntax_brackets_near_reverse(t_base *base);
-int     syntax_brackets_near(t_base *base);
-int     syntax_brackets(t_base *base, int i);
+int		syntax_brackets_near(t_base *base);
+int		syntax_brackets(t_base *base, int i);
 int		brackets(t_base *base);
 
 // syntax_pipe.c

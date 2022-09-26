@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   syntax.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akaraca <akaraca@student.42.tr>            +#+  +:+       +#+        */
+/*   By: gsever <gsever@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/23 16:15:13 by gsever            #+#    #+#             */
-/*   Updated: 2022/09/26 16:47:49 by akaraca          ###   ########.fr       */
+/*   Updated: 2022/09/26 17:50:06 by gsever           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,9 @@ int	white_space(t_base *base)
 int	syntax(t_base *base)
 {
 	base->input_line = delete_space(base->input_line, 0, 0, 0);
-	if (quote(base) == 1 && the_pipe(base) == 1 && redirection(base) == 1 && brackets(base) == 1 && white_space(base) == 1)
+	if (quote(base) == 1 && the_pipe(base) == 1 && redirection(base)
+		== 1 && brackets(base) == 1 && white_space(base) == 1
+		&& ampersand(base) == 1)
 		return (1);
 	return (0);
 }
