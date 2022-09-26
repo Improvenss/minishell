@@ -6,7 +6,7 @@
 /*   By: akaraca <akaraca@student.42.tr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/23 14:43:17 by gsever            #+#    #+#             */
-/*   Updated: 2022/09/26 08:47:57 by akaraca          ###   ########.fr       */
+/*   Updated: 2022/09/26 16:38:27 by akaraca          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -218,6 +218,12 @@ typedef struct s_base
 // action.c
 void	action(int sig);
 
+// divider_pipe.c
+int		divider_pipe_counter(char *str);
+int		word_counter(char *str, int i);
+void	pipe_to_pipe(char **new, char *str, int pipe_count);
+char	**divider(char *str);
+
 // history.c
 int		history_empty_check(char *str);
 
@@ -250,6 +256,7 @@ int		syntax_left_right(t_base *base, int i);
 int		redirection(t_base *base);
 
 // syntax.c
+int		white_space(t_base *base);
 int		syntax(t_base *base);
 
 // utils.c

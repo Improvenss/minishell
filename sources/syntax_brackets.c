@@ -125,7 +125,7 @@ int syntax_brackets(t_base *base, int i)
 
 int		brackets(t_base *base)
 {
-   	int	i;
+	int	i;
 	int	l;
 
 	i = 0;

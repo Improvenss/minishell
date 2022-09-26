@@ -6,7 +6,7 @@
 #    By: akaraca <akaraca@student.42.tr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/09/15 17:54:15 by gsever            #+#    #+#              #
-#    Updated: 2022/09/26 08:50:30 by akaraca          ###   ########.fr        #
+#    Updated: 2022/09/26 17:22:00 by akaraca          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,8 +30,12 @@ LIBFTDIR		= ./libraries/libft
 # gcc minishell.c -L../includes/readline/lib -I../includes/readline/include -lreadline && ./a.out
 
 #	READLINE_H
-READLINE_INC_MACOS	:= /goinfre/$(USER)/brew/include
-READLINE_LIB_MACOS	:= /goinfre/$(USER)/brew/lib
+
+#READLINE_INC_MACOS	:= /goinfre/$(USER)/brew/include
+#READLINE_LIB_MACOS	:= /goinfre/$(USER)/brew/lib
+
+READLINE_INC_MACOS := /goinfre/$(USER)/homebrew/Cellar/readline/8.1.2/include
+READLINE_LIB_MACOS := /goinfre/$(USER)/homebrew/Cellar/readline/8.1.2/lib
 
 #	Locations Part --> OK
 LIBRARIES	= \
@@ -80,7 +84,7 @@ LEAKS_PH	= leaks -atExit -- ./minishell
 #	Compiling with all threads.
 ifeq ($(UNAME), Linux)
 	NUMPROC	:= $(shell grep -c ^processor /proc/cpuinfo)
-#	OS = "$(UNAME)tan baglaniyorsun bruh"
+	OS = "$(UNAME)tan baglaniyorsun bruh"
 else ifeq ($(UNAME), Darwin)
 	NUMPROC	:= $(shell sysctl -n hw.ncpu)
 	OS = "Macos'tan baglaniyorsun bruh"

@@ -6,7 +6,7 @@
 /*   By: akaraca <akaraca@student.42.tr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/23 18:35:16 by gsever            #+#    #+#             */
-/*   Updated: 2022/09/25 14:08:55 by akaraca          ###   ########.fr       */
+/*   Updated: 2022/09/26 13:38:45 by akaraca          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ int	syntax_left_right(t_base *base, int i)
 				x = 1;
 			else if (base->input_line[i - 1] == 32 && base->input_line[i - 2] == '|')
 				x = 1;
-			else if (base->input_line[i + 1] == '\0')
+			else if (base->input_line[i + 1] == '\0' || (base->input_line[i + 1] == 32 && base->input_line[i + 2] == '\0'))
 				x = 1;
 		}
 		if (base->input_line[i] == '>' && look_the_quote(base->input_line, i))
@@ -61,7 +61,7 @@ int	syntax_left_right(t_base *base, int i)
 				x = 1;
 			else if (base->input_line[i - 1] == 32 && base->input_line[i - 2] == '|')
 				x = 1;
-			else if (base->input_line[i + 1] == '\0')
+			else if (base->input_line[i + 1] == '\0' || (base->input_line[i + 1] == 32 && base->input_line[i + 2] == '\0'))
 				x = 1;
 		}
 		i++;
