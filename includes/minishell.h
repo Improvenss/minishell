@@ -6,7 +6,7 @@
 /*   By: gsever <gsever@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/23 14:43:17 by gsever            #+#    #+#             */
-/*   Updated: 2022/09/27 02:48:12 by gsever           ###   ########.fr       */
+/*   Updated: 2022/09/27 02:49:56 by gsever           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,7 @@ https://www.ibm.com/docs/en/zos/2.5.0?topic=functions-sigemptyset-initialize-sig
 	sigaddset()	-> 
 		int sigaddset(sigset_t *set, int signal);
 https://www.ibm.com/docs/en/zos/2.2.0?topic=functions-sigaddset-add-signal-signal-mask
-	kill()		-> Send Signal to Process or Group of Processes.
+	kill()		-> Send Signal to Process or Group of Processes. (PID).
 		int kill(pid_t pid, int sig);
 https://www.ibm.com/docs/en/i/7.2?topic=ssw_ibm_i_72/apis/sigkill.htm
 */
