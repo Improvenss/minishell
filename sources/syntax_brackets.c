@@ -12,7 +12,6 @@
 
 # include "../includes/minishell.h"
 
-
 int syntax_brackets_near_reverse(t_base *base)
 {
     int i;

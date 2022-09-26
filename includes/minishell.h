@@ -6,7 +6,7 @@
 /*   By: akaraca <akaraca@student.42.tr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/23 14:43:17 by gsever            #+#    #+#             */
-/*   Updated: 2022/09/25 12:25:07 by akaraca          ###   ########.fr       */
+/*   Updated: 2022/09/26 08:47:57 by akaraca          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -207,6 +207,7 @@ typedef struct s_base
 	int		syntax_last;
 	int		syntax_lenght;
 	int		syntax_count;
+	char	**array_line;
 	char	*input_line;
 }		t_base;
 
@@ -217,12 +218,6 @@ typedef struct s_base
 // action.c
 void	action(int sig);
 
-// brackets.c
-int		syntax_brackets_near_reverse(t_base *base);
-int     syntax_brackets_near(t_base *base);
-int     syntax_brackets(t_base *base, int i);
-int		brackets(t_base *base);
-
 // history.c
 int		history_empty_check(char *str);
 
@@ -232,23 +227,30 @@ void	init_syntax(t_base *base);
 // minishell.c
 void	minishell(void);
 
-// redirection.c
-int		redirection(t_base *base);
-
 // run.c
 void	command_run(t_base *base);
+
+// syntax_brackets.c
+int		syntax_brackets_near_reverse(t_base *base);
+int     syntax_brackets_near(t_base *base);
+int     syntax_brackets(t_base *base, int i);
+int		brackets(t_base *base);
+
+// syntax_pipe.c
+int 	syntax_pipe(t_base *base, int i);
+int		the_pipe(t_base *base);
 
 // syntax_quote.c
 void	single_double_quote(t_base *base, int i, char c);
 int		syntax_quote(t_base *base, int i);
 int		quote(t_base *base);
 
+// syntax_ redirection.c
+int		syntax_left_right(t_base *base, int i);
+int		redirection(t_base *base);
+
 // syntax.c
 int		syntax(t_base *base);
-
-// the_pipe.c
-int 	syntax_pipe(t_base *base, int i);
-int		the_pipe(t_base *base);
 
 // utils.c
 int		look_the_quote(char *str, int i);

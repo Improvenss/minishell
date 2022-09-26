@@ -6,13 +6,11 @@
 /*   By: akaraca <akaraca@student.42.tr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/23 17:19:14 by gsever            #+#    #+#             */
-/*   Updated: 2022/09/24 10:52:24 by akaraca          ###   ########.fr       */
+/*   Updated: 2022/09/25 13:42:16 by akaraca          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-
-
 
 /**
  * @brief Tırnak içerisinde bulunan syntax hatalarının görmezden gelinilmesi gerekiyor.

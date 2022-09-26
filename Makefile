@@ -6,7 +6,7 @@
 #    By: akaraca <akaraca@student.42.tr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/09/15 17:54:15 by gsever            #+#    #+#              #
-#    Updated: 2022/09/24 10:15:42 by akaraca          ###   ########.fr        #
+#    Updated: 2022/09/26 08:50:30 by akaraca          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -80,7 +80,7 @@ LEAKS_PH	= leaks -atExit -- ./minishell
 #	Compiling with all threads.
 ifeq ($(UNAME), Linux)
 	NUMPROC	:= $(shell grep -c ^processor /proc/cpuinfo)
-	OS = "$(UNAME)tan baglaniyorsun bruh"
+#	OS = "$(UNAME)tan baglaniyorsun bruh"
 else ifeq ($(UNAME), Darwin)
 	NUMPROC	:= $(shell sysctl -n hw.ncpu)
 	OS = "Macos'tan baglaniyorsun bruh"
