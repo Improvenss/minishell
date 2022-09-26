@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akaraca <akaraca@student.42.tr>            +#+  +:+       +#+        */
+/*   By: gsever <gsever@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/23 14:43:17 by gsever            #+#    #+#             */
-/*   Updated: 2022/09/26 20:06:46 by akaraca          ###   ########.fr       */
+/*   Updated: 2022/09/27 02:48:12 by gsever           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,20 +76,29 @@ https://linuxhint.com/getenv-function-usage/
 # include <stdio.h> /*
 	printf()	-> A library function to send formatted output to the screen
 		int printf(const char *restrict format, ...);
-https://shorturl.at/bMNQ8
+https://man7.org/linux/man-pages/man3/printf.3.html
 	perror()	-> System error messages
 		void perror(const char *string);
 https://www.ibm.com/docs/en/zos/2.3.0?topic=functions-perror-print-error-message
 */
 # include <signal.h> /*
-	signal()	->
-		sighandler_t signal(int signum, sighandler_t handler);
+	signal()	-> Simplified software signal facilities.
 		void (*signal(int sig, void (*func)(int)))(int);
 https://linuxhint.com/signal_handlers_c_programming_language/
 	sigaction()	-> 
+		int sigaction(int signum, const struct sigaction *restrict act,
+		struct sigaction *restrict oldact);
+https://www.ibm.com/docs/en/zos/2.1.0?topic=functions-sigaction-examine-change-signal-action#rtsigac
 	sigemptyset()	-> 
+		int sigemptyset(sigset_t *set);
+https://www.ibm.com/docs/en/zos/2.5.0?topic=functions-sigemptyset-initialize-signal-mask-exclude-all-signals
 	sigaddset()	-> 
-	kill()		-> Close process from PID. */
+		int sigaddset(sigset_t *set, int signal);
+https://www.ibm.com/docs/en/zos/2.2.0?topic=functions-sigaddset-add-signal-signal-mask
+	kill()		-> Send Signal to Process or Group of Processes.
+		int kill(pid_t pid, int sig);
+https://www.ibm.com/docs/en/i/7.2?topic=ssw_ibm_i_72/apis/sigkill.htm
+*/
 # include <stdint.h> /*
 	Type	 	Name		Num_Bytes	Num_Bits	Integer_Range
 	int8_t	 ->	char			1			8		-128 to 127,
