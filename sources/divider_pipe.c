@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   divider_pipe.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gsever <gsever@student.42kocaeli.com.tr    +#+  +:+       +#+        */
+/*   By: akaraca <akaraca@student.42.tr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/26 16:37:09 by akaraca           #+#    #+#             */
-/*   Updated: 2022/09/26 17:53:37 by gsever           ###   ########.fr       */
+/*   Updated: 2022/09/26 20:12:51 by akaraca          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,43 +48,48 @@ int word_counter(char *str, int i)
 	return (l);
 }
 
-void	pipe_to_pipe(char **new, char *str, int pipe_count)
+char	*pipe_to_pipe(char *str, int *l)
 {
-	int	i;
-	int	l;
-	int	k;
-	int	x;
+	char	*new;
+	int		x;
+	int		y;
+	int		k;
 
-	l = -1;
+	y = *l;
+	k = 0;
 	x = 0;
-	while (++l < pipe_count)
+	while (str[y] && str[y] == '|')
+		y++;
+	k = word_counter(str, y);
+	new = (char *)malloc(sizeof(char) * k);
+	while (x < k)
 	{
-		i = 0;
-		k = word_counter(str, x);
-		new[l] = (char *)malloc(sizeof(char) * k);
-		while (i < k)
-		{
-			new[l][i] = str[x];
-			i++;
-			x++;
-		}
-		new[l][i] = '\0';
-		// printf("new[%d]: #%s#\n", l, new[l]);
-		while (str[x] && str[x] == '|')
-			x++;
+		new[x] = str[y];
+		x++;
+		y++;
 	}
-	new[l] = NULL;
+	new[x] = '\0';
+	//printf("new[%d]: #%s#\n", x, new);
+	*l = y;
+	return (new);
 }
 
 char	**divider(char *str)
 {
-	char	**new;
-	int		pipe_count;
-	
+	char **tmp;
+	int	l;
+	int	i;
+	int	pipe_count;
+
 	pipe_count = divider_pipe_counter(str);
-	new = (char **)malloc(sizeof(char *) * pipe_count + 1);
-	if (!new)
-		return (NULL);
-	pipe_to_pipe(new, str, pipe_count);
-	return (new);
+	tmp = (char **)malloc(sizeof(char) * pipe_count);
+	i = 0;
+	l = 0;
+	while (i < pipe_count)
+	{
+		tmp[i] = pipe_to_pipe(str, &l);
+		i++;
+	}
+	tmp[i] = NULL;
+	return (tmp);
 }

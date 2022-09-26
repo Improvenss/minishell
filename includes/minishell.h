@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gsever <gsever@student.42kocaeli.com.tr    +#+  +:+       +#+        */
+/*   By: akaraca <akaraca@student.42.tr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/23 14:43:17 by gsever            #+#    #+#             */
-/*   Updated: 2022/09/26 18:24:23 by gsever           ###   ########.fr       */
+/*   Updated: 2022/09/26 20:06:46 by akaraca          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -221,7 +221,7 @@ void	action(int sig);
 // divider_pipe.c
 int		divider_pipe_counter(char *str);
 int		word_counter(char *str, int i);
-void	pipe_to_pipe(char **new, char *str, int pipe_count);
+char	*pipe_to_pipe(char *str, int *l);
 char	**divider(char *str);
 
 // history.c

@@ -6,7 +6,7 @@
 /*   By: akaraca <akaraca@student.42.tr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/23 17:19:14 by gsever            #+#    #+#             */
-/*   Updated: 2022/09/25 13:42:16 by akaraca          ###   ########.fr       */
+/*   Updated: 2022/09/26 20:10:51 by akaraca          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ char	*delete_space(char *str, int i, int k, int l)
 {
 	char *tmp;
 
-	l = ft_strlen(str);
+	l = ft_strlen(str) - 1;
 	while (str[i] <= 32 && str[i])
 		i++;
 	while (str[l] <= 32 && str[l])
