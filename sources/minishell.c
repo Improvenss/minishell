@@ -6,7 +6,7 @@
 /*   By: gsever <gsever@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/23 14:45:01 by gsever            #+#    #+#             */
-/*   Updated: 2022/09/27 14:05:22 by gsever           ###   ########.fr       */
+/*   Updated: 2022/09/27 18:07:44 by gsever           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ void	set_argument(t_base *base)
  * @brief Starting here.
  * 
  * @fn signal(SIGINT, action) -> CTRL+C
- * @fn signal(SIGQUIT, action) -> CTRL+\
+ * @fn signal(SIGQUIT, SIG_IGN) -> CTRL+\
  * NOTE: CTRL+D -> readline = NULL oluyor, NULL kontrolunu yaparak exit();
  * NOTE: 
  * @fn 
@@ -66,15 +66,16 @@ void	minishell(void)
 	t_base	base;
 
 	set_argument(&base);
+	signal(SIGQUIT, SIG_IGN);
 	while (1)
 	{
 		signal(SIGINT, action);
-		signal(SIGQUIT, SIG_IGN);
 		if (isatty(STDIN_FILENO))
 			base.input_line = readline(T_NAME);
-		if (!base.input_line)
+		if (base.input_line == NULL)
 		{
 			printf("exit\n");
+			rl_clear_history();
 			exit(0);
 		}
 		if (history_empty_check(base.input_line))

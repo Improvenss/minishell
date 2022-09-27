@@ -6,7 +6,7 @@
 /*   By: gsever <gsever@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/23 14:43:17 by gsever            #+#    #+#             */
-/*   Updated: 2022/09/27 14:03:02 by gsever           ###   ########.fr       */
+/*   Updated: 2022/09/27 18:08:01 by gsever           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -183,6 +183,8 @@ https://www.ibm.com/docs/en/i/7.2?topic=ssw_ibm_i_72/apis/sigkill.htm
 # define B_RED		"\033[1;31m"
 # define B_RESET	"\033[1m"
 
+# define CMD_CLEAR	"\e[1;1H\e[2J"
+
 //note: terminal isminin basina/sonuna renk kodlarini eklersek ust uste biniyor
 # define T_NAME		"$> "
 
@@ -218,7 +220,6 @@ typedef struct s_base
 	int		syntax_count;
 
 
-	
 	int		*pid;
 	int		**fd;
 	int		split_count;
@@ -267,6 +268,8 @@ int		syntax_brackets(t_base *base, int i);
 int		brackets(t_base *base);
 
 // syntax_pipe.c
+int		syntax_pipe_first_half(t_base *base, int i);
+int		syntax_pipe_last_half(t_base *base, int i);
 int 	syntax_pipe(t_base *base, int i);
 int		the_pipe(t_base *base);
 

@@ -27,7 +27,8 @@ int syntax_brackets_near_reverse(t_base *base)
         last = -1;
         while (i >= 0) // birinci ve ikinci ')' bulmak için.
         {
-            if (base->input_line[i] == ')' && first == -1 && look_the_quote(base->input_line, i))
+            if (base->input_line[i] == ')' && first == -1
+                && look_the_quote(base->input_line, i))
                 first = i;
             i--;
             if (base->input_line[i] == ')' && last == -1 && look_the_quote(base->input_line, i))

@@ -6,13 +6,13 @@
 /*   By: gsever <gsever@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/26 16:37:09 by akaraca           #+#    #+#             */
-/*   Updated: 2022/09/27 13:57:05 by gsever           ###   ########.fr       */
+/*   Updated: 2022/09/27 17:25:45 by gsever           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-int word_counter(char *str, int i)
+int	word_counter(char *str, int i)
 {
 	int	l;
 
@@ -76,9 +76,9 @@ int	divider_pipe_counter(char *str)
 
 char	**divider(char *str, t_base *base)
 {
-	char **tmp;
-	int	l;
-	int	i;
+	char	**tmp;
+	int		l;
+	int		i;
 
 	base->split_count = divider_pipe_counter(str);
 	tmp = (char **)malloc(sizeof(char) * 100);

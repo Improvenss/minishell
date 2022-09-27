@@ -6,12 +6,12 @@
 /*   By: gsever <gsever@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/19 13:41:13 by gsever            #+#    #+#             */
-/*   Updated: 2022/09/27 14:02:53 by gsever           ###   ########.fr       */
+/*   Updated: 2022/09/27 18:16:51 by gsever           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-/*
+
 char	*ft_path(char **path, char *tmp)
 {
 	char **str = ft_split(tmp, ' '); //ls -la'nın ls kısmı lazım.
@@ -38,7 +38,6 @@ void	ft_fork(t_base *base)
 	int	i;
 
 	l = 0;
-	//printf("%d\n", __LINE__);
 	while (l < base->split_count)
 	{
 		base->pid[l] = fork();
@@ -74,7 +73,11 @@ void	ft_fork(t_base *base)
 				close(base->fd[i][1]);
 				i++;
 			}
-			execve(ft_path(base->PATH, base->array_line[l]), ft_split(base->array_line[l], ' '), base->environ);
+			char *görkem = ft_path(base->PATH, base->array_line[l]);
+				if (görkem != NULL)
+					execve(ft_path(base->PATH, base->array_line[l]), ft_split(base->array_line[l], ' '), base->environ);
+				else
+					exit(0);
 		}
 		l++;
 	}
@@ -95,14 +98,14 @@ void	ft_fork(t_base *base)
 		i++;
 	}
 }
-*/
+
 void	command_run(t_base *base)
-{	
-	//int	l;
+{
+	int	l;
 
 	base->split_count = 0;
 	base->array_line = divider(base->input_line, base);
-	/*base->fd = (int **)malloc(sizeof(int *) * base->split_count);
+	base->fd = (int **)malloc(sizeof(int *) * base->split_count);
 	if (base->split_count == 1)
 	{
 		//printf("Tekli fd girdisi\n");
@@ -122,6 +125,5 @@ void	command_run(t_base *base)
 	}
 	base->pid = (int *)malloc(sizeof(int) * base->split_count);
 
-	ft_fork(base);*/
-
+	ft_fork(base);
 }
