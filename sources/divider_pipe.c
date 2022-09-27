@@ -3,31 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   divider_pipe.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akaraca <akaraca@student.42.tr>            +#+  +:+       +#+        */
+/*   By: gsever <gsever@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/26 16:37:09 by akaraca           #+#    #+#             */
-/*   Updated: 2022/09/26 20:12:51 by akaraca          ###   ########.fr       */
+/*   Updated: 2022/09/27 13:57:05 by gsever           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-
-int	divider_pipe_counter(char *str)
-{
-	int	count;
-	int	i;
-
-	count = 1;
-	i = 0;
-	while (str[i])
-	{
-		if (str[i] == '|' && str[i + 1] != '|' && str[i - 1] != '|')
-			count++;
-		i++;
-	}
-	// printf("pipe_count: %d\n", count);
-	return (count);
-}
 
 int word_counter(char *str, int i)
 {
@@ -44,7 +27,7 @@ int word_counter(char *str, int i)
 		i++;
 		l++;
 	}
-	// printf("word_count: %d\n", l);
+	//printf("word_count: %d\n", l);
 	return (l);
 }
 
@@ -61,7 +44,7 @@ char	*pipe_to_pipe(char *str, int *l)
 	while (str[y] && str[y] == '|')
 		y++;
 	k = word_counter(str, y);
-	new = (char *)malloc(sizeof(char) * k);
+	new = (char *)malloc(sizeof(char) * 100);
 	while (x < k)
 	{
 		new[x] = str[y];
@@ -74,18 +57,34 @@ char	*pipe_to_pipe(char *str, int *l)
 	return (new);
 }
 
-char	**divider(char *str)
+int	divider_pipe_counter(char *str)
+{
+	int	count;
+	int	i;
+
+	count = 1;
+	i = 0;
+	while (str[i])
+	{
+		if (str[i] == '|' && str[i + 1] != '|' && str[i - 1] != '|')
+			count++;
+		i++;
+	}
+	//printf("pipe_count: %d\n", count);
+	return (count);
+}
+
+char	**divider(char *str, t_base *base)
 {
 	char **tmp;
 	int	l;
 	int	i;
-	int	pipe_count;
 
-	pipe_count = divider_pipe_counter(str);
-	tmp = (char **)malloc(sizeof(char) * pipe_count);
+	base->split_count = divider_pipe_counter(str);
+	tmp = (char **)malloc(sizeof(char) * 100);
 	i = 0;
 	l = 0;
-	while (i < pipe_count)
+	while (i < base->split_count)
 	{
 		tmp[i] = pipe_to_pipe(str, &l);
 		i++;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akaraca <akaraca@student.42.tr>            +#+  +:+       +#+        */
+/*   By: gsever <gsever@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/23 17:19:14 by gsever            #+#    #+#             */
-/*   Updated: 2022/09/26 20:10:51 by akaraca          ###   ########.fr       */
+/*   Updated: 2022/09/27 11:51:04 by gsever           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ int	look_the_quote(char *str, int i)
  */
 char	*delete_space(char *str, int i, int k, int l)
 {
-	char *tmp;
+	char	*tmp;
 
 	l = ft_strlen(str) - 1;
 	while (str[i] <= 32 && str[i])

@@ -3,14 +3,53 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akaraca <akaraca@student.42.tr>            +#+  +:+       +#+        */
+/*   By: gsever <gsever@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/23 14:45:01 by gsever            #+#    #+#             */
-/*   Updated: 2022/09/26 13:53:41 by akaraca          ###   ########.fr       */
+/*   Updated: 2022/09/27 14:05:22 by gsever           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
+char	*env_findret(char *env_name, t_base *base)
+{
+	int	i;
+	int	l;
+	int	count;
+
+	i = 0;
+	while (base->environ[i])
+	{
+		l = 0;
+		count = 0;
+		while (base->environ[i][l])
+		{
+			if (base->environ[i][count] == env_name[count])
+				count++;
+			if (env_name[count] == '\0')
+				return (&base->environ[i][count]);
+			l++;
+		}
+		i++;
+	}
+	return (NULL);
+}
+
+/**
+ * @brief Set the argument object
+ * 		Standart env değerini struct yapısına atıyoruz.
+ * 		! "extern char" env yapısını bildirmeye yarıyoruz.
+ * 
+ * @param base 
+ */
+void	set_argument(t_base *base)
+{
+	extern char	**environ;
+
+	base->environ = environ;
+	base->PATH = ft_split(env_findret("PATH=", base), ':');
+}
 
 /**
  * @brief Starting here.
@@ -26,6 +65,7 @@ void	minishell(void)
 {
 	t_base	base;
 
+	set_argument(&base);
 	while (1)
 	{
 		signal(SIGINT, action);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   syntax.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akaraca <akaraca@student.42.tr>            +#+  +:+       +#+        */
+/*   By: gsever <gsever@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/23 16:15:13 by gsever            #+#    #+#             */
-/*   Updated: 2022/09/26 20:10:54 by akaraca          ###   ########.fr       */
+/*   Updated: 2022/09/27 12:27:37 by gsever           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	white_space(t_base *base)
 	i = 0;
 	while (base->input_line[i])
 	{
-		if (base->input_line[i] >= 127 || base->input_line[i] < 0)
+		if (base->input_line[i] > 127 || base->input_line[i] < 0)
 		{
 			printf("Whitespace: Syntax Error! (%d)\n", i);
 			return (-1);

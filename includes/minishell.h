@@ -6,7 +6,7 @@
 /*   By: gsever <gsever@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/23 14:43:17 by gsever            #+#    #+#             */
-/*   Updated: 2022/09/27 02:49:56 by gsever           ###   ########.fr       */
+/*   Updated: 2022/09/27 14:03:02 by gsever           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -216,8 +216,16 @@ typedef struct s_base
 	int		syntax_last;
 	int		syntax_lenght;
 	int		syntax_count;
+
+
+	
+	int		*pid;
+	int		**fd;
+	int		split_count;
 	char	**array_line;
 	char	*input_line;
+	char	**PATH;
+	char	**environ;
 }		t_base;
 
 /* ************************************************************************** */
@@ -231,7 +239,7 @@ void	action(int sig);
 int		divider_pipe_counter(char *str);
 int		word_counter(char *str, int i);
 char	*pipe_to_pipe(char *str, int *l);
-char	**divider(char *str);
+char	**divider(char *str, t_base *base);
 
 // history.c
 int		history_empty_check(char *str);
@@ -240,9 +248,13 @@ int		history_empty_check(char *str);
 void	init_syntax(t_base *base);
 
 // minishell.c
+char	*env_findret(char *env_name, t_base *base);
+void	set_argument(t_base *base);
 void	minishell(void);
 
 // run.c
+//char	*ft_path(char **path, char *tmp);
+//void	ft_fork(t_base *base);
 void	command_run(t_base *base);
 
 // syntax_ampersand.c

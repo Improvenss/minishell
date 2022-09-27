@@ -3,13 +3,13 @@
 /*                                                        :::      ::::::::   */
 /*   minishell_only_pipe.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akaraca <akaraca@student.42.tr>            +#+  +:+       +#+        */
+/*   By: gsever <gsever@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/17 10:57:07 by akaraca           #+#    #+#             */
-/*   Updated: 2022/09/19 17:56:48 by akaraca          ###   ########.fr       */
+/*   Updated: 2022/09/27 13:11:40 by gsever           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-/*
+
 # include "../includes/minishell.h"
 */
 t_main	g_main;
