@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   run.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gsever <gsever@student.42kocaeli.com.tr    +#+  +:+       +#+        */
+/*   By: akaraca <akaraca@student.42.tr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/19 13:41:13 by gsever            #+#    #+#             */
-/*   Updated: 2022/09/27 18:16:51 by gsever           ###   ########.fr       */
+/*   Updated: 2022/09/28 11:48:34 by akaraca          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,8 +103,14 @@ void	command_run(t_base *base)
 {
 	int	l;
 
-	base->split_count = 0;
-	base->array_line = divider(base->input_line, base);
+	base->split_count = word_count(base->input_line);
+	base->array_line = pipe_split(base->input_line);
+	int i = 0;
+	while (base->array_line[i])
+	{
+		printf("#%s#\n", base->array_line[i]);
+		i++;
+	}
 	base->fd = (int **)malloc(sizeof(int *) * base->split_count);
 	if (base->split_count == 1)
 	{

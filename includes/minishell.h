@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gsever <gsever@student.42kocaeli.com.tr    +#+  +:+       +#+        */
+/*   By: akaraca <akaraca@student.42.tr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/23 14:43:17 by gsever            #+#    #+#             */
-/*   Updated: 2022/09/27 18:08:01 by gsever           ###   ########.fr       */
+/*   Updated: 2022/09/28 11:42:54 by akaraca          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -236,12 +236,6 @@ typedef struct s_base
 // action.c
 void	action(int sig);
 
-// divider_pipe.c
-int		divider_pipe_counter(char *str);
-int		word_counter(char *str, int i);
-char	*pipe_to_pipe(char *str, int *l);
-char	**divider(char *str, t_base *base);
-
 // history.c
 int		history_empty_check(char *str);
 
@@ -252,6 +246,11 @@ void	init_syntax(t_base *base);
 char	*env_findret(char *env_name, t_base *base);
 void	set_argument(t_base *base);
 void	minishell(void);
+
+// pipe_split.c
+size_t	word_count(char *s);
+char	*alloc(char *s);
+char	**pipe_split(char *s);
 
 // run.c
 //char	*ft_path(char **path, char *tmp);
