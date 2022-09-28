@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akaraca <akaraca@student.42.tr>            +#+  +:+       +#+        */
+/*   By: gsever <gsever@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/23 14:43:17 by gsever            #+#    #+#             */
-/*   Updated: 2022/09/28 14:52:55 by akaraca          ###   ########.fr       */
+/*   Updated: 2022/09/28 17:44:28 by gsever           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,20 +110,43 @@ https://www.ibm.com/docs/en/i/7.2?topic=ssw_ibm_i_72/apis/sigkill.htm
 	uint32_t ->	unsigned int	4			32			0 to 4294967295,
 	uint64_t ->	unsigned l_l 	8			64		0 to 18446744073709551615 */
 # include <string.h> /*
-	malloc()	-> Allocating memory with NULL,
-	strerror()	-> System error messages -> char *strerror(int errnum);,
-	 */
-# include <fcntl.h> /*
-	open()		-> Open files and directories,
-	close()		-> Delete a descriptor. */
-# include <dirent.h> /*
-	opendir()	-> Open a directory -> DIR *opendir(const char *name);,
-	readdir()	-> Read a directory -> struct dirent *readdir(DIR *dirp);,
-	closedir()	-> Close a directory -> int closedir(DIR *dirp);. */
-# include <termios.h> /*
-	tcsetattr()	-> Set the parameters associated with the terminal,
+	malloc()	-> Allocating memory with NULL
+		void *malloc(size_t size);
+https://www.ibm.com/docs/en/zos/2.2.0?topic=functions-malloc-reserve-storage-block
+	strerror()	-> System error messages; Writing int errno's string value.
+		char *strerror(int errnum);
+https://www.ibm.com/docs/en/zos/2.5.0?topic=functions-strerror-get-pointer-runtime-error-message
+*/
+# include <fcntl.h> /* -File control-
+	open()		-> Open or Create a file for reading or writing.
+		int open(const char *path, int oflag, . . .);
+https://www.ibm.com/docs/en/i/7.5?topic=ssw_ibm_i_75/apis/open.htm
+	close()		-> Close File or Socket descriptor.
+		int close(int fd);
+https://www.ibm.com/docs/en/i/7.5?topic=ssw_ibm_i_75/apis/close.htm
+*/
+# include <dirent.h> /* -POSIX directory access functions-
+	opendir()	-> Opens a directory so that it can be
+ read with readdir() or __readdir2().
+		DIR *opendir(const char *dirname);
+https://www.ibm.com/docs/en/zos/2.3.0?topic=functions-opendir-open-directory#rtoped
+	readdir()	-> Returns a pointer to a dirent structure describing
+ the next directory entry in the directory stream associated with dir.
+		struct dirent *readdir(DIR *dir);
+https://www.ibm.com/docs/en/zos/2.3.0?topic=functions-readdir-read-entry-from-directory
+	closedir()	-> Closes the directory indicated by dir.
+ It frees the buffer that readdir() uses when reading the directory stream.
+		int closedir(DIR *dir);
+https://www.ibm.com/docs/en/zos/2.5.0?topic=functions-closedir-close-directory
+*/
+# include <termios.h> /* -General terminal line discipline-
+	tcsetattr()	-> Set the parameters associated with the terminal
+		int tcsetattr(int fildes, int optional_actions,
+		const struct termios *termios_p);
+https://www.ibm.com/docs/en/zos/2.5.0?topic=functions-tcsetattr-set-attributes-terminal
 	tcgetattr()	-> Get the parameters associated with the terminal. */
-# include <curses.h> /*
+# include <curses.h> /* -Definitions for screen handling
+ and optimization functions-
 	tgetent()	-> Direct curses interface to the terminfo capability database,
 		Routine loads the entry for name. It returns 1 on success, 0 if there 
 		is no such entry, and -1 if the terminfo database could not be found. 
@@ -135,7 +158,9 @@ https://www.ibm.com/docs/en/i/7.2?topic=ssw_ibm_i_72/apis/sigkill.htm
 	tgoto()		-> Routine instantiates the parameters into the given capability. 
 		The output from this routine is to be passed to tputs(),
 	tputs()		-> Routine is described on the curs_terminfo() manual page. 
-		It can retrieve capabilities by either termcap or terminfo name.
+	 It can retrieve capabilities by either termcap or terminfo name.
+		int fputs(const char *string, FILE *stream);
+https://www.ibm.com/docs/en/i/7.5?topic=functions-fputs-write-string#fputs
 */
 # include <sys/wait.h> /*
 	wait()		-> 
