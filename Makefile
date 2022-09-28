@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: akaraca <akaraca@student.42.tr>            +#+  +:+       +#+         #
+#    By: gsever <gsever@student.42kocaeli.com.tr    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/09/15 17:54:15 by gsever            #+#    #+#              #
-#    Updated: 2022/09/28 11:51:09 by akaraca          ###   ########.fr        #
+#    Updated: 2022/09/28 12:53:52 by gsever           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,8 +21,8 @@ UNAME		:= $(shell uname -s)
 NUMPROC		:= 8
 
 OS			:= NULL
-RL_INC_OS	:= /goinfre/$(USER)/homebrew/Cellar/readline/8.1.2/include
-RL_LIB_OS	:= /goinfre/$(USER)/homebrew/Cellar/readline/8.1.2/lib
+RL_INC_OS	:= /goinfre/$(USER)/brew/Cellar/readline/8.1.2/include
+RL_LIB_OS	:= /goinfre/$(USER)/brew/Cellar/readline/8.1.2/lib
 
 #	Libft Part --> OK
 LIBFTDIR		= ./libraries/libft
@@ -104,6 +104,11 @@ else ifeq ($(UNAME), Darwin)
 		OS = "You are connected from -$(CYAN)MacBook$(X)- 💻 Welcome -$(CYAN)$(USER)$(X)-!"
 		RL_INC_OS := /opt/homebrew/Cellar/readline/8.1.2/include/
 		RL_LIB_OS := /opt/homebrew/Cellar/readline/8.1.2/lib
+	endif
+	ifeq ($(USER), akaraca)
+		OS = "You are connected from -$(CYAN)MacBook$(X)- 💻 Welcome -$(CYAN)$(USER)$(X)-!"
+		RL_INC_OS	:= /goinfre/$(USER)/homebrew/Cellar/readline/8.1.2/include
+		RL_LIB_OS	:= /goinfre/$(USER)/homebrew/Cellar/readline/8.1.2/lib
 	endif
 endif
 # You can use --> man sysctl -> shell: sysctl -a | grep "hw.ncpu"

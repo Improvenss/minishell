@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   run.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akaraca <akaraca@student.42.tr>            +#+  +:+       +#+        */
+/*   By: gsever <gsever@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/19 13:41:13 by gsever            #+#    #+#             */
-/*   Updated: 2022/09/28 12:24:29 by akaraca          ###   ########.fr       */
+/*   Updated: 2022/09/28 12:47:47 by gsever           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,15 +32,29 @@ char	*ft_path(char **path, char *tmp)
 	return (NULL);
 }
 
+/**
+ * @brief 
+ * 
+ * @fn access() Dosya var mi yok mu bakiyor kontrol ediyor,
+ * 	varsa 0 yoksa -1 donduruyor.
+ * @param base 
+ */
 void	ft_fork(t_base *base)
 {
 	int	l;
 	int	i;
+	int err;
 
 	l = 0;
 	while (l < base->split_count)
 	{
 		base->pid[l] = fork();
+		if (base->pid[l] != 0)
+		{
+			err = access(ft_path(base->PATH, base->array_line[l]), 0);
+			if (err == -1)
+				printf("Error\n");
+		}
 		if (base->pid[l] == 0)
 		{
 			// printf("%d. Fork\n", l);
