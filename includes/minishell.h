@@ -6,7 +6,7 @@
 /*   By: akaraca <akaraca@student.42.tr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/23 14:43:17 by gsever            #+#    #+#             */
-/*   Updated: 2022/09/28 11:42:54 by akaraca          ###   ########.fr       */
+/*   Updated: 2022/09/28 11:53:42 by akaraca          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -253,8 +253,8 @@ char	*alloc(char *s);
 char	**pipe_split(char *s);
 
 // run.c
-//char	*ft_path(char **path, char *tmp);
-//void	ft_fork(t_base *base);
+char	*ft_path(char **path, char *tmp);
+void	ft_fork(t_base *base);
 void	command_run(t_base *base);
 
 // syntax_ampersand.c

@@ -6,7 +6,7 @@
 #    By: akaraca <akaraca@student.42.tr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/09/15 17:54:15 by gsever            #+#    #+#              #
-#    Updated: 2022/09/28 11:48:33 by akaraca          ###   ########.fr        #
+#    Updated: 2022/09/28 11:51:09 by akaraca          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,8 +21,8 @@ UNAME		:= $(shell uname -s)
 NUMPROC		:= 8
 
 OS			:= NULL
-RL_INC_OS	:= /goinfre/$(USER)/brew/Cellar/readline/8.1.2/include
-RL_LIB_OS	:= /goinfre/$(USER)/brew/Cellar/readline/8.1.2/lib
+RL_INC_OS	:= /goinfre/$(USER)/homebrew/Cellar/readline/8.1.2/include
+RL_LIB_OS	:= /goinfre/$(USER)/homebrew/Cellar/readline/8.1.2/lib
 
 #	Libft Part --> OK
 LIBFTDIR		= ./libraries/libft

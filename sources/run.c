@@ -6,7 +6,7 @@
 /*   By: akaraca <akaraca@student.42.tr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/19 13:41:13 by gsever            #+#    #+#             */
-/*   Updated: 2022/09/28 11:48:34 by akaraca          ###   ########.fr       */
+/*   Updated: 2022/09/28 12:24:29 by akaraca          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,12 +105,6 @@ void	command_run(t_base *base)
 
 	base->split_count = word_count(base->input_line);
 	base->array_line = pipe_split(base->input_line);
-	int i = 0;
-	while (base->array_line[i])
-	{
-		printf("#%s#\n", base->array_line[i]);
-		i++;
-	}
 	base->fd = (int **)malloc(sizeof(int *) * base->split_count);
 	if (base->split_count == 1)
 	{
@@ -130,6 +124,5 @@ void	command_run(t_base *base)
 		pipe(base->fd[l++]);
 	}
 	base->pid = (int *)malloc(sizeof(int) * base->split_count);
-
 	ft_fork(base);
 }
