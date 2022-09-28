@@ -6,10 +6,10 @@
 /*   By: akaraca <akaraca@student.42.tr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/17 10:57:07 by akaraca           #+#    #+#             */
-/*   Updated: 2022/09/19 17:59:00 by akaraca          ###   ########.fr       */
+/*   Updated: 2022/09/28 13:21:43 by akaraca          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-/*
+
 # include "../includes/minishell.h"
 */
 t_main	g_main;

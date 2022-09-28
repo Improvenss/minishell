@@ -6,40 +6,16 @@
 /*   By: akaraca <akaraca@student.42.tr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/23 14:45:01 by gsever            #+#    #+#             */
-/*   Updated: 2022/09/28 11:53:01 by akaraca          ###   ########.fr       */
+/*   Updated: 2022/09/28 14:04:18 by akaraca          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-char	*env_findret(char *env_name, t_base *base)
-{
-	int	i;
-	int	l;
-	int	count;
-
-	i = 0;
-	while (base->environ[i])
-	{
-		l = 0;
-		count = 0;
-		while (base->environ[i][l])
-		{
-			if (base->environ[i][count] == env_name[count])
-				count++;
-			if (env_name[count] == '\0')
-				return (&base->environ[i][count]);
-			l++;
-		}
-		i++;
-	}
-	return (NULL);
-}
-
 /**
  * @brief Set the argument object
  * 		Standart env değerini struct yapısına atıyoruz.
- * 		! "extern char" env yapısını bildirmeye yarıyoruz.
+ * 		! "extern char" env yapısını bildirmeye yarıyor.
  * 
  * @param base 
  */

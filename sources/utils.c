@@ -3,17 +3,72 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gsever <gsever@student.42kocaeli.com.tr    +#+  +:+       +#+        */
+/*   By: akaraca <akaraca@student.42.tr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/23 17:19:14 by gsever            #+#    #+#             */
-/*   Updated: 2022/09/27 15:58:51 by gsever           ###   ########.fr       */
+/*   Updated: 2022/09/28 14:52:08 by akaraca          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
+char	*ft_path(char **path, char *tmp)
+{
+	char **str = ft_split(tmp, ' '); //ls -la'nın ls kısmı lazım.
+	char *dir1;
+	char *dir2;
+	int i = -1;
+	while (path[++i])
+	{
+		dir2 = ft_strjoin("/", str[0]);
+		dir1 = ft_strjoin(path[i], dir2);
+		free(dir2);
+		if (access(dir1, 0) == 0)
+		{
+			return (dir1);
+		}
+		free(dir1);
+	}
+	return (NULL);
+}
+
 /**
- * @brief Tırnak içerisinde bulunan syntax hatalarının görmezden gelinilmesi gerekiyor.
+ * @brief exter char **env yapısı, struct yapısına atandığından,
+ * 		yapı içerisindeki verileri çekebilmek için bu fonk. kullanılmaktadır.
+ * 
+ * @param env_name "OLDPWD=", "PWD=", "HOME="... gibi 
+ * 		string yapıları ile belirtilmelidir.
+ * @param base 
+ * @return char* Gönderilen string yok ise NULL, var ise ='den sonraki
+ * 		stringin index'inin adresi döndürülmektedir.
+ */
+char	*env_findret(char *env_name, t_base *base)
+{
+	int	i;
+	int	l;
+	int	count;
+
+	i = 0;
+	while (base->environ[i])
+	{
+		l = 0;
+		count = 0;
+		while (base->environ[i][l])
+		{
+			if (base->environ[i][count] == env_name[count])
+				count++;
+			if (env_name[count] == '\0')
+				return (&base->environ[i][count]);
+			l++;
+		}
+		i++;
+	}
+	return (NULL);
+}
+
+/**
+ * @brief Tırnak içerisinde bulunan 
+ * 	syntax hatalarının görmezden gelinilmesi gerekiyor.
  * 
  * @param str 
  * @param i 

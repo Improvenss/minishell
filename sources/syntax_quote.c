@@ -6,7 +6,7 @@
 /*   By: akaraca <akaraca@student.42.tr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/23 18:06:45 by gsever            #+#    #+#             */
-/*   Updated: 2022/09/26 13:32:13 by akaraca          ###   ########.fr       */
+/*   Updated: 2022/09/28 14:25:48 by akaraca          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,19 +14,19 @@
 
 void	single_double_quote(t_base *base, int i, char c)
 {
-	base->syntax_first = i;
-	base->syntax_token = c;
-	base->syntax_lenght = ++i;
-	base->syntax_count++;
-	while (base->input_line[base->syntax_lenght])
+	base->sq.first = i;
+	base->sq.token = c;
+	base->sq.lenght = ++i;
+	base->sq.count++;
+	while (base->input_line[base->sq.lenght])
 	{
-		if (base->input_line[base->syntax_lenght] == c
-			&& base->syntax_last == 0)
+		if (base->input_line[base->sq.lenght] == c
+			&& base->sq.last == 0)
 		{
-			base->syntax_last = ++base->syntax_lenght;
-			base->syntax_count++;
+			base->sq.last = ++base->sq.lenght;
+			base->sq.count++;
 		}
-		base->syntax_lenght++;
+		base->sq.lenght++;
 	}
 }
 
@@ -40,20 +40,20 @@ void	single_double_quote(t_base *base, int i, char c)
  */
 int	syntax_quote(t_base *base, int i)
 {
-	init_syntax(base);
+	init_syntax_quote(base);
 	while (base->input_line[i])
 	{
-		if (base->syntax_token == '\0'
+		if (base->sq.token == '\0'
 			&& (base->input_line[i] == '\''
-			|| base->input_line[i] == '"'))
+				|| base->input_line[i] == '"'))
 			single_double_quote(base, i, base->input_line[i]);
 		i++;
 	}
-	if (base->syntax_first != -1 && base->syntax_last == 0)
+	if (base->sq.first != -1 && base->sq.last == 0)
 		return (-1);
-	if (base->syntax_count == 0)
+	if (base->sq.count == 0)
 		return (ft_strlen(base->input_line));
-	return (base->syntax_last);
+	return (base->sq.last);
 }
 
 /**

@@ -6,7 +6,7 @@
 /*   By: akaraca <akaraca@student.42.tr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/23 14:43:17 by gsever            #+#    #+#             */
-/*   Updated: 2022/09/28 11:53:42 by akaraca          ###   ########.fr       */
+/*   Updated: 2022/09/28 14:52:55 by akaraca          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -192,18 +192,26 @@ https://www.ibm.com/docs/en/i/7.2?topic=ssw_ibm_i_72/apis/sigkill.htm
 /* STRUCT DEFINES AREA													  	  */
 /* ************************************************************************** */
 
-// typedef struct s_base	t_base;
-// typedef struct s_syntax	t_syntax;
+typedef struct s_base	t_base;
 
-// typedef struct s_syntax
-// {
-// 	t_base	*base;
-// 	char	token;
-// 	int		first;
-// 	int		last;
-// 	int		lenght;
-// 	int		count;
-// }		t_syntax;
+typedef struct s_syntax_brackets
+{
+	t_base	*base;
+	char	token;
+	int		left;
+	int		right;
+	int		last;
+}		t_syntax_brackets;
+
+typedef struct s_syntax_quote
+{
+	t_base	*base;
+	char	token;
+	int		first;
+	int		last;
+	int		lenght;
+	int		count;
+}		t_syntax_quote;
 
 /**
  * @brief Main structure for project.
@@ -213,20 +221,16 @@ https://www.ibm.com/docs/en/i/7.2?topic=ssw_ibm_i_72/apis/sigkill.htm
  */
 typedef struct s_base
 {
-	char	syntax_token;
-	int		syntax_first;
-	int		syntax_last;
-	int		syntax_lenght;
-	int		syntax_count;
+	t_syntax_quote		sq;
+	t_syntax_brackets	sb;
 
-
-	int		*pid;
-	int		**fd;
-	int		split_count;
-	char	**array_line;
-	char	*input_line;
-	char	**PATH;
-	char	**environ;
+	int				*pid;
+	int				**fd;
+	int				split_count;
+	char			**array_line;
+	char			*input_line;
+	char			**PATH;
+	char			**environ;
 }		t_base;
 
 /* ************************************************************************** */
@@ -236,14 +240,18 @@ typedef struct s_base
 // action.c
 void	action(int sig);
 
+// fork.c
+void	ft_fork(t_base *base);
+void	ft_fd(t_base *base);
+
 // history.c
 int		history_empty_check(char *str);
 
 // init_all.c
-void	init_syntax(t_base *base);
+void	init_syntax_brackets(t_base *base);
+void	init_syntax_quote(t_base *base);
 
 // minishell.c
-char	*env_findret(char *env_name, t_base *base);
 void	set_argument(t_base *base);
 void	minishell(void);
 
@@ -253,8 +261,6 @@ char	*alloc(char *s);
 char	**pipe_split(char *s);
 
 // run.c
-char	*ft_path(char **path, char *tmp);
-void	ft_fork(t_base *base);
 void	command_run(t_base *base);
 
 // syntax_ampersand.c
@@ -277,8 +283,9 @@ void	single_double_quote(t_base *base, int i, char c);
 int		syntax_quote(t_base *base, int i);
 int		quote(t_base *base);
 
-// syntax_ redirection.c
-int		syntax_left_right(t_base *base, int i);
+// syntax_redirection.c
+int		syntax_right(t_base *base, int i, int err);
+int		syntax_left(t_base *base, int i, int err);
 int		redirection(t_base *base);
 
 // syntax.c
@@ -286,6 +293,8 @@ int		white_space(t_base *base);
 int		syntax(t_base *base);
 
 // utils.c
+char	*ft_path(char **path, char *tmp);
+char	*env_findret(char *env_name, t_base *base);
 int		look_the_quote(char *str, int i);
 char	*delete_space(char *str, int i, int k, int l);
 

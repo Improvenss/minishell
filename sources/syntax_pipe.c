@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   syntax_pipe.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gsever <gsever@student.42kocaeli.com.tr    +#+  +:+       +#+        */
+/*   By: akaraca <akaraca@student.42.tr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/27 16:59:23 by gsever            #+#    #+#             */
-/*   Updated: 2022/09/27 17:21:34 by gsever           ###   ########.fr       */
+/*   Updated: 2022/09/28 14:54:01 by akaraca          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,8 +70,6 @@ int	syntax_pipe_last_half(t_base *base, int i)
 /**
  * @brief 
  * 
-
-
  * 
  * @param base 
  * @param i 
