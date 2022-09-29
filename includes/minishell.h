@@ -6,7 +6,7 @@
 /*   By: gsever <gsever@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/23 14:43:17 by gsever            #+#    #+#             */
-/*   Updated: 2022/09/29 19:37:25 by gsever           ###   ########.fr       */
+/*   Updated: 2022/09/30 02:22:11 by gsever           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,12 +139,15 @@ https://www.ibm.com/docs/en/zos/2.3.0?topic=functions-readdir-read-entry-from-di
 		int closedir(DIR *dir);
 https://www.ibm.com/docs/en/zos/2.5.0?topic=functions-closedir-close-directory
 */
-# include <termios.h> /* -General terminal line discipline-
+# include <termios.h> /* ?-General terminal line discipline-
 	tcsetattr()	-> Set the parameters associated with the terminal
 		int tcsetattr(int fildes, int optional_actions,
 		const struct termios *termios_p);
 https://www.ibm.com/docs/en/zos/2.5.0?topic=functions-tcsetattr-set-attributes-terminal
-	tcgetattr()	-> Get the parameters associated with the terminal. */
+	tcgetattr()	-> Get the parameters associated with the terminal.
+		int tcsetattr(int fd, int when, const struct termios *termptr);
+https://www.ibm.com/docs/en/zos/2.5.0?topic=functions-tcsetattr-set-attributes-terminal
+*/
 # include <curses.h> /* -Definitions for screen handling
  and optimization functions-
 	tgetent()	-> Direct curses interface to the terminfo capability database,
