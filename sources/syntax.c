@@ -6,7 +6,7 @@
 /*   By: akaraca <akaraca@student.42.tr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/23 16:15:13 by gsever            #+#    #+#             */
-/*   Updated: 2022/09/28 13:45:52 by akaraca          ###   ########.fr       */
+/*   Updated: 2022/09/28 22:02:06 by akaraca          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	white_space(t_base *base)
 	i = 0;
 	while (base->input_line[i])
 	{
-		if (base->input_line[i] > 127 || base->input_line[i] < 0)
+		if (base->input_line[i] >= 127 || base->input_line[i] < 0)
 		{
 			printf("Whitespace: Syntax Error! (%d)\n", i);
 			return (-1);

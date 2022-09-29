@@ -6,7 +6,7 @@
 /*   By: gsever <gsever@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/23 14:43:17 by gsever            #+#    #+#             */
-/*   Updated: 2022/09/28 17:44:28 by gsever           ###   ########.fr       */
+/*   Updated: 2022/09/29 19:37:25 by gsever           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -212,6 +212,7 @@ https://www.ibm.com/docs/en/i/7.5?topic=functions-fputs-write-string#fputs
 
 //note: terminal isminin basina/sonuna renk kodlarini eklersek ust uste biniyor
 # define T_NAME		"$> "
+# define METAS		"<>|&"
 
 /* ************************************************************************** */
 /* STRUCT DEFINES AREA													  	  */
@@ -253,6 +254,7 @@ typedef struct s_base
 	int				**fd;
 	int				split_count;
 	char			**array_line;
+	char			**pipe_line;
 	char			*input_line;
 	char			**PATH;
 	char			**environ;
@@ -266,6 +268,10 @@ typedef struct s_base
 void	action(int sig);
 
 // fork.c
+
+char	**array_split(char *pipe_line);
+void	ft_command_find(t_base *base, char *pipe_line);
+
 void	ft_fork(t_base *base);
 void	ft_fd(t_base *base);
 
@@ -281,8 +287,8 @@ void	set_argument(t_base *base);
 void	minishell(void);
 
 // pipe_split.c
-size_t	word_count(char *s);
-char	*alloc(char *s);
+size_t	pipe_word_count(char *s);
+char	*pipe_alloc(char *s);
 char	**pipe_split(char *s);
 
 // run.c
@@ -318,6 +324,7 @@ int		white_space(t_base *base);
 int		syntax(t_base *base);
 
 // utils.c
+void	ft_free(char **line);
 char	*ft_path(char **path, char *tmp);
 char	*env_findret(char *env_name, t_base *base);
 int		look_the_quote(char *str, int i);

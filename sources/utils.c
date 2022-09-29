@@ -6,11 +6,21 @@
 /*   By: akaraca <akaraca@student.42.tr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/23 17:19:14 by gsever            #+#    #+#             */
-/*   Updated: 2022/09/28 14:52:08 by akaraca          ###   ########.fr       */
+/*   Updated: 2022/09/28 17:11:01 by akaraca          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
+void	ft_free(char **line)
+{
+	int	i;
+
+	i = -1;
+	while (line[++i])
+		free(line[i]);
+	free(line);
+}
 
 char	*ft_path(char **path, char *tmp)
 {

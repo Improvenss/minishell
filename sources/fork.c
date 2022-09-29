@@ -6,11 +6,274 @@
 /*   By: akaraca <akaraca@student.42.tr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/28 14:47:36 by akaraca           #+#    #+#             */
-/*   Updated: 2022/09/28 15:18:15 by akaraca          ###   ########.fr       */
+/*   Updated: 2022/09/29 17:04:40 by akaraca          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
+/**
+ * @brief <, <<, >, >> , ||, &&, ", ', ( simgeleri görünce
+ * 		string bölünecek.
+ * 
+ * (""a << $HOME"") -> 1 yapı
+ * ""a << $HOME""	-> 5 yapı
+ * a << b			-> 3 yapı
+ * 'a < b'			-> 1 yapı
+ * @param s 
+ * @return size_t 
+ */
+size_t	array_word_count(char *s)
+{
+	size_t	count;
+	int		i;
+	int		l;
+	int		k;
+
+	count = 0;
+	i = 0;
+	while (s[i])
+	{
+		k = 0;
+		{
+			while (s[i] && s[i] != '<' && s[i] != '>' && s[i] != '|' && s[i] != '&' && s[i] != '"' && s[i] != '\'' && s[i] != '(' && s[i] != 32)
+			{
+				i++;
+				k++;
+			}
+			while (s[i] == 32)
+				i++;
+		}
+		if (k != 0)
+			count++;
+		l = 0;
+		while (METAS[l])
+		{
+			if (s[i] == METAS[l])
+			{
+				count++;
+				i++;
+				if (s[i] == METAS[l])
+					i++;
+				break;
+			}
+			l++;
+		}
+		if (s[i] == '"')
+		{
+			if (s[i - 1] == 32 || s[i - 1] == '|' || s[i - 1] == '&' || s[i - 1] == '>' || s[i - 1] == '<')
+				count++;
+			i++;
+			while (s[i] != '"')
+				i++;
+			i++;
+		}
+		if (s[i] == '\'')
+		{
+			if (s[i - 1] == 32 || s[i - 1] == '|' || s[i - 1] == '&' || s[i - 1] == '>' || s[i - 1] == '<')
+				count++;
+			i++;
+			while (s[i] != '\'')
+				i++;
+			i++;
+		}
+		if (s[i] == '(')
+		{
+			k = 1;
+			while (k > 0) // (a) -> 1 yapı, ((a)) -> 1 yapı olmalıdır bu yüzden eklendi.
+			{
+				while (s[i] && s[i] != ')')
+				{
+					if (s[i] == '(')
+						k++;
+					i++;
+				}
+				i++;
+				k--;
+			}
+			count++;
+		}
+	}
+	return (count);
+}
+
+char	*array_alloc(char *s)
+{
+	char	*new;
+	int		i;
+	int		l;
+	printf("...%c\n", s[0]);
+	i = 0;
+	if ((s[i] == '<' && s[i + 1] == '<') || (s[i] == '>' && s[i + 1] == '>') || s[i] == '|' || s[i] == '&')
+		i = 2;
+	else if  (s[i] == '<' || s[i] == '>')
+		i++;
+	else if (s[i] == '"')
+	{
+		i++;
+		while (s[i] != '"')
+			i++;
+		i++;
+	}
+	else if (s[i] == '\'')
+	{
+		i++;
+		while (s[i] != '\'')
+			i++;
+		i++;
+	}
+	else if (s[i] == '(')
+	{
+		int k = 1;
+		while (k > 0)
+		{
+			while (s[i] != ')')
+			{
+				if (s[i] == '(')
+					k++;
+				i++;
+			}
+			k--;
+		}
+		i++;
+	}
+	else
+	{
+		while (s[i] && s[i] != '<' && s[i] != '>' && s[i] != '|' && s[i] != '&' && s[i] != '(' && s[i] != 32)
+			i++;
+		if (s[i] == '"' && s[i] == '\'')
+		{
+			i++;
+			while (s[i] != '"' && s[i] != '\'')
+				i++;
+		}
+	}
+	printf("-->> %d\n", i);
+	new = (char *)malloc(sizeof(char) * (i + 1));
+	l = i;
+	i = 0;
+	while (i < l)
+	{
+		new[i] = s[i];
+		i++;
+	}
+	new[i] = '\0';
+	return (new);
+}
+
+char	**array_split(char *s)
+{
+	char	**new;
+	int		wordc;
+	int		l;
+	int		i;
+
+	wordc = array_word_count(s);
+	printf("%d\n", wordc);
+	new = (char **)malloc(sizeof(char *) * (wordc + 1));
+	l = 0;
+	i = 0;
+	while (s[l])
+	{
+		if (s[l])
+		{
+			new[i] = array_alloc(&s[l]);
+			printf("                #%s#\n", new[i]);
+			i++;
+		}
+		if (s[l] == '<')
+		{
+			while (s[l] == '<')
+				l++;
+		}
+		else if (s[l] == '>')
+		{
+			while(s[l] == '>')
+				l++;
+		}
+		else if (s[l] == '|' || s[l] == '&')
+			l = l + 2;
+		else if (s[l] == '"')
+		{
+			l++;
+			while (s[l] != '"')
+				l++;
+			l++;
+		}
+		else if (s[l] == '\'')
+		{
+			l++;
+			while (s[l] != '\'')
+				l++;
+			l++;
+		}
+		else if (s[l] == '(')
+		{
+			int k = 1;
+			while (k > 0)
+			{
+				while (s[l] != ')')
+				{
+					if (s[l] == '(')
+						k++;
+					l++;
+				}
+				k--;
+			}
+			l++;
+		}
+		else
+		{
+			while (s[l] && s[l] != '<' && s[l] != '>' && s[l] != '|' && s[l] != '&' && s[l] != '(' && s[l] != 32)
+				l++;
+		}
+		while (s[l] == 32)
+			l++;
+		/*while (s[l] && s[l] != '<' && s[l] != '>' && s[l] != '|' && s[l] != '&' && s[l] != '"' && s[l] != '\'' && s[l] != '(' && s[l] != 32)
+			l++;
+		while (s[l] && (s[l] == '<' || s[l] == '>' || s[l] == '|' || s[l] == '&' || s[l] == 32))
+			l++;
+		int k = 1;
+		if (s[l] == '(')
+		{
+			while (k > 0)
+			{
+				while (s[l] && s[l] != ')')
+				{
+					if (s[l] == '(')
+						k++;
+					l++;
+				}
+				k--;
+			}
+			l++;
+		}
+		if (s[l] == '"')
+		{
+			l++;
+			while (s[l] != '"')
+				l++;
+			l++;
+		}
+		if (s[l] == '\'')
+		{
+			l++;
+			while (s[l] != '\'')
+				l++;
+			l++;
+		}*/
+	}
+	new[i] = NULL;
+	return (new);
+}
+
+void	ft_command_find(t_base *base, char *pipe_line)
+{
+	base->array_line = array_split(pipe_line);
+	
+	//ft_free(base->array_line);
+	exit(0);
+}
 
 /**
  * @brief 
@@ -29,11 +292,11 @@ void	ft_fork(t_base *base)
 	while (l < base->split_count)
 	{
 		base->pid[l] = fork();
-		if (base->pid[l] != 0 && base->array_line[l]) // base->array_line[l], enter girdisi sonrasında hata döndürdüğünden dolayı koşul eklendi.
+		if (base->pid[l] != 0 && base->pipe_line[l]) // base->array_line[l], enter girdisi sonrasında hata döndürdüğünden dolayı koşul eklendi.
 		{
-			err = access(ft_path(base->PATH, base->array_line[l]), 0);
+			err = access(ft_path(base->PATH, base->pipe_line[l]), 0);
 			if (err == -1)
-				printf("FORK: Error\n");
+				printf("%c", '\0');
 		}
 		if (base->pid[l] == 0)
 		{
@@ -67,11 +330,13 @@ void	ft_fork(t_base *base)
 				close(base->fd[i][1]);
 				i++;
 			}
-			char *görkem = ft_path(base->PATH, base->array_line[l]);
+			
+			/*char *görkem = ft_path(base->PATH, base->pipe_line[l]);
 				if (görkem != NULL)
-					execve(ft_path(base->PATH, base->array_line[l]), ft_split(base->array_line[l], ' '), base->environ);
+					execve(ft_path(base->PATH, base->pipe_line[l]), ft_split(base->pipe_line[l], ' '), base->environ);
 				else
-					exit(0);
+					exit(0);*/
+			ft_command_find(base, base->pipe_line[l]);
 		}
 		l++;
 	}

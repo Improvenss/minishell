@@ -6,7 +6,7 @@
 /*   By: akaraca <akaraca@student.42.tr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/26 16:37:09 by akaraca           #+#    #+#             */
-/*   Updated: 2022/09/28 12:58:52 by akaraca          ###   ########.fr       */
+/*   Updated: 2022/09/29 14:36:29 by akaraca          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
  * @param s 
  * @return size_t 
  */
-size_t	word_count(char *s)
+size_t	pipe_word_count(char *s)
 {
 	size_t	count;
 	size_t	i;
@@ -54,7 +54,7 @@ size_t	word_count(char *s)
  * @param s 
  * @return char* Pipe(|)'dan bağımsız stringler döndürülür.
  */
-char	*alloc(char *s)
+char	*pipe_alloc(char *s)
 {
 	char	*new;
 	int		i;
@@ -112,11 +112,11 @@ char	*alloc(char *s)
  * 			durumu belirtilmelidir.
  * 
  * @param s base->input_line değeri gelmektedir.
- * @fn word_count(); Stringin pipe'a bölümü durumda 
+ * @fn pipe_word_count(); Stringin pipe'a bölümü durumda 
  * 	kaç parçaya ayrılacağını değeri bulunmaktadır.
- * @fn alloc(); Oluşturulan 2 boyutlu array'in içeriğini oluşturmak için 
+ * @fn pipe_alloc(); Oluşturulan 2 boyutlu array'in içeriğini oluşturmak için 
  * 	yönlendirilen fonk.'dur.
- * @return char** base->input_line ---> base->array_line
+ * @return char** base->input_line ---> base->pipe_line
  */
 char	**pipe_split(char *s)
 {
@@ -125,7 +125,7 @@ char	**pipe_split(char *s)
 	int		l;
 	int		i;
 
-	wordc = word_count(s);
+	wordc = pipe_word_count(s);
 	new = (char **)malloc(sizeof(char *) * (wordc + 1));
 	l = 0;
 	i = 0;
@@ -135,7 +135,7 @@ char	**pipe_split(char *s)
 			l++;
 		if (s[l])
 		{
-			new[i] = alloc(&s[l]);
+			new[i] = pipe_alloc(&s[l]);
 			i++;
 		}
 		while (s[l] && (s[l] != '|' || (s[l] == '|' \
