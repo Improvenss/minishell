@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akaraca <akaraca@student.42.tr>            +#+  +:+       +#+        */
+/*   By: gsever <gsever@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/23 17:19:14 by gsever            #+#    #+#             */
-/*   Updated: 2022/09/28 17:11:01 by akaraca          ###   ########.fr       */
+/*   Updated: 2022/09/30 12:18:15 by gsever           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,16 +118,16 @@ char	*delete_space(char *str, int i, int k, int l)
 	char	*tmp;
 
 	l = ft_strlen(str);
-	while (str[i] == 32 && str[i])
+	while (str[i] == 32 && str[i] && look_the_quote(str, i))
 		i++;
-	while (str[l] == 32 && str[l])
+	while (str[l] == 32 && str[l] && look_the_quote(str, l))
 		l--;
 	tmp = (char *)malloc(sizeof(char) * (l - i));
 	if (!tmp)
 		return (NULL);
 	while (str[i] && i <= l)
 	{
-		while (str[i - 1] == 32 && str[i] == 32)
+		while (str[i - 1] == 32 && str[i] == 32 && look_the_quote(str, i))
 			i++;
 		tmp[k] = str[i];
 		k++;

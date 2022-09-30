@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   syntax_redirection.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akaraca <akaraca@student.42.tr>            +#+  +:+       +#+        */
+/*   By: gsever <gsever@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/28 13:42:34 by akaraca           #+#    #+#             */
-/*   Updated: 2022/09/28 14:54:11 by akaraca          ###   ########.fr       */
+/*   Updated: 2022/09/30 12:22:03 by gsever           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,10 @@ int	syntax_right(t_base *base, int i, int err)
 			err = 0;
 		if (base->input_line[i + 1] == '\0' \
 		|| (base->input_line[i + 1] == 32 && base->input_line[i + 2] == '\0'))
+			err = 0;
+		if (base->input_line[i + 1] == ')' || ft_strncmp_edited(&base->input_line[i + 1], " )", 2))
+			err = 0;
+		if (base->input_line[i - 1] == '(' || ft_strncmp_edited(&base->input_line[i - 2], "( ", 2))
 			err = 0;
 	}
 	return (err);

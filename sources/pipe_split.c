@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe_split.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akaraca <akaraca@student.42.tr>            +#+  +:+       +#+        */
+/*   By: gsever <gsever@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/26 16:37:09 by akaraca           #+#    #+#             */
-/*   Updated: 2022/09/29 14:36:29 by akaraca          ###   ########.fr       */
+/*   Updated: 2022/09/30 14:00:41 by gsever           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,18 +60,26 @@ char	*pipe_alloc(char *s)
 	int		i;
 
 	i = 0;
-	while (s[i] && (s[i] != '|' \
-	|| (s[i] == '|' && (s[i - 1] == '|' || s[i + 1] == '|'))))
+	while (s[i] != '\0' && (s[i] != '|' || (s[i] == '|' && (s[i - 1] == '|' || s[i + 1] == '|'))))
+	{
+		printf("#%c#\n", s[i]);
+		if (s[i] == 32 && s[i + 1] == '\0')
+			break;
 		i++;
+	}
+	printf("new[%d]:\n", i);
 	new = (char *)malloc(sizeof(char) * (i + 1));
 	i = 0;
-	while (s[i] && (s[i] != '|' \
+	while (s[i] != '\0' && (s[i] != '|' \
 	|| (s[i] == '|' && (s[i - 1] == '|' || s[i + 1] == '|'))))
 	{
+		if (s[i] == 32 && s[i + 1] == '\0')
+			break;
 		new[i] = s[i];
 		i++;
 	}
 	new[i] = '\0';
+	printf("new[%d]: %s\n", i, new);
 	return (new);
 }
 

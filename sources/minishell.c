@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akaraca <akaraca@student.42.tr>            +#+  +:+       +#+        */
+/*   By: gsever <gsever@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/23 14:45:01 by gsever            #+#    #+#             */
-/*   Updated: 2022/09/28 16:55:04 by akaraca          ###   ########.fr       */
+/*   Updated: 2022/09/30 14:00:27 by gsever           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ void	minishell(void)
 			base.input_line = readline(T_NAME);
 		if (base.input_line == NULL)
 		{
-			printf("exit\n");
+			printf(RED"exit\n"END);
 			rl_clear_history();
 			exit(0);
 		}

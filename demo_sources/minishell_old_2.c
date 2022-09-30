@@ -3,15 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   minishell_old_2.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akaraca <akaraca@student.42.tr>            +#+  +:+       +#+        */
+/*   By: gsever <gsever@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/17 10:57:07 by akaraca           #+#    #+#             */
-/*   Updated: 2022/09/28 13:21:43 by akaraca          ###   ########.fr       */
+/*   Updated: 2022/09/30 13:28:31 by gsever           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include "../includes/minishell.h"
-*/
+
 t_main	g_main;
 /*
 // gcc minishell.c ../includes/minishell.h -lreadline && ./a.out

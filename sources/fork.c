@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fork.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akaraca <akaraca@student.42.tr>            +#+  +:+       +#+        */
+/*   By: gsever <gsever@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/28 14:47:36 by akaraca           #+#    #+#             */
-/*   Updated: 2022/09/29 17:04:40 by akaraca          ###   ########.fr       */
+/*   Updated: 2022/09/30 14:00:39 by gsever           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,21 +61,25 @@ size_t	array_word_count(char *s)
 		}
 		if (s[i] == '"')
 		{
-			if (s[i - 1] == 32 || s[i - 1] == '|' || s[i - 1] == '&' || s[i - 1] == '>' || s[i - 1] == '<')
+			if (s[i - 1] == 32 || s[i - 1] == '|' || s[i - 1] == '&' || s[i - 1] == '>' || s[i - 1] == '<' || i == 0)
 				count++;
 			i++;
 			while (s[i] != '"')
 				i++;
 			i++;
+			while (s[i] && s[i] != '<' && s[i] != '>' && s[i] != '|' && s[i] != '&' && s[i] != '(' && s[i] != 32)
+				i++;
 		}
 		if (s[i] == '\'')
 		{
-			if (s[i - 1] == 32 || s[i - 1] == '|' || s[i - 1] == '&' || s[i - 1] == '>' || s[i - 1] == '<')
+			if (s[i - 1] == 32 || s[i - 1] == '|' || s[i - 1] == '&' || s[i - 1] == '>' || s[i - 1] == '<' || i == 0)
 				count++;
 			i++;
 			while (s[i] != '\'')
 				i++;
 			i++;
+			while (s[i] && s[i] != '<' && s[i] != '>' && s[i] != '|' && s[i] != '&' && s[i] != '(' && s[i] != 32)
+				i++;
 		}
 		if (s[i] == '(')
 		{
@@ -102,7 +106,7 @@ char	*array_alloc(char *s)
 	char	*new;
 	int		i;
 	int		l;
-	printf("...%c\n", s[0]);
+	//printf("...%c\n", s[0]);
 	i = 0;
 	if ((s[i] == '<' && s[i + 1] == '<') || (s[i] == '>' && s[i + 1] == '>') || s[i] == '|' || s[i] == '&')
 		i = 2;
@@ -112,15 +116,27 @@ char	*array_alloc(char *s)
 	{
 		i++;
 		while (s[i] != '"')
+		{
 			i++;
+			if (s[i] == '"' && s[i + 1] == '"') // "aasdadasda""asdasdasdsada" 
+				i = i + 2;
+		}
 		i++;
+		while (s[i] && s[i] != '<' && s[i] != '>' && s[i] != '|' && s[i] != '&' && s[i] != '(' && s[i] != 32)
+			i++;
 	}
 	else if (s[i] == '\'')
 	{
 		i++;
 		while (s[i] != '\'')
+		{
 			i++;
+			if (s[i] == '\'' && s[i + 1] == '\'') // 'a''b'
+				i = i + 2;
+		}
 		i++;
+		while (s[i] && s[i] != '<' && s[i] != '>' && s[i] != '|' && s[i] != '&' && s[i] != '(' && s[i] != 32)
+			i++;
 	}
 	else if (s[i] == '(')
 	{
@@ -148,7 +164,7 @@ char	*array_alloc(char *s)
 				i++;
 		}
 	}
-	printf("-->> %d\n", i);
+	//printf("-->> %d\n", i);
 	new = (char *)malloc(sizeof(char) * (i + 1));
 	l = i;
 	i = 0;
@@ -169,7 +185,7 @@ char	**array_split(char *s)
 	int		i;
 
 	wordc = array_word_count(s);
-	printf("%d\n", wordc);
+	//printf("%d\n", wordc);
 	new = (char **)malloc(sizeof(char *) * (wordc + 1));
 	l = 0;
 	i = 0;
@@ -178,7 +194,7 @@ char	**array_split(char *s)
 		if (s[l])
 		{
 			new[i] = array_alloc(&s[l]);
-			printf("                #%s#\n", new[i]);
+			//printf("                #%s#\n", new[i]);
 			i++;
 		}
 		if (s[l] == '<')
@@ -197,15 +213,27 @@ char	**array_split(char *s)
 		{
 			l++;
 			while (s[l] != '"')
+			{
 				l++;
+				if (s[l] == '"' && s[l + 1] == '"') // "aasdadasda""asdasdasdsada" 
+					l = l + 2;
+			}
 			l++;
+			while (s[l] && s[l] != '<' && s[l] != '>' && s[l] != '|' && s[l] != '&' && s[l] != '(' && s[l] != 32)
+				l++;
 		}
 		else if (s[l] == '\'')
 		{
 			l++;
 			while (s[l] != '\'')
+			{
 				l++;
+				if (s[l] == '\'' && s[l + 1] == '\'') // 'a''b'
+					l = l + 2;
+			}
 			l++;
+			while (s[l] && s[l] != '<' && s[l] != '>' && s[l] != '|' && s[l] != '&' && s[l] != '(' && s[l] != 32)
+				l++;
 		}
 		else if (s[l] == '(')
 		{
@@ -229,49 +257,70 @@ char	**array_split(char *s)
 		}
 		while (s[l] == 32)
 			l++;
-		/*while (s[l] && s[l] != '<' && s[l] != '>' && s[l] != '|' && s[l] != '&' && s[l] != '"' && s[l] != '\'' && s[l] != '(' && s[l] != 32)
-			l++;
-		while (s[l] && (s[l] == '<' || s[l] == '>' || s[l] == '|' || s[l] == '&' || s[l] == 32))
-			l++;
-		int k = 1;
-		if (s[l] == '(')
-		{
-			while (k > 0)
-			{
-				while (s[l] && s[l] != ')')
-				{
-					if (s[l] == '(')
-						k++;
-					l++;
-				}
-				k--;
-			}
-			l++;
-		}
-		if (s[l] == '"')
-		{
-			l++;
-			while (s[l] != '"')
-				l++;
-			l++;
-		}
-		if (s[l] == '\'')
-		{
-			l++;
-			while (s[l] != '\'')
-				l++;
-			l++;
-		}*/
 	}
 	new[i] = NULL;
 	return (new);
 }
 
+
+void	ft_echo_print(t_base *base, int word)
+{
+	int	i;
+	int	k;
+
+	i = word;
+	k = 1;
+	while (ft_strncmp_edited(base->array_line[i], "-n", 2))
+	{
+		i++;
+		k = 0;
+	}
+	if (base->array_line[i] == NULL	)
+		printf("%c", '\0');
+	else
+	{
+		while (base->array_line[i + 1])
+			printf("%s ", base->array_line[i++]);
+		printf("%s", base->array_line[i]);
+		if (k == 1)
+			printf("\n");
+		else
+			printf("%c", '\0');
+	}
+}
+
+void	ft_echo_command(t_base *base)
+{
+
+	if(base->array_line[1] == NULL)
+		printf("\n");
+	else
+		ft_echo_print(base, 1);
+}
+
 void	ft_command_find(t_base *base, char *pipe_line)
 {
+	printf("%s\n", pipe_line);
 	base->array_line = array_split(pipe_line);
-	
-	//ft_free(base->array_line);
+	/*int i = 0;
+	while (base->array_line[i])
+	{
+		printf("%s\n", base->array_line[i++]);
+	}*/
+	if (base->array_line[0] == NULL)
+		printf("%c",'\0');
+	else if (ft_strncmp_edited(base->array_line[0], "echo", 4))
+		ft_echo_command(base);
+	else
+	{
+		int pi = fork();
+		if (pi == 0)
+		{
+			execve(ft_path(base->PATH, base->array_line[0]), base->array_line, base->environ);
+		}
+		waitpid(pi, 0, 0);
+	}
+	ft_free(base->array_line);
 	exit(0);
 }
 
