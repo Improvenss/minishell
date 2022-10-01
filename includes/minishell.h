@@ -6,7 +6,7 @@
 /*   By: gsever <gsever@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/23 14:43:17 by gsever            #+#    #+#             */
-/*   Updated: 2022/09/30 13:28:23 by gsever           ###   ########.fr       */
+/*   Updated: 2022/10/01 17:25:50 by gsever           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -185,9 +185,11 @@ https://www.ibm.com/docs/en/i/7.5?topic=functions-fputs-write-string#fputs
  */
 # include <readline/history.h> /*
 	add_history()	-> 
-	*/
+*/
 # include <pthread.h> /*
-	*/
+*/
+# include <errno.h> /*
+*/
 // # include <term.h> /*
 // 	*/
 
@@ -216,10 +218,14 @@ https://www.ibm.com/docs/en/i/7.5?topic=functions-fputs-write-string#fputs
 //note: terminal isminin basina/sonuna renk kodlarini eklersek ust uste biniyor
 # define T_NAME		"$> "
 # define METAS		"<>|&"
+# define ERROR		-1
 
 /* ************************************************************************** */
 /* STRUCT DEFINES AREA													  	  */
 /* ************************************************************************** */
+
+// global error array.
+// int	g_err[];
 
 typedef struct s_base	t_base;
 
@@ -230,7 +236,7 @@ typedef struct s_syntax_brackets
 	int		left;
 	int		right;
 	int		last;
-}		t_syntax_brackets;
+}		t_s_brackets;
 
 typedef struct s_syntax_quote
 {
@@ -240,7 +246,7 @@ typedef struct s_syntax_quote
 	int		last;
 	int		lenght;
 	int		count;
-}		t_syntax_quote;
+}		t_s_quote;
 
 /**
  * @brief Main structure for project.
@@ -250,9 +256,8 @@ typedef struct s_syntax_quote
  */
 typedef struct s_base
 {
-	t_syntax_quote		sq;
-	t_syntax_brackets	sb;
-
+	t_s_brackets	sb;
+	t_s_quote		sq;
 	int				*pid;
 	int				**fd;
 	int				split_count;
@@ -270,6 +275,9 @@ typedef struct s_base
 // action.c
 void	action(int sig);
 
+// error.c
+int		print_error(char *s1, char *s2, char *s3, char *message);
+
 // fork.c
 
 char	**array_split(char *pipe_line);
@@ -286,7 +294,7 @@ void	init_syntax_brackets(t_base *base);
 void	init_syntax_quote(t_base *base);
 
 // minishell.c
-void	set_argument(t_base *base);
+int		set_argument(t_base *base);
 void	minishell(void);
 
 // pipe_split.c

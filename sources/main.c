@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akaraca <akaraca@student.42.tr>            +#+  +:+       +#+        */
+/*   By: gsever <gsever@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/23 14:44:43 by gsever            #+#    #+#             */
-/*   Updated: 2022/09/28 13:22:58 by akaraca          ###   ########.fr       */
+/*   Updated: 2022/10/01 17:27:27 by gsever           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,6 +101,26 @@ lib:$LIBRARY_PATH"' >> ~/.zshrc
 	Onları düzeltmek zorunda değilsin.
 	Ancak bu kendi kodunuz anlamına gelmez,
 	evet yazdığınız kodda bellek sızıntısı olabilir.
+	
+> Meanings -> lexer -> parser -> expander -> executor
+	LEXER: -> -Tarayici-
+Sözcük, anlamsız dizeyi "sayı değişmezi",
+ "dize değişmezi", "tanımlayıcı" veya "işleç" gibi düz bir
+ listeye dönüştürür ve ayrılmış tanımlayıcıları ("anahtar kelimeler")
+ tanımak ve boşlukları atmak gibi şeyler yapabilir.
+Bunlara tarayıcısız ayrıştırıcılar denir. Bir lexer(sozluk) ve
+ bir parser(ayristirici) sırayla çalışır: sözcü girdiyi tarar
+ ve eşleşen simgeleri üretir, ayrıştırıcı daha sonra simgeleri tarar ve
+ ayrıştırma sonucunu üretir.
+	PARSER: -> -Ayristirici-
+Ayrıştırıcı, başka bir dile kolay çeviri için verileri daha küçük öğelere ayıran bir derleyici veya yorumlayıcı bileşenidir. Ayrıştırıcı, bir dizi belirteç, etkileşimli komutlar veya program talimatları biçiminde girdi alır ve bunları diğer bileşenler tarafından programlamada kullanılabilecek parçalara ayırır.
+				DIFFERENCE - FARKLARI
+	Lexer, sözcük analizi yapan bir yazılım programıdır.
+ ... Ayrıştırıcı, sözcüden bir düzey daha ileri gider ve sözcü tarafından
+ üretilen belirteçleri alır ve uygun tümcelerin oluşturulup oluşturulmadığını
+ belirlemeye çalışır. Ayrıştırıcılar dilbilgisi düzeyinde,
+ sözlükler sözcük düzeyinde çalışır.
+	EXPANDER: -> 
  * 
  * @return int 
  */

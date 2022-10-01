@@ -6,7 +6,7 @@
 /*   By: gsever <gsever@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/23 14:45:01 by gsever            #+#    #+#             */
-/*   Updated: 2022/09/30 14:00:27 by gsever           ###   ########.fr       */
+/*   Updated: 2022/10/01 17:27:23 by gsever           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,15 +18,22 @@
  * 		! "extern char" env yapısını bildirmeye yarıyor.
  * 
  * @param base 
+ * @fn ft_split()
+ * @fn env_findret()
+ * @fn print_error()
+ * @fn strerror()
+ * @return int -> for error code.
  */
-void	set_argument(t_base *base)
+int	set_argument(t_base *base)
 {
 	extern char	**environ;
 
 	base->environ = environ;
 	base->PATH = ft_split(env_findret("PATH=", base), ':');
+	if (base->PATH == NULL)
+		return (print_error(T_NAME, NULL, NULL, strerror(ENOMEM)));
+	return (0);
 }
-
 /**
  * @brief Starting here.
  * 
@@ -35,13 +42,14 @@ void	set_argument(t_base *base)
  * NOTE: CTRL+D -> readline = NULL oluyor, NULL kontrolunu yaparak exit();
  * NOTE: 
  * @fn 
- * @not CTRL+C yapildiginda ^C yaziyor onu yazdirmamamiz lazim.
+ * @note CTRL+C yapildiginda ^C yaziyor onu yazdirmamamiz lazim.
  */
 void	minishell(void)
 {
 	t_base	base;
 
-	set_argument(&base);
+	if (set_argument(&base) == ERROR)
+		exit(EXIT_FAILURE);
 	signal(SIGQUIT, SIG_IGN);
 	while (1)
 	{
@@ -50,7 +58,7 @@ void	minishell(void)
 			base.input_line = readline(T_NAME);
 		if (base.input_line == NULL)
 		{
-			printf(RED"exit\n"END);
+			ft_putendl_fd(RED"exit"END, STDERR_FILENO);
 			rl_clear_history();
 			exit(0);
 		}
