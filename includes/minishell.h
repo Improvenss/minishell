@@ -6,7 +6,7 @@
 /*   By: gsever <gsever@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/23 14:43:17 by gsever            #+#    #+#             */
-/*   Updated: 2022/10/01 17:25:50 by gsever           ###   ########.fr       */
+/*   Updated: 2022/10/01 21:59:54 by gsever           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -229,6 +229,12 @@ https://www.ibm.com/docs/en/i/7.5?topic=functions-fputs-write-string#fputs
 
 typedef struct s_base	t_base;
 
+struct s_commands
+{
+	char	*name;
+	int		(*func)(t_base *base);
+};
+
 typedef struct s_syntax_brackets
 {
 	t_base	*base;
@@ -275,14 +281,24 @@ typedef struct s_base
 // action.c
 void	action(int sig);
 
+// cmd_cd.c
+int		cmd_cd(t_base *base __attribute((unused)));
+
+// cmd_echo.c
+void	cmd_echo_print(t_base *base, int word);
+int		cmd_echo(t_base *base);
+
+// command.c
+int		command_find_arr(t_base *base, char *pipe_line);
+int		command_exec(t_base *base, char *pipe_line);
+void	command_find(t_base *base, char *pipe_line);
+
 // error.c
 int		print_error(char *s1, char *s2, char *s3, char *message);
 
 // fork.c
 
 char	**array_split(char *pipe_line);
-void	ft_command_find(t_base *base, char *pipe_line);
-
 void	ft_fork(t_base *base);
 void	ft_fd(t_base *base);
 

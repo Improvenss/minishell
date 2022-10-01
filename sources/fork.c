@@ -6,7 +6,7 @@
 /*   By: gsever <gsever@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/28 14:47:36 by akaraca           #+#    #+#             */
-/*   Updated: 2022/09/30 14:00:39 by gsever           ###   ########.fr       */
+/*   Updated: 2022/10/01 22:08:26 by gsever           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -262,68 +262,6 @@ char	**array_split(char *s)
 	return (new);
 }
 
-
-void	ft_echo_print(t_base *base, int word)
-{
-	int	i;
-	int	k;
-
-	i = word;
-	k = 1;
-	while (ft_strncmp_edited(base->array_line[i], "-n", 2))
-	{
-		i++;
-		k = 0;
-	}
-	if (base->array_line[i] == NULL	)
-		printf("%c", '\0');
-	else
-	{
-		while (base->array_line[i + 1])
-			printf("%s ", base->array_line[i++]);
-		printf("%s", base->array_line[i]);
-		if (k == 1)
-			printf("\n");
-		else
-			printf("%c", '\0');
-	}
-}
-
-void	ft_echo_command(t_base *base)
-{
-
-	if(base->array_line[1] == NULL)
-		printf("\n");
-	else
-		ft_echo_print(base, 1);
-}
-
-void	ft_command_find(t_base *base, char *pipe_line)
-{
-	printf("%s\n", pipe_line);
-	base->array_line = array_split(pipe_line);
-	/*int i = 0;
-	while (base->array_line[i])
-	{
-		printf("%s\n", base->array_line[i++]);
-	}*/
-	if (base->array_line[0] == NULL)
-		printf("%c",'\0');
-	else if (ft_strncmp_edited(base->array_line[0], "echo", 4))
-		ft_echo_command(base);
-	else
-	{
-		int pi = fork();
-		if (pi == 0)
-		{
-			execve(ft_path(base->PATH, base->array_line[0]), base->array_line, base->environ);
-		}
-		waitpid(pi, 0, 0);
-	}
-	ft_free(base->array_line);
-	exit(0);
-}
-
 /**
  * @brief 
  * 
@@ -385,7 +323,9 @@ void	ft_fork(t_base *base)
 					execve(ft_path(base->PATH, base->pipe_line[l]), ft_split(base->pipe_line[l], ' '), base->environ);
 				else
 					exit(0);*/
-			ft_command_find(base, base->pipe_line[l]);
+			printf("forktan sonra girdi\n");
+			if (command_exec(base, base->pipe_line[l]) == ERROR)
+				print_error(T_NAME, NULL, NULL, "command_exec not working!\n");
 		}
 		l++;
 	}
