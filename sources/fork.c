@@ -6,7 +6,7 @@
 /*   By: gsever <gsever@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/28 14:47:36 by akaraca           #+#    #+#             */
-/*   Updated: 2022/10/01 22:08:26 by gsever           ###   ########.fr       */
+/*   Updated: 2022/10/03 16:26:55 by gsever           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -317,16 +317,17 @@ void	ft_fork(t_base *base)
 				close(base->fd[i][1]);
 				i++;
 			}
-			
 			/*char *görkem = ft_path(base->PATH, base->pipe_line[l]);
 				if (görkem != NULL)
 					execve(ft_path(base->PATH, base->pipe_line[l]), ft_split(base->pipe_line[l], ' '), base->environ);
 				else
 					exit(0);*/
-			printf("forktan sonra girdi\n");
 			if (command_exec(base, base->pipe_line[l]) == ERROR)
-				print_error(T_NAME, NULL, NULL, "command_exec not working!\n");
+				print_error(SHELL_NAME, NULL, NULL, "command_exec not working!\n");
+			exit(0);
 		}
+		waitpid(base->pid[l], &base->status, 0);
+		// printf("%d\n", base->status);
 		l++;
 	}
 	i = 0;

@@ -6,7 +6,7 @@
 /*   By: gsever <gsever@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/23 17:19:14 by gsever            #+#    #+#             */
-/*   Updated: 2022/09/30 12:18:15 by gsever           ###   ########.fr       */
+/*   Updated: 2022/10/03 19:04:27 by gsever           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ char	*ft_path(char **path, char *tmp)
 }
 
 /**
- * @brief exter char **env yapısı, struct yapısına atandığından,
+ * @brief extern char **env yapısı, struct yapısına atandığından,
  * 		yapı içerisindeki verileri çekebilmek için bu fonk. kullanılmaktadır.
  * 
  * @param env_name "OLDPWD=", "PWD=", "HOME="... gibi 

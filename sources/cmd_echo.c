@@ -6,7 +6,7 @@
 /*   By: gsever <gsever@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/01 17:36:40 by gsever            #+#    #+#             */
-/*   Updated: 2022/10/01 22:02:16 by gsever           ###   ########.fr       */
+/*   Updated: 2022/10/03 19:45:26 by gsever           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,45 +25,115 @@
  */
 #include "../includes/minishell.h"
 
-/**
- * @brief 
- * 
- * @param base 
- * @param word 
- */
-void	cmd_echo_print(t_base *base, int word)
+/*char	*env_echo_writer(t_base *base, int i, int first, int l)
 {
-	int	i;
-	int	k;
+	int	o;
+	int	c;
+	int	count;
+	int	rest;
 
-	i = word;
-	k = 1;
-	while (ft_strncmp_edited(base->array_line[i], "-n", 2))
+	o = -1;
+	rest = first;
+	while (base->environ[++o])
 	{
-		i++;
-		k = 0;
+		c = -1;
+		count = 0;
+		first = rest;
+		while (base->environ[o][++c])
+		{
+			if (base->environ[o][count] == base->array_line[i][first] \
+			&& first <= l)
+			{
+				count++;
+				first++;
+			}
+			if ((base->array_line[i][first] == '\0' \
+			|| base->array_line[i][first] == '$')
+			&& base->environ[o][count] == '='
+			&& base->array_line[i][l] != '-')
+			{
+				return (&base->environ[o][++count]);
+			}
+		}
 	}
-	if (base->array_line[i] == NULL	)
-		printf("%c", '\0');
-	else
+	return (NULL);
+}*/
+
+int	cmd_echo_dolar(t_base *base, int i, int l)
+{
+	int		first;
+	char	*env_name;
+	int		count;
+	
+	if (base->array_line[i][l] == '\0')
 	{
-		while (base->array_line[i + 1])
-			printf("%s ", base->array_line[i++]);
-		printf("%s", base->array_line[i]);
-		if (k == 1)
-			printf("\n");
-		else
-			printf("%c", '\0');
+		write(1, "$", 1);
+		return (l);
+	}
+	first = l;
+	while (base->array_line[i][l] != '\0'
+		&& base->array_line[i][l] != '$' && base->array_line[i][l] != '-')
+		l++;
+	env_name = (char *)malloc(sizeof(char) * (l - first + 2));
+	l = first;
+	count = 0;
+	while (base->array_line[i][l] != '\0' && base->array_line[i][l] != '$' && base->array_line[i][l] != '-')
+	{
+		env_name[count] = base->array_line[i][l];
+		l++;
+		count++;
+	}
+	env_name[count++] = '=';
+	env_name[count] = '\0';
+	ft_putstr_fd(env_findret(env_name, base), 1);
+	//ft_putstr_fd(env_echo_writer(base, i, first, l), 1);
+	return (l);
+}
+
+void	cmd_echo_print(t_base *base, int i)
+{
+	int	l;
+
+	while (base->array_line[i])
+	{
+		l = 0;
+		while (base->array_line[i][l])
+		{
+			if (base->array_line[i][l] == '$')
+			{
+				l = cmd_echo_dolar(base, i, ++l);
+				continue;
+			}
+			write(1, &base->array_line[i][l], 1);
+			l++;
+		}
+		if (base->array_line[i + 1])
+			write(1, " ", 1);
+		i++;
 	}
 }
 
 int	cmd_echo(t_base *base)
 {
+	int		i;
+	bool	new_line;
 
+	i = 0;
 	if(base->array_line[1] == NULL)
 		printf("\n");
 	else
-		cmd_echo_print(base, 1);
-	printf("We are inside echo command!!\n");
+	{
+		new_line = true;
+		while (ft_strncmp_edited(base->array_line[++i], "-n", 2))
+			new_line = false;
+		if (base->array_line[i] == NULL)
+			printf("%c", '\0');
+		else
+		{
+			cmd_echo_print(base, i);
+			if (new_line)
+				printf("\n");
+		}
+	}
 	return (0);
 }

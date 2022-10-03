@@ -6,7 +6,7 @@
 /*   By: gsever <gsever@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/23 14:43:17 by gsever            #+#    #+#             */
-/*   Updated: 2022/10/01 21:59:54 by gsever           ###   ########.fr       */
+/*   Updated: 2022/10/03 19:34:32 by gsever           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -217,6 +217,7 @@ https://www.ibm.com/docs/en/i/7.5?topic=functions-fputs-write-string#fputs
 
 //note: terminal isminin basina/sonuna renk kodlarini eklersek ust uste biniyor
 # define T_NAME		"$> "
+# define SHELL_NAME	"minishell"
 # define METAS		"<>|&"
 # define ERROR		-1
 
@@ -264,6 +265,7 @@ typedef struct s_base
 {
 	t_s_brackets	sb;
 	t_s_quote		sq;
+	int				status;
 	int				*pid;
 	int				**fd;
 	int				split_count;
@@ -285,19 +287,35 @@ void	action(int sig);
 int		cmd_cd(t_base *base __attribute((unused)));
 
 // cmd_echo.c
-void	cmd_echo_print(t_base *base, int word);
+//char	*env_echo_writer(t_base *base, int i, int first, int l);
+int		cmd_echo_dolar(t_base *base, int i, int l);
+void	cmd_echo_print(t_base *base, int i);
 int		cmd_echo(t_base *base);
+
+// cmd_exit.c
+int		cmd_exit(t_base *base);
+
+// cmd_other.c
+int		cmd_other(t_base *base, char *pipe_line);
+
+// cmd_pwd.c
+int		cmd_pwd(t_base *base);
 
 // command.c
 int		command_find_arr(t_base *base, char *pipe_line);
 int		command_exec(t_base *base, char *pipe_line);
-void	command_find(t_base *base, char *pipe_line);
 
 // error.c
 int		print_error(char *s1, char *s2, char *s3, char *message);
 
-// fork.c
+// fork_new.c
+void	ft_wait(t_base *base);
+void	fd_close(t_base *base);
+void	fork_dup(t_base *base, int i);
+int		fork_start(t_base *base, int i);
+int		fork_init(t_base *base);
 
+// fork.c
 char	**array_split(char *pipe_line);
 void	ft_fork(t_base *base);
 void	ft_fd(t_base *base);
