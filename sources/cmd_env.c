@@ -1,19 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cmd_pwd.c                                          :+:      :+:    :+:   */
+/*   cmd_env.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gsever <gsever@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/03 12:04:05 by gsever            #+#    #+#             */
-/*   Updated: 2022/10/04 11:44:47 by gsever           ###   ########.fr       */
+/*   Created: 2022/10/04 12:48:48 by gsever            #+#    #+#             */
+/*   Updated: 2022/10/04 12:54:15 by gsever           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-int	cmd_pwd(t_base *base)
+int	cmd_env(t_base *base)
 {
-	printf("%s\n", env_findret("PWD=", base));
+	int	i;
+	
+	i = -1;
+	while (base->environ[++i])
+		printf("%s\n", base->environ[i]);
 	return (0);
 }

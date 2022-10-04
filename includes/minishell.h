@@ -6,7 +6,7 @@
 /*   By: gsever <gsever@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/23 14:43:17 by gsever            #+#    #+#             */
-/*   Updated: 2022/10/03 19:56:22 by gsever           ###   ########.fr       */
+/*   Updated: 2022/10/04 12:49:50 by gsever           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -265,6 +265,7 @@ typedef struct s_base
 {
 	t_s_brackets	sb;
 	t_s_quote		sq;
+	char			*cd_tmp;
 	int				status;
 	int				*pid;
 	int				**fd;
@@ -284,12 +285,16 @@ typedef struct s_base
 void	action(int sig);
 
 // cmd_cd.c
+void	set_env(t_base *base, char *env_name, char *new_str);
 int		cmd_cd(t_base *base __attribute((unused)));
 
 // cmd_echo.c
 int		cmd_echo_dolar(t_base *base, int i, int l);
 void	cmd_echo_print(t_base *base, int i);
 int		cmd_echo(t_base *base);
+
+// cmd_env.c
+int		cmd_env(t_base *base);
 
 // cmd_exit.c
 int		cmd_exit(t_base *base);
