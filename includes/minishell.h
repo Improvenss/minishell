@@ -6,7 +6,7 @@
 /*   By: gsever <gsever@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/23 14:43:17 by gsever            #+#    #+#             */
-/*   Updated: 2022/10/03 19:34:32 by gsever           ###   ########.fr       */
+/*   Updated: 2022/10/03 19:56:22 by gsever           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -287,7 +287,6 @@ void	action(int sig);
 int		cmd_cd(t_base *base __attribute((unused)));
 
 // cmd_echo.c
-//char	*env_echo_writer(t_base *base, int i, int first, int l);
 int		cmd_echo_dolar(t_base *base, int i, int l);
 void	cmd_echo_print(t_base *base, int i);
 int		cmd_echo(t_base *base);
