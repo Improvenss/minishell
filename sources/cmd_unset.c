@@ -1,29 +1,42 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cmd_env.c                                          :+:      :+:    :+:   */
+/*   cmd_unset.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gsever <gsever@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/04 12:48:48 by gsever            #+#    #+#             */
-/*   Updated: 2022/10/04 17:18:24 by gsever           ###   ########.fr       */
+/*   Created: 2022/10/04 17:19:53 by gsever            #+#    #+#             */
+/*   Updated: 2022/10/04 17:28:52 by gsever           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-int	cmd_env(t_base *base)
+int	cmd_unset(t_base *base)
 {
 	t_env	*tmp;
+	t_env	*before;
+	t_env	*del;
+	int		l;
 
-	tmp = base->env;
-	while (tmp != NULL)
+	l = 0;
+	while (base->array_line[++l] != NULL)
 	{
-		if (tmp->data[1] != NULL)
-			printf("%s=%s\n", tmp->data[0], tmp->data[1]);
-		else if (tmp->is_env_equal && tmp->data[1] == NULL)
-			printf("%s=\n", tmp->data[0]);
-		tmp = tmp->next;
+		tmp = base->env;
+		tmp->prev = NULL;
+		while (tmp != NULL && base->array_line[l] != NULL)
+		{
+			if (ft_strcmp_edited(base->array_line[l], tmp->data[0]) == 0)
+			{
+				del = tmp;
+				tmp->prev->next = tmp->next;
+				free(del->data);
+			}
+			before = tmp;
+			tmp = tmp->next;
+			if (tmp != NULL)
+				tmp->prev = before;
+		}
 	}
 	return (0);
 }

@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: gsever <gsever@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/04 13:32:48 by gsever            #+#    #+#             */
-/*   Updated: 2022/10/04 16:21:03 by gsever           ###   ########.fr       */
+/*   Created: 2022/10/04 17:30:15 by gsever            #+#    #+#             */
+/*   Updated: 2022/10/04 17:31:20 by gsever           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,9 @@ int	env_struct(t_base *base, char *new_arg)
 	new = (t_env *)malloc(sizeof(t_env));
 	if (!new)
 		return (ERROR);
+	new->is_env_equal = false;
+	if (ft_strncmp(new_arg, "=", 1))
+		new->is_env_equal = true;
 	new->data = ft_split(new_arg, '=');
 	new->next = NULL;
 	if (base->env == NULL)

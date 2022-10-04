@@ -6,7 +6,7 @@
 /*   By: gsever <gsever@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/23 14:43:17 by gsever            #+#    #+#             */
-/*   Updated: 2022/10/04 14:41:05 by gsever           ###   ########.fr       */
+/*   Updated: 2022/10/04 17:28:53 by gsever           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -239,6 +239,7 @@ struct s_commands
 typedef struct s_env
 {
 	char	**data;
+	bool	is_env_equal;
 	struct	s_env *next;
 	struct	s_env *prev;
 }		t_env;
@@ -316,6 +317,9 @@ int		cmd_other(t_base *base, char *pipe_line);
 
 // cmd_pwd.c
 int		cmd_pwd(t_base *base);
+
+// cmd_unset.c
+int		cmd_unset(t_base *base);
 
 // command.c
 int		command_find_arr(t_base *base, char *pipe_line);
