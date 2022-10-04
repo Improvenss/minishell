@@ -6,7 +6,7 @@
 /*   By: gsever <gsever@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/01 17:35:34 by gsever            #+#    #+#             */
-/*   Updated: 2022/10/04 13:22:19 by gsever           ###   ########.fr       */
+/*   Updated: 2022/10/04 14:41:18 by gsever           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,12 +33,12 @@ static const struct s_commands	g_commands[] = {
 	{"echo", cmd_echo},
 	{"cd", cmd_cd},
 	{"pwd", cmd_pwd},
+	{"export", cmd_export},
 	{"env", cmd_env},
 	{"exit", cmd_exit},
 	{NULL, NULL},
 };
 	
-	// {"export", cmd_export},
 	//{"unset", cmd_unset},
 
 int	command_find_arr(t_base *base, char *pipe_line)

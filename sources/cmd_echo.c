@@ -6,7 +6,7 @@
 /*   By: gsever <gsever@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/01 17:36:40 by gsever            #+#    #+#             */
-/*   Updated: 2022/10/03 20:10:46 by gsever           ###   ########.fr       */
+/*   Updated: 2022/10/04 13:51:16 by gsever           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,10 +83,8 @@ int	cmd_echo_dolar(t_base *base, int i, int l)
 		l++;
 		count++;
 	}
-	env_name[count++] = '=';
 	env_name[count] = '\0';
-	ft_putstr_fd(env_findret(env_name, base), 1);
-	//ft_putstr_fd(env_echo_writer(base, i, first, l), 1);
+	ft_putstr_fd(env_findret(base, env_name), 1);
 	return (l);
 }
 

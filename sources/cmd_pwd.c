@@ -6,7 +6,7 @@
 /*   By: gsever <gsever@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/03 12:04:05 by gsever            #+#    #+#             */
-/*   Updated: 2022/10/04 11:44:47 by gsever           ###   ########.fr       */
+/*   Updated: 2022/10/04 14:11:21 by gsever           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,6 @@
 
 int	cmd_pwd(t_base *base)
 {
-	printf("%s\n", env_findret("PWD=", base));
+	printf("%s\n", env_findret(base, "PWD"));
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: gsever <gsever@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/23 17:19:14 by gsever            #+#    #+#             */
-/*   Updated: 2022/10/03 19:04:27 by gsever           ###   ########.fr       */
+/*   Updated: 2022/10/04 13:43:33 by gsever           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,40 +38,6 @@ char	*ft_path(char **path, char *tmp)
 			return (dir1);
 		}
 		free(dir1);
-	}
-	return (NULL);
-}
-
-/**
- * @brief extern char **env yapısı, struct yapısına atandığından,
- * 		yapı içerisindeki verileri çekebilmek için bu fonk. kullanılmaktadır.
- * 
- * @param env_name "OLDPWD=", "PWD=", "HOME="... gibi 
- * 		string yapıları ile belirtilmelidir.
- * @param base 
- * @return char* Gönderilen string yok ise NULL, var ise ='den sonraki
- * 		stringin index'inin adresi döndürülmektedir.
- */
-char	*env_findret(char *env_name, t_base *base)
-{
-	int	i;
-	int	l;
-	int	count;
-
-	i = 0;
-	while (base->environ[i])
-	{
-		l = 0;
-		count = 0;
-		while (base->environ[i][l])
-		{
-			if (base->environ[i][count] == env_name[count])
-				count++;
-			if (env_name[count] == '\0')
-				return (&base->environ[i][count]);
-			l++;
-		}
-		i++;
 	}
 	return (NULL);
 }

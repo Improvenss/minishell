@@ -6,7 +6,7 @@
 /*   By: gsever <gsever@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/23 14:45:01 by gsever            #+#    #+#             */
-/*   Updated: 2022/10/01 17:27:23 by gsever           ###   ########.fr       */
+/*   Updated: 2022/10/04 16:20:05 by gsever           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,14 @@
 int	set_argument(t_base *base)
 {
 	extern char	**environ;
+	int			i;
 
 	base->environ = environ;
-	base->PATH = ft_split(env_findret("PATH=", base), ':');
+	base->env = NULL;
+	i = -1;
+	while (base->environ[++i])
+		env_struct(base, base->environ[i]);
+	base->PATH = ft_split(env_findret(base, "PATH"), ':');
 	if (base->PATH == NULL)
 		return (print_error(T_NAME, NULL, NULL, strerror(ENOMEM)));
 	return (0);

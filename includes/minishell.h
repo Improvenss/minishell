@@ -6,7 +6,7 @@
 /*   By: gsever <gsever@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/23 14:43:17 by gsever            #+#    #+#             */
-/*   Updated: 2022/10/04 12:49:50 by gsever           ###   ########.fr       */
+/*   Updated: 2022/10/04 14:41:05 by gsever           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -236,6 +236,13 @@ struct s_commands
 	int		(*func)(t_base *base);
 };
 
+typedef struct s_env
+{
+	char	**data;
+	struct	s_env *next;
+	struct	s_env *prev;
+}		t_env;
+
 typedef struct s_syntax_brackets
 {
 	t_base	*base;
@@ -263,6 +270,7 @@ typedef struct s_syntax_quote
  */
 typedef struct s_base
 {
+	t_env			*env;
 	t_s_brackets	sb;
 	t_s_quote		sq;
 	char			*cd_tmp;
@@ -298,6 +306,10 @@ int		cmd_env(t_base *base);
 
 // cmd_exit.c
 int		cmd_exit(t_base *base);
+
+// cmd_export.c
+void	cmd_export_print(t_base *base);
+int		cmd_export(t_base *base);
 
 // cmd_other.c
 int		cmd_other(t_base *base, char *pipe_line);
@@ -372,10 +384,22 @@ int		redirection(t_base *base);
 int		white_space(t_base *base);
 int		syntax(t_base *base);
 
+// utils_env.c
+void	set_env(t_base *base, char *env_name, char *new_str);
+char	*env_findret(t_base *base, char *env_name);
+int		env_struct(t_base *base, char *new_arg);
+
+// utils_export.c
+int		export_same_check(t_base *base, char *str);
+int		export_dot_slash_check(char *str);
+int		export_arg_check(char **str);
+int		export_lstsize(t_env *lst);
+char	*export_find_max_str(t_base *base);
+char	*export_find_min_str(t_base *base);
+
 // utils.c
 void	ft_free(char **line);
 char	*ft_path(char **path, char *tmp);
-char	*env_findret(char *env_name, t_base *base);
 int		look_the_quote(char *str, int i);
 char	*delete_space(char *str, int i, int k, int l);
 
