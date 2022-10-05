@@ -5,14 +5,15 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: gsever <gsever@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/05 12:17:05 by gsever            #+#    #+#             */
-/*   Updated: 2022/10/05 16:53:38 by gsever           ###   ########.fr       */
+/*   Created: 2022/09/23 14:43:17 by gsever            #+#    #+#             */
+/*   Updated: 2022/10/04 17:28:53 by gsever           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
+# include "../libraries/libft/includes/libft.h"
 # include <unistd.h> /*
 	write()		-> System call used to write data from the buffer
 		ssize_t	write(int fd, const void *buf, size_t count);
@@ -189,13 +190,8 @@ https://www.ibm.com/docs/en/i/7.5?topic=functions-fputs-write-string#fputs
 */
 # include <errno.h> /*
 */
-# include <stdbool.h> /*
-*/
 // # include <term.h> /*
 // 	*/
-# include "../libraries/libft/includes/libft.h"
-# include "lexer.h"
-# include "token.h"
 
 //	COLORS --> 🟥 🟩 🟦
 # define BLACK	"\e[0;30m"
@@ -220,41 +216,195 @@ https://www.ibm.com/docs/en/i/7.5?topic=functions-fputs-write-string#fputs
 # define CMD_CLEAR	"\e[1;1H\e[2J"
 
 //note: terminal isminin basina/sonuna renk kodlarini eklersek ust uste biniyor
-# define ERROR		-1
-# define PROMPT		"$> "
+# define T_NAME		"$> "
 # define SHELL_NAME	"minishell"
-
-/* ************************************************************************** */
-/* GLOBAL VARIABLES															  */
-/* ************************************************************************** */
-
-extern char	**g_env;
+# define METAS		"<>|&"
+# define ERROR		-1
 
 /* ************************************************************************** */
 /* STRUCT DEFINES AREA													  	  */
 /* ************************************************************************** */
 
+// global error array.
+// int	g_err[];
+
+typedef struct s_base	t_base;
+
+struct s_commands
+{
+	char	*name;
+	int		(*func)(t_base *base);
+};
+
+typedef struct s_env
+{
+	char	**data;
+	bool	is_env_equal;
+	struct	s_env *next;
+	struct	s_env *prev;
+}		t_env;
+
+typedef struct s_syntax_brackets
+{
+	t_base	*base;
+	char	token;
+	int		left;
+	int		right;
+	int		last;
+}		t_s_brackets;
+
+typedef struct s_syntax_quote
+{
+	t_base	*base;
+	char	token;
+	int		first;
+	int		last;
+	int		lenght;
+	int		count;
+}		t_s_quote;
+
+/**
+ * @brief Main structure for project.
+ * 
+ * @param input_line* Terminalimize girdigimiz satirlari aliyor.
+ * @param
+ */
+typedef struct s_base
+{
+	t_env			*env;
+	t_s_brackets	sb;
+	t_s_quote		sq;
+	char			*cd_tmp;
+	int				status;
+	int				*pid;
+	int				**fd;
+	int				split_count;
+	char			**array_line;
+	char			**pipe_line;
+	char			*input_line;
+	char			**PATH;
+	char			**environ;
+}		t_base;
+
 /* ************************************************************************** */
 /* FUNCTION PROTOTYPES														  */
 /* ************************************************************************** */
 
-// env_init.c
-int		env_init(void);
-
-// get_input.c
-void	process_input(char *input);
-char	*get_input(char *input);
-
-// signal.c
+// action.c
 void	action(int sig);
 
-// utils_error.c
-int		print_error(char *s1, char *s2, char *s3, char *message);
-void	exec_exit_status_set(int status);
-int		exec_exit_status_get(void);
+// cmd_cd.c
+void	set_env(t_base *base, char *env_name, char *new_str);
+int		cmd_cd(t_base *base __attribute((unused)));
 
-// utils_split.c
-void	ft_free_split(char ***split);
-int		split_count(char **split);
+// cmd_echo.c
+int		cmd_echo_dolar(t_base *base, int i, int l);
+void	cmd_echo_print(t_base *base, int i);
+int		cmd_echo(t_base *base);
+
+// cmd_env.c
+int		cmd_env(t_base *base);
+
+// cmd_exit.c
+int		cmd_exit(t_base *base);
+
+// cmd_export.c
+void	cmd_export_print(t_base *base);
+int		cmd_export(t_base *base);
+
+// cmd_other.c
+int		cmd_other(t_base *base, char *pipe_line);
+
+// cmd_pwd.c
+int		cmd_pwd(t_base *base);
+
+// cmd_unset.c
+int		cmd_unset(t_base *base);
+
+// command.c
+int		command_find_arr(t_base *base, char *pipe_line);
+int		command_exec(t_base *base, char *pipe_line);
+
+// error.c
+int		print_error(char *s1, char *s2, char *s3, char *message);
+
+// fork_new.c
+void	ft_wait(t_base *base);
+void	fd_close(t_base *base);
+void	fork_dup(t_base *base, int i);
+int		fork_start(t_base *base, int i);
+int		fork_init(t_base *base);
+
+// fork.c
+char	**array_split(char *pipe_line);
+void	ft_fork(t_base *base);
+void	ft_fd(t_base *base);
+
+// history.c
+int		history_empty_check(char *str);
+
+// init_all.c
+void	init_syntax_brackets(t_base *base);
+void	init_syntax_quote(t_base *base);
+
+// minishell.c
+int		set_argument(t_base *base);
+void	minishell(void);
+
+// pipe_split.c
+size_t	pipe_word_count(char *s);
+char	*pipe_alloc(char *s);
+char	**pipe_split(char *s);
+
+// run.c
+void	command_run(t_base *base);
+
+// syntax_ampersand.c
+int		ampersand(t_base *base);
+
+// syntax_brackets.c
+int		syntax_brackets_near_reverse(t_base *base);
+int		syntax_brackets_near(t_base *base);
+int		syntax_brackets(t_base *base, int i);
+int		brackets(t_base *base);
+
+// syntax_pipe.c
+int		syntax_pipe_first_half(t_base *base, int i);
+int		syntax_pipe_last_half(t_base *base, int i);
+int 	syntax_pipe(t_base *base, int i);
+int		the_pipe(t_base *base);
+
+// syntax_quote.c
+void	single_double_quote(t_base *base, int i, char c);
+int		syntax_quote(t_base *base, int i);
+int		quote(t_base *base);
+
+// syntax_redirection.c
+int		syntax_right(t_base *base, int i, int err);
+int		syntax_left(t_base *base, int i, int err);
+int		redirection(t_base *base);
+
+// syntax.c
+int		white_space(t_base *base);
+int		syntax(t_base *base);
+
+// utils_env.c
+void	set_env(t_base *base, char *env_name, char *new_str);
+char	*env_findret(t_base *base, char *env_name);
+int		env_struct(t_base *base, char *new_arg);
+
+// utils_export.c
+int		export_same_check(t_base *base, char *str);
+int		export_dot_slash_check(char *str);
+int		export_arg_check(char **str);
+int		export_lstsize(t_env *lst);
+char	*export_find_max_str(t_base *base);
+char	*export_find_min_str(t_base *base);
+
+// utils.c
+void	ft_free(char **line);
+char	*ft_path(char **path, char *tmp);
+int		look_the_quote(char *str, int i);
+char	*delete_space(char *str, int i, int k, int l);
 
 #endif

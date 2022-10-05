@@ -6,7 +6,7 @@
 /*   By: gsever <gsever@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/01 17:36:40 by gsever            #+#    #+#             */
-/*   Updated: 2022/10/04 13:51:16 by gsever           ###   ########.fr       */
+/*   Updated: 2022/10/04 17:48:07 by gsever           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,8 +94,8 @@ void	cmd_echo_print(t_base *base, int i)
 
 	while (base->array_line[i])
 	{
-		l = 0;
-		while (base->array_line[i][l])
+		l = -1;
+		while (base->array_line[i][++l])
 		{
 			if (base->array_line[i][l] == '$')
 			{
@@ -103,7 +103,6 @@ void	cmd_echo_print(t_base *base, int i)
 				continue;
 			}
 			write(1, &base->array_line[i][l], 1);
-			l++;
 		}
 		if (base->array_line[i + 1])
 			write(1, " ", 1);
