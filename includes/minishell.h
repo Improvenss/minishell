@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: gsever <gsever@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/05 12:17:05 by gsever            #+#    #+#             */
-/*   Updated: 2022/10/05 16:53:38 by gsever           ###   ########.fr       */
+/*   Created: 2022/10/06 14:44:47 by gsever            #+#    #+#             */
+/*   Updated: 2022/10/06 16:56:57 by gsever           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -191,11 +191,8 @@ https://www.ibm.com/docs/en/i/7.5?topic=functions-fputs-write-string#fputs
 */
 # include <stdbool.h> /*
 */
-// # include <term.h> /*
-// 	*/
+
 # include "../libraries/libft/includes/libft.h"
-# include "lexer.h"
-# include "token.h"
 
 //	COLORS --> 🟥 🟩 🟦
 # define BLACK	"\e[0;30m"
@@ -225,36 +222,17 @@ https://www.ibm.com/docs/en/i/7.5?topic=functions-fputs-write-string#fputs
 # define SHELL_NAME	"minishell"
 
 /* ************************************************************************** */
-/* GLOBAL VARIABLES															  */
-/* ************************************************************************** */
-
-extern char	**g_env;
-
-/* ************************************************************************** */
 /* STRUCT DEFINES AREA													  	  */
 /* ************************************************************************** */
+
+
 
 /* ************************************************************************** */
 /* FUNCTION PROTOTYPES														  */
 /* ************************************************************************** */
 
-// env_init.c
-int		env_init(void);
-
 // get_input.c
 void	process_input(char *input);
 char	*get_input(char *input);
-
-// signal.c
-void	action(int sig);
-
-// utils_error.c
-int		print_error(char *s1, char *s2, char *s3, char *message);
-void	exec_exit_status_set(int status);
-int		exec_exit_status_get(void);
-
-// utils_split.c
-void	ft_free_split(char ***split);
-int		split_count(char **split);
 
 #endif

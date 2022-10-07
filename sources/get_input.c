@@ -6,7 +6,7 @@
 /*   By: gsever <gsever@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/05 12:44:19 by gsever            #+#    #+#             */
-/*   Updated: 2022/10/05 14:40:43 by gsever           ###   ########.fr       */
+/*   Updated: 2022/10/06 11:59:27 by gsever           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,8 @@ void	process_input(char *input)
 	l_parser = NULL;
 	l_token = lexer(input);
 	free(input);
+	if (l_token != NULL)
+		l_parser = parser(l_token);
 }
 
 /**

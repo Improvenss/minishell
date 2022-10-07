@@ -1,17 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   token.h                                            :+:      :+:    :+:   */
+/*   cmd.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gsever <gsever@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/05 14:16:13 by gsever            #+#    #+#             */
-/*   Updated: 2022/10/05 16:51:55 by gsever           ###   ########.fr       */
+/*   Created: 2022/10/06 12:19:19 by gsever            #+#    #+#             */
+/*   Updated: 2022/10/06 13:25:21 by gsever           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef TOKEN_H
-# define TOKEN_H
+#ifndef CMD_H
+# define CMD_H
 
 # include "minishell.h"
 
@@ -19,44 +19,55 @@
 /* DEFINES																	  */
 /* ************************************************************************** */
 
-// Tokenler icin numara defineleri.
-# define TOK_TEXT			1
-# define TOK_S_QUOTE		2
-# define TOK_D_QUOTE		4
-# define TOK_REDIR_FILE		8
-# define TOK_CONNECTED		16
-# define TOK_BIN_OP			32
-# define TOK_PIPE			64
-# define TOK_O_BRACKET		128
-# define TOK_C_BRACKET		256
-# define TOK_REDIR			512
-# define TOK_HEREDOC		1024
-# define TOK_WILDCARD		2048
+# define CMD_SCMD		1
+
+# define CMD_AND		2
+# define CMD_OR			4
+# define CMD_PIPE		8
+
+# define CMD_O_BRACKET	16
+# define CMD_C_BRACKET	32
+
+# define CMD_PIPELINE	64
+# define CMD_GROUP		128
+
+# define CMD_L_SCMD		256
+# define CMD_L_CMD		512
 
 /* ************************************************************************** */
 /* STRUCT DEFINES AREA													  	  */
 /* ************************************************************************** */
 
-/**
- * @brief Tokenleri chmod'daki gibi 2^ olarak aliyor.
- * 
- * @param flags 
- * @param str* 
- */
-typedef struct s_token_content
+typedef struct s_scmd_content
 {
-	int		flags;
-	char	*str;
-}	t_new_token;
+	int		type;
+	t_list	*l_argv;
+	t_list	*l_redir;
+}	t_c_scmd;
+
+typedef struct s_cmd_content
+{
+	int		type;
+	t_list	*l_element;
+}	t_c_cmd;
 
 /* ************************************************************************** */
 /* FUNCTION PROTOTYPES														  */
 /* ************************************************************************** */
 
-// token.c
-bool		token_is_cmd(t_list *token);
-t_new_token	*token_content(t_list *token);
-void		new_token_destroy(void *new_token);
-t_list		*token_create(char *string, int type);
+// cmd.c
+t_list		*cmd_create(int type);
+int			cmd_type_from_token(t_list *token);
+int			cmd_type(t_list *cmd);
+t_c_cmd		*cmd_content(t_list *cmd);
+void		c_cmd_destroy(void *c_cmd);
+
+// parser_scmd.c
+void		c_scmd_destroy(void *c_scmd);
+
+// scmd.c
+t_list		*scmd_create(int type);
+t_c_scmd	*scmd_content(t_list *scmd);
+void		c_scmd_destroy(void *c_scmd);
 
 #endif

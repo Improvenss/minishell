@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tjensen <tjensen@student.42.fr>            +#+  +:+       +#+        */
+/*   By: gsever <gsever@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/17 15:57:32 by hepple            #+#    #+#             */
-/*   Updated: 2022/01/30 09:52:00 by tjensen          ###   ########.fr       */
+/*   Updated: 2022/10/06 14:29:34 by gsever           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,19 +73,58 @@ static char	*get_input(void)
 	return (input);
 }
 
+void	print_all_token_list(t_c_token *tmp)
+{
+	printf("tokenlerimiz: flagi: %d str: %s\n", tmp->flags, tmp->str);
+}
+
+void	print_all_parser_argv_list(t_list *tmp)
+{
+	printf("parser: type: %d\n", tmp->content);
+}
+
+void	print_all_parser_list(t_c_scmd *tmp)
+{
+	printf("parser: type: %d\n", tmp->type);
+	print_all_parser_argv_list(tmp->l_argv);
+}
+
+
+typedef struct s_list
+{
+	t_list	token
+	t_list	parser;
+	t_list	parser->cmd;
+	t_list	parser->scmd;
+}		t_list;
+
+
 static void	process_input(char *input)
 {
 	t_list	*l_token;
 	t_list	*l_parser;
+	t_list	*tmp;
 
 	signal(SIGINT, SIG_IGN);
 	errno = 0;
 	l_token = NULL;
 	l_parser = NULL;
 	l_token = lexer(input);
+	tmp = l_token;
+	while (tmp)
+	{
+		print_all_token_list(tmp->content);
+		tmp = tmp->next;
+	}
 	free(input);
 	if (l_token != NULL)
 		l_parser = parser(l_token);
+	tmp = l_parser;
+	while (tmp)
+	{
+		print_all_parser_list(tmp->content);
+		tmp = tmp->next;
+	}
 	if (l_token != NULL && l_parser != NULL)
 		exec_recursive(l_parser, false, l_parser);
 	if (l_parser != NULL)

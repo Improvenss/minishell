@@ -1,0 +1,32 @@
+{
+    "files.associations": {
+        "sstream": "c",
+        "minishell.h": "c",
+        "__bit_reference": "c",
+        "__hash_table": "c",
+        "__split_buffer": "c",
+        "array": "c",
+        "initializer_list": "c",
+        "ios": "c",
+        "iterator": "c",
+        "string": "c",
+        "string_view": "c",
+        "unordered_map": "c",
+        "vector": "c",
+        "algorithm": "c",
+        "string.h": "c",
+        "deneme.h": "c",
+        "__mutex_base": "c",
+        "__threading_support": "c",
+        "bitset": "c",
+        "chrono": "c",
+        "locale": "c",
+        "ostream": "c",
+        "__config": "c",
+        "__locale": "c",
+        "optional": "c",
+        "complex": "c",
+        "memory": "c",
+        "libft.h": "c"
+    }
+}
