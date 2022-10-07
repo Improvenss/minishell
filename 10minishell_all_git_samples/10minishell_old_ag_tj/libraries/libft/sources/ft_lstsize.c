@@ -6,11 +6,12 @@
 /*   By: gsever <gsever@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/05 14:35:45 by gsever            #+#    #+#             */
-/*   Updated: 2022/06/13 23:17:38 by gsever           ###   ########.fr       */
+/*   Updated: 2022/10/04 14:29:49 by gsever           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/libft.h"
+
 //listedeki eleman sayisini bulur
 int	ft_lstsize(t_list *lst)
 {

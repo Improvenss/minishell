@@ -3,16 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gsever <gsever@student.42kocaeli.com.tr    +#+  +:+       +#+        */
+/*   By: akaraca <akaraca@student.42.tr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/06 14:44:47 by gsever            #+#    #+#             */
-/*   Updated: 2022/10/06 16:56:57 by gsever           ###   ########.fr       */
+/*   Created: 2022/09/23 14:43:17 by gsever            #+#    #+#             */
+/*   Updated: 2022/10/07 13:31:39 by akaraca          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
+# include "../libraries/libft/includes/libft.h"
 # include <unistd.h> /*
 	write()		-> System call used to write data from the buffer
 		ssize_t	write(int fd, const void *buf, size_t count);
@@ -184,15 +185,9 @@ https://www.ibm.com/docs/en/i/7.5?topic=functions-fputs-write-string#fputs
  */
 # include <readline/history.h> /*
 	add_history()	-> 
-*/
-# include <pthread.h> /*
-*/
-# include <errno.h> /*
-*/
-# include <stdbool.h> /*
-*/
-
-# include "../libraries/libft/includes/libft.h"
+	*/
+# include <pthread.h>
+# include <errno.h>
 
 //	COLORS --> 🟥 🟩 🟦
 # define BLACK	"\e[0;30m"
@@ -217,22 +212,136 @@ https://www.ibm.com/docs/en/i/7.5?topic=functions-fputs-write-string#fputs
 # define CMD_CLEAR	"\e[1;1H\e[2J"
 
 //note: terminal isminin basina/sonuna renk kodlarini eklersek ust uste biniyor
+# define T_NAME		"$> "
+# define SHELLNAME	"minishell"
+
 # define ERROR		-1
-# define PROMPT		"$> "
-# define SHELL_NAME	"minishell"
+# define WHITESPACES		" \t\n"
+# define QUOTE_MARKS		"\'\""
+
+# define ERR_SYNTAX			"syntax error"
+# define ERR_SYNTAX_EXIT	2
+
+# define ERR_UNO_BRACKET	"unopened brackets"
+# define ERR_UNC_BRACKET	"unclosed brackets"
+# define ERR_EMPTY_BRACKET	"empty brackets"
+# define ERR_REDIR			"invalid redirection"
+# define ERR_QUOTE			"unclosed quotation mark"
+# define ERR_LIST			"incomplete command list"
+# define ERR_MISS_OP		"missing operator"
+# define ERR_PIPE			"incomplete pipe"
+
+# define CMD_SCMD		1
+
+# define CMD_AND		2
+# define CMD_OR			4
+# define CMD_PIPE		8
+
+# define CMD_O_BRACKET	16
+# define CMD_C_BRACKET	32
+
+# define CMD_PIPELINE	64
+# define CMD_GROUP		128
+
+# define CMD_L_SCMD		256
+# define CMD_L_CMD		512
+
+# define TOK_TEXT			1
+# define TOK_S_QUOTE		2
+# define TOK_D_QUOTE		4
+# define TOK_REDIR_FILE		8
+# define TOK_CONNECTED		16
+# define TOK_BIN_OP			32
+# define TOK_PIPE			64
+# define TOK_O_BRACKET		128
+# define TOK_C_BRACKET		256
+# define TOK_REDIR			512
+# define TOK_HEREDOC		1024
+# define TOK_WILDCARD		2048
 
 /* ************************************************************************** */
 /* STRUCT DEFINES AREA													  	  */
 /* ************************************************************************** */
 
+typedef struct s_base	t_base;
 
+typedef	struct	s_redir
+{
+	char	**data;
+	struct	s_redir *next;
+}		t_redir;
+
+typedef struct s_argv
+{	
+	char	**data;
+	struct	s_argv *next;
+}		t_argv;
+
+typedef struct s_parser
+{
+	int		type;
+	t_redir	*redir;
+	t_argv	*argv;
+	struct	s_parser *next;
+}		t_parser;
+
+typedef struct s_lexer
+{
+	int		flag;
+	char	*str;
+	struct	s_lexer *next;
+}		t_lexer;
+
+typedef struct s_env
+{
+	t_base	*base;
+	char	**data;
+	struct	s_env	*next;
+	struct	s_env	*prev;
+}		t_env;
+
+typedef struct s_base
+{
+	int			exit_status;
+	char		*input_line;
+	char		**PATH;
+	t_parser	*parser;
+	t_lexer		*lexer;
+	t_env		*env;
+}		t_base;
 
 /* ************************************************************************** */
 /* FUNCTION PROTOTYPES														  */
 /* ************************************************************************** */
 
-// get_input.c
-void	process_input(char *input);
-char	*get_input(char *input);
+
+// error.c
+int		print_error(char *s1, char *s2, char *s3, char *message);
+
+// history.c
+int		history_empty_check(char *input_line);
+
+// lexer_syntax.c
+int		lexer_syntax(t_lexer *lexer);
+
+// lexer.c
+void	lexer_list(t_base *base, char *str);
+
+// main.c
+int		main(int argc, char **argv, char **environ);
+
+// minishell.c
+void	minishell(t_base *base);
+
+// parser.c
+int		parser(t_base *base);
+
+// signal.c
+void	action(int sig);
+
+// utils_env.c
+void	set_env(t_base *base, char *env_name, char *new_str);
+char	*env_findret(t_base *base, char *env_name);
+int		env_struct(t_base *base, char *new_arg);
 
 #endif

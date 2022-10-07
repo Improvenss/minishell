@@ -1,0 +1,10 @@
+{
+	"files.associations": {
+		"minishell.h": "c",
+		"sstream": "c",
+		"bitset": "c",
+		"functional": "c",
+		"iterator": "c",
+		"memory": "c"
+	}
+}

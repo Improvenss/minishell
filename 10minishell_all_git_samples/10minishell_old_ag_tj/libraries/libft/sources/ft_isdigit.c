@@ -3,19 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   ft_isdigit.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akaraca <akaraca@student.42.tr>            +#+  +:+       +#+        */
+/*   By: gsever <gsever@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/05 14:34:18 by gsever            #+#    #+#             */
-/*   Updated: 2022/10/06 22:10:23 by akaraca          ###   ########.fr       */
+/*   Updated: 2022/07/02 19:26:53 by gsever           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/libft.h"
 
-//Checking char; is it number return 1.
+//Checking char; is it number return 0.
 int	ft_isdigit(int c)
 {
 	if (c >= '0' && c <= '9')
-		return (1);
-	return (0);
+		return (0);
+	return (1);
 }

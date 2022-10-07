@@ -1,21 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_isdigit.c                                       :+:      :+:    :+:   */
+/*   signal.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: akaraca <akaraca@student.42.tr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/02/05 14:34:18 by gsever            #+#    #+#             */
-/*   Updated: 2022/10/06 22:10:23 by akaraca          ###   ########.fr       */
+/*   Created: 2022/10/06 17:29:10 by akaraca           #+#    #+#             */
+/*   Updated: 2022/10/06 17:30:02 by akaraca          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/libft.h"
+#include "../includes/minishell.h"
 
-//Checking char; is it number return 1.
-int	ft_isdigit(int c)
+void	action(int sig)
 {
-	if (c >= '0' && c <= '9')
-		return (1);
-	return (0);
+	if (sig == SIGINT)
+	{
+		write(STDERR_FILENO, "\n", 1);
+		rl_replace_line("", 0);
+		rl_on_new_line();
+		rl_redisplay();
+	}
 }

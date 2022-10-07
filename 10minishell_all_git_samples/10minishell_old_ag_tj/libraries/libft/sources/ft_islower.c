@@ -1,21 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_isdigit.c                                       :+:      :+:    :+:   */
+/*   ft_islower.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akaraca <akaraca@student.42.tr>            +#+  +:+       +#+        */
+/*   By: gsever <gsever@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/02/05 14:34:18 by gsever            #+#    #+#             */
-/*   Updated: 2022/10/06 22:10:23 by akaraca          ###   ########.fr       */
+/*   Created: 2022/02/05 14:34:26 by gsever            #+#    #+#             */
+/*   Updated: 2022/06/13 23:16:58 by gsever           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/libft.h"
 
-//Checking char; is it number return 1.
-int	ft_isdigit(int c)
+int	ft_islower(int c)
 {
-	if (c >= '0' && c <= '9')
-		return (1);
-	return (0);
+	return (c >= 'a' && c <= 'z');
 }

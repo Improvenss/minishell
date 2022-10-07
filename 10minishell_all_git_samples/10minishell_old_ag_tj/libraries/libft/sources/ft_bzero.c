@@ -1,21 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_isdigit.c                                       :+:      :+:    :+:   */
+/*   ft_bzero.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akaraca <akaraca@student.42.tr>            +#+  +:+       +#+        */
+/*   By: gsever <gsever@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/02/05 14:34:18 by gsever            #+#    #+#             */
-/*   Updated: 2022/10/06 22:10:23 by akaraca          ###   ########.fr       */
+/*   Created: 2022/02/04 19:14:27 by gsever            #+#    #+#             */
+/*   Updated: 2022/06/13 23:16:37 by gsever           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/libft.h"
-
-//Checking char; is it number return 1.
-int	ft_isdigit(int c)
+//byte dizeye (null "\0") yaziyoruz. "gorkem"-->"\0\0\0\0em" !!NOT RETURNING!!
+void	ft_bzero(void *s, size_t n)
 {
-	if (c >= '0' && c <= '9')
-		return (1);
-	return (0);
+	while (n-- > 0)
+	{
+		*((unsigned char *)s) = 0;
+		s++;
+	}
 }

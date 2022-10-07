@@ -1,38 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstsize.c                                       :+:      :+:    :+:   */
+/*   ft_strchr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gsever <gsever@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/02/05 14:35:45 by gsever            #+#    #+#             */
-/*   Updated: 2022/06/13 23:17:38 by gsever           ###   ########.fr       */
+/*   Created: 2022/02/05 14:36:42 by gsever            #+#    #+#             */
+/*   Updated: 2022/06/13 23:18:04 by gsever           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/libft.h"
-//listedeki eleman sayisini bulur
-int	ft_lstsize(t_list *lst)
+/*
+int olarak aramak istedigimiz karakteri unsigned chara cevirir ve 
+aradigimiz karakter dahil olmak uzere devamini dondurur.
+not: pontirini return ederek r ve geri kalanina ulasabiliyoruz.
+*/
+char	*ft_strchr(const char *s, int c)
 {
-	size_t	count;
-
-	count = 0;
-	while (lst && ++count)
-		lst = lst->next;
-	return (count);
+	while (*s && *s != (char)c)
+		s++;
+	if (*s == (char)c)
+		return ((char *)s);
+	return (NULL);
 }
 /*
 int	main()
 {
-	t_list *lst = ft_lstnew("start");
-	t_list *student0 = ft_lstnew("student0");
-	t_list *student1 = ft_lstnew("student1");
-	t_list *student2 = ft_lstnew("student2");
-
-	ft_lstadd_front(&lst, student0);
-	ft_lstadd_front(&lst, student1);
-	ft_lstadd_front(&lst, student2);
-
-	printf("ft_:%d", ft_lstsize(lst));
+	char a[] = "gorkem";
+	
+	printf("ft_:%s", ft_strchr(a, 'r'));
 }
 */

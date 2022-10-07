@@ -1,21 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_isdigit.c                                       :+:      :+:    :+:   */
+/*   history.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: akaraca <akaraca@student.42.tr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/02/05 14:34:18 by gsever            #+#    #+#             */
-/*   Updated: 2022/10/06 22:10:23 by akaraca          ###   ########.fr       */
+/*   Created: 2022/10/06 17:52:30 by akaraca           #+#    #+#             */
+/*   Updated: 2022/10/06 17:52:43 by akaraca          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/libft.h"
+#include "../includes/minishell.h"
 
-//Checking char; is it number return 1.
-int	ft_isdigit(int c)
+int	history_empty_check(char *input_line)
 {
-	if (c >= '0' && c <= '9')
-		return (1);
-	return (0);
+	static char	*last_entry;
+	int			i;
+	int			l;
+
+	if (ft_strcmp_edited(input_line, last_entry) == 0)
+		return (0);
+	free(last_entry);
+	last_entry = ft_strdup(input_line);
+	l = 0;
+	i = 0;
+	while (input_line[i])
+	{
+		if (input_line[i] == ' ')
+			l++;
+		i++;
+	}
+	if (i == l)
+		return (0);
+	return (1);
 }

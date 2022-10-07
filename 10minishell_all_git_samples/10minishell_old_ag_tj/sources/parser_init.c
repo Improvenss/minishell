@@ -6,7 +6,7 @@
 /*   By: gsever <gsever@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/06 11:58:09 by gsever            #+#    #+#             */
-/*   Updated: 2022/10/06 13:46:01 by gsever           ###   ########.fr       */
+/*   Updated: 2022/10/07 14:13:11 by gsever           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,14 +53,14 @@ static int	scmd_token_set(t_c_scmd *c_scmd, t_list **l_token)
  */
 t_list	*parser_scmd_tokens(t_list *l_token)
 {
-	t_list	*l_scmd;
+	t_list	*l_scmd; /* scmd listesi; scmd1 -> scmd2 -> ... diye ilerliyor */
 	t_list	*scmd;
-	// t_list	*next;
+	t_list	*next;
 
 	l_scmd = NULL;
 	while (l_token != NULL)
 	{
-		scmd = scmd_create(cmd_type_from_token(l_token));
+		scmd = scmd_create(cmd_type_from_token(l_token)); /* token listemiz  */
 		if (scmd == NULL
 			|| (scmd_content(scmd)->type == CMD_SCMD
 				&& scmd_token_set(scmd_content(scmd), &l_token) == ERROR))

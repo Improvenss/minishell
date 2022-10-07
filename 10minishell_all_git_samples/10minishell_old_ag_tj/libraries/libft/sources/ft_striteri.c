@@ -1,21 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_isdigit.c                                       :+:      :+:    :+:   */
+/*   ft_striteri.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akaraca <akaraca@student.42.tr>            +#+  +:+       +#+        */
+/*   By: gsever <gsever@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/02/05 14:34:18 by gsever            #+#    #+#             */
-/*   Updated: 2022/10/06 22:10:23 by akaraca          ###   ########.fr       */
+/*   Created: 2022/02/05 14:36:52 by gsever            #+#    #+#             */
+/*   Updated: 2022/06/13 23:18:18 by gsever           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/libft.h"
-
-//Checking char; is it number return 1.
-int	ft_isdigit(int c)
+//doing same thing as ft_strmapi.c but not returning. directly writing function.
+void	ft_striteri(char *s, void (*f)(unsigned int, char*))
 {
-	if (c >= '0' && c <= '9')
-		return (1);
-	return (0);
+	unsigned int	index;
+
+	if (s == NULL || f == NULL)
+		return ;
+	index = 0;
+	while (s[index])
+	{
+		f(index, &s[index]);
+		index++;
+	}
 }

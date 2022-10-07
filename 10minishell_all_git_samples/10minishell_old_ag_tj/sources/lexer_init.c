@@ -6,7 +6,7 @@
 /*   By: gsever <gsever@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/05 13:19:51 by gsever            #+#    #+#             */
-/*   Updated: 2022/10/05 17:10:29 by gsever           ###   ########.fr       */
+/*   Updated: 2022/10/07 14:13:07 by gsever           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,8 @@ static int	redir_mark_files(t_list *l_token)
 }
 
 /**
- * @brief 
- * 
+ * @brief Tokenlerini -> Lexerleme asamasi.
+ * Icerigini degistirebilmek icin &'yle gonderip *'la almis.
  * @param input 
  * @fn lexer_token_bin_op()
  * @fn ft_strchr() WHITESPACES: ile bosluklari falan geciyor.
