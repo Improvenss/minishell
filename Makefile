@@ -6,7 +6,7 @@
 #    By: gsever <gsever@student.42kocaeli.com.tr    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/09/15 17:54:15 by gsever            #+#    #+#              #
-#    Updated: 2022/10/04 12:54:50 by gsever           ###   ########.fr        #
+#    Updated: 2022/10/09 17:47:58 by gsever           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -90,7 +90,7 @@ B_RESET		= \033[1m
 #	LEAKS --> Checking this program have memory leaks.
 LEAKS_PH	= leaks -atExit -- ./minishell
 #	You can use //system("leaks a.out");
-ASDF = gsever
+
 #	Compiling with all threads.
 ifeq ($(UNAME), Linux)
 	NUMPROC	:= $(shell grep -c ^processor /proc/cpuinfo)

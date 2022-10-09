@@ -6,7 +6,7 @@
 /*   By: gsever <gsever@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/06 17:27:26 by akaraca           #+#    #+#             */
-/*   Updated: 2022/10/07 14:41:45 by gsever           ###   ########.fr       */
+/*   Updated: 2022/10/09 16:46:31 by gsever           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,19 @@ int	redir_mark_files(t_lexer *lexer)
 	return (0);
 }
 
-void	prosesses(t_base *base)
+/**
+ * @brief 
+ * 
+ * @param base 
+ * @fn lexer_list(): Lexer isleminde; operatorleri, yazim hatalarini falan
+ *  kontrol edip tokenlerine ayiriyor.
+ * @fn lexer_syntax(): Lexerleme isleminden sonra syntax(yazim hatasi)
+ *  var mi onlari kontrol ediyor.
+ * @fn redir_mark_files(): '<' '>' gibi redir operatorleri var mi onlari
+ *  kontrol ediyor.
+ * @fn parser(): Lexer'lenen input'u parcaliyor(parser).
+ */
+void	processes(t_base *base)
 {
 	base->lexer = NULL;
 	base->parser = NULL;
@@ -45,9 +57,30 @@ void	prosesses(t_base *base)
 		base->exit_status = ERR_SYNTAX_EXIT;
 	if (base->lexer != NULL && base->exit_status != ERR_SYNTAX_EXIT)
 		parser(base);
-		
+	// if (base->lexer != NULL && base->parser != NULL)
+	// 	exec_recursive(base);
 }
 
+/** OK:
+ * @brief Minishell starting here.
+ * 
+ * @param base: Main structure.
+ * @fn signal(SIGQUIT, SIG_IGN): Klayeden girilen CTRL+C,D,\ sinyallerini
+ *  kontrol ediyor. SIGQUIT: CTRL+\ signalini, (SIG_IGN) ignorluyor.
+ * @fn action(): CTRL+*'dan gelen sinyal sonucunda hangi func()
+ *  calismasini istedigimiz func().
+ * @fn readline(): T_NAME'yi terminale yazip, input'umuzu girmemizi bekliyor.
+ *  Input'umuzu girdikten sonra bunu base->input_line'ye yaziyor.
+ * @fn ft_putendl_fd(): input_line'miz bossa file descriptor(fd)'a error yazar.
+ * @fn rl_clear_history(): readline kutuphanesi icin gecmisi temizliyor.
+ * @fn exit(): Exit BRUH.
+ * @fn history_empty_check(): Terminal gecmisini kontrol ediyor,
+ *  static char *last_entry'de tutuyor onceki girdiyi.
+ *  If tekrardan ayni girdi girildiyse return 0.
+ * @fn add_history(): readline'nin kendi func(), kendisi hafizasinda tutuyor.
+ * @fn processes(): base->input_line'yi alip calistiriyor,
+ *  lexer -> parser -> expander -> executor islemlerini uyguluyor.
+ */
 void	minishell(t_base *base)
 {
 	signal(SIGQUIT, SIG_IGN);
@@ -63,7 +96,7 @@ void	minishell(t_base *base)
 		}
 		if (history_empty_check(base->input_line))
 			add_history(base->input_line);
-		prosesses(base);
+		processes(base);
 	}
 	rl_clear_history();
 	//ft_free(base);

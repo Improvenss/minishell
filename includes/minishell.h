@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akaraca <akaraca@student.42.tr>            +#+  +:+       +#+        */
+/*   By: gsever <gsever@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/23 14:43:17 by gsever            #+#    #+#             */
-/*   Updated: 2022/10/07 13:31:39 by akaraca          ###   ########.fr       */
+/*   Updated: 2022/10/09 17:38:14 by gsever           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -265,6 +265,40 @@ https://www.ibm.com/docs/en/i/7.5?topic=functions-fputs-write-string#fputs
 
 typedef struct s_base	t_base;
 
+/**
+ * @brief Debuging'de list yazdirma islemi icin numara sirasi tutucu.
+ */
+typedef enum s_state
+{
+	LEXER,
+	PARSER,
+	EXPANDER,
+	EXECUTOR
+}		t_state;
+
+// static const t_cmds	g_cmds[] = {
+// 	{"echo", cmd_echo},
+// 	{"cd", cmd_cd},
+// 	{"pwd", cmd_pwd},
+// 	{"unset", cmd_unset},
+// 	{"export", cmd_export},
+// 	{"env", cmd_env},
+// 	{"exit", cmd_exit},
+// 	{NULL, NULL},
+// };
+
+/**
+ * @brief command'lar icin.
+ * @param name*
+ * @param (func*)(base*)
+ */
+typedef struct s_cmds
+{
+	char	*name;
+	int		(*func)(t_base *base);
+}		t_cmds;
+
+
 typedef	struct	s_redir
 {
 	char	**data;
@@ -308,12 +342,27 @@ typedef struct s_base
 	t_parser	*parser;
 	t_lexer		*lexer;
 	t_env		*env;
+	t_cmds		cmds[3];
 }		t_base;
 
 /* ************************************************************************** */
 /* FUNCTION PROTOTYPES														  */
 /* ************************************************************************** */
 
+// cmd_cd.c
+int		cmd_cd(t_base *base);
+
+// cmd_echo.c
+int		cmd_echo(t_base *base);
+
+// commands.c
+void	cmd_init(t_base *base);
+// int		command_find_arr(t_base *base)
+int		command_find(t_base *base);
+int		command_exec(t_base *base);
+
+// debuging.c
+// void	print_all_list(t_base *base);
 
 // error.c
 int		print_error(char *s1, char *s2, char *s3, char *message);

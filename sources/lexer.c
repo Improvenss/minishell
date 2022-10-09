@@ -6,7 +6,7 @@
 /*   By: gsever <gsever@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/06 17:57:01 by akaraca           #+#    #+#             */
-/*   Updated: 2022/10/07 14:41:39 by gsever           ###   ########.fr       */
+/*   Updated: 2022/10/09 17:45:38 by gsever           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -247,6 +247,12 @@ int	lexer_quote(t_base *base, char *str, int *i)
 	return (0);
 }
 
+/**
+ * @brief Operatorlerine gore Lexerleme islemi yapiliyor.
+ * 
+ * @param base 
+ * @param str 
+ */
 void	lexer_list(t_base *base, char *str)
 {
 	int	i;

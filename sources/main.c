@@ -6,12 +6,38 @@
 /*   By: gsever <gsever@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/06 16:47:58 by akaraca           #+#    #+#             */
-/*   Updated: 2022/10/07 15:12:02 by gsever           ###   ########.fr       */
+/*   Updated: 2022/10/09 16:28:54 by gsever           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
+/** OK:
+ * @brief Set the arg object
+ * 
+ * Environ'larin hepsini char **environ'dan satir satir char dizisi olacak
+ *  sekilde aliyor, 
+ * 
+ * @param base 
+ * @param environ 
+ * @fn env_struct(): envp'lerin hepsini satir satir aliyor,
+ *  ='in sol tarafini data[0],
+ *  ='in sag tarafini data[1] olarak ayirip(splitleyip) t_env structuna
+ *  linked list olacak sekilde atiyor.
+ * @fn env_findret(): env_struct()'ta ayrilan base->env'e yazilan
+ *  environmentlerimizin icinden "PATH"i ariyor ve env'nin data[1]'ini donuyor.
+ * @fn ft_split(): PATH= environmen'ini alip ':' ile biten kismi ayiriyor,
+ *  bunlari konum calistirirken kullanacagiz.
+ * ETC:	PATH=
+ * 			 /opt/homebrew/bin: -> base->PATH[0] 
+ * 			/opt/homebrew/sbin: -> base->PATH[1]
+ * 				/usr/local/bin: -> base->PATH[2]
+ * 					  /usr/bin: -> base->PATH[3]
+ * 						  /bin: -> base->PATH[4]... diye yaziyor.
+ * @fn strerror(): INT seklinde girilen error'un stringini donduruyor.
+ * @fn print_error(): Bash'teki gibi error ciktisi verebilmek icin.
+ * @return int ERROR: err_code. OK: 0.
+ */
 int	set_arg(t_base *base, char **environ)
 {
 	int	i;
@@ -26,7 +52,7 @@ int	set_arg(t_base *base, char **environ)
 	return (0);
 }
 
-/**
+/** OK:
  * @brief Main.
  * 
  * brew install comands in /goinfre/$USER
@@ -37,11 +63,11 @@ int	set_arg(t_base *base, char **environ)
 
 2. STEP: brew install readline
 3. STEP: brew link --force readline
-4. STEP: echo 'export C_INCLUDE_PATH="/goinfre/$USER/brew/
-include:$C_INCLUDE_PATH"'
->> ~/.zshrc
-step 5 echo 'export LIBRARY_PATH="/goinfre/$USER/brew/
+4. STEP: echo 'export C_INCLUDE_PATH="/goinfre/$USER/brew/\
+include:$C_INCLUDE_PATH"' >> ~/.zshrc
+5. STEP: echo 'export LIBRARY_PATH="/goinfre/$USER/brew/\
 lib:$LIBRARY_PATH"' >> ~/.zshrc
+
  * 
 > Tanım:
 	> Bu proje basit bir kabuk(shell) oluşturmakla ilgilidir.
@@ -103,6 +129,15 @@ lib:$LIBRARY_PATH"' >> ~/.zshrc
 	Ancak bu kendi kodunuz anlamına gelmez,
 	evet yazdığınız kodda bellek sızıntısı olabilir.
 
+int	main(int argc, char *argv[], char *envp[])
+NOT: char *envp[] -> environment pointer.
+
+http://unixwiz.net/techtips/gnu-c-attributes.html
+
+int	main(int argc __attribute((unused))
+	, char **argv __attribute((unused))
+	, char **envp)
+
 int	main(int argc __unused, char **argv __unused, char **environ)
 
 > Meanings -> lexer -> parser -> expander -> executor
@@ -127,35 +162,36 @@ Ayrıştırıcı, başka bir dile kolay çeviri için verileri daha küçük ö�
  üretilen belirteçleri alır ve uygun tümcelerin oluşturulup oluşturulmadığını
  belirlemeye çalışır. Ayrıştırıcılar dilbilgisi düzeyinde,
  sözlükler sözcük düzeyinde çalışır.
-	EXPANDER: -> 
+	EXPANDER: -> -Birlestirici-
+	EXECUTOR: -> -Calistirici(Yurutucu)-
  
- * @fn signal(): Klayeden girilen CTRL+C,D,\ sinyallerini kontrol ediyor.
+ * @param argc __attribute: Kullanmadigimiz durumda error gostermiyor.
+ * @param argv*[] __attribute: Kullanmadigimiz durumda error gostermiyor.
+ * @param envp*[]: environments
+ * 
  * @fn env_init(): Program baslatma konumlarini falan hafizasinda tutan
  *  degiskenler.
- * @fn action(): CTRL+*'dan gelen sinyal sonucunda hangi func()
- *  calismasini istedigimiz func().
  * @fn get_input(): readline() ile terminale yazilan girdiyi
  *  string tipinde aldigimiz func().
  * @fn isatty(): Terminal(tty) var mi yok mu onu kontrol ediyor.
  * @fn ft_putendl_fd(): libft-> file descriptor'a istedigimiz str'yi yazar.
  * @fn process_input(): get_input()'tan aldigimiz girdiyi calistiriyoruz.
- * @fn rl_clear_history(): readline kutuphanesi icin gerekli.
  * @fn ft_free_split(): Ozel olarak yazilmis split icin teker teker
  *  free'leme islemi yapiyor.
- * @fn exit(): Exit BRUH.
  * @fn exec_exit_status_get(): return/error degerimiz icin kullaniyoruz,
  *  boylelikle girdi hangi err kodunu donduruyor onu anlayabiliyoruz.
  * 
  * @return int 
  */
-int	main(int argc , char **argv , char **environ)
+int	main(int argc __attribute((unused))
+	, char **argv __attribute((unused))
+	, char **envp)
 {
-	t_base base;
-	(void)argc;
-	(void)argv;
+	t_base	base;
 
-	if (set_arg(&base, environ) == ERROR)
+	if (set_arg(&base, envp) == ERROR)
 		exit(EXIT_FAILURE);
+	cmd_init(&base);
 	minishell(&base);
 	return (0);
 }

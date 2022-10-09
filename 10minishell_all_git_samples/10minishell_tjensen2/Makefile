@@ -6,7 +6,7 @@
 #    By: gsever <gsever@student.42kocaeli.com.tr    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/10/27 22:03:08 by tjensen           #+#    #+#              #
-#    Updated: 2022/09/23 12:57:47 by gsever           ###   ########.fr        #
+#    Updated: 2022/10/09 17:50:30 by gsever           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,13 +15,19 @@ NAME        := minishell
 CC          := gcc
 CFLAGS      := -Wall -Wextra -Werror -O2
 
+OS			:= NULL
+RL_INC_OS	:= /goinfre/$(USER)/brew/Cellar/readline/8.1.2/include
+RL_LIB_OS	:= /goinfre/$(USER)/brew/Cellar/readline/8.1.2/lib
+
 CPPFLAGS    := -I./inc -I./lib/libft/inc \
-	-I/Users/gsever/goinfre/brew/include
+	-I$(RL_INC_OS)
+# -I/Users/gsever/goinfre/brew/include
 # -I/opt/homebrew/Cellar/readline/8.1.2/include/
 DEPFLAGS     = -MT $@ -MMD -MP -MF $(DDIR)/$*.d
 
 LDFLAGS     := -L./lib/libft \
-	-L/Users/gsever/goinfre/brew/lib
+	-L$(RL_LIB_OS)
+# -L/Users/gsever/goinfre/brew/lib
 # -L/opt/homebrew/Cellar/readline/8.1.2/lib
 
 LDLIBS      := -lft -lreadline
@@ -61,6 +67,27 @@ ifeq ($(shell uname -s), Linux)
 	CFLAGS += -D LINUX -Wno-unused-result
 endif
 
+#	Compiling with all threads.
+ifeq ($(UNAME), Linux)
+	NUMPROC	:= $(shell grep -c ^processor /proc/cpuinfo)
+	OS = "You are connected from -$(CYAN)$(UNAME)$(X)- 🐧 Welcome -$(CYAN)$(USER)$(X)- 😄!"
+	RL_INC_OS := /goinfre/homebrew/opt/readline/include -fcommon
+	RL_LIB_OS := /goinfre/homebrew/opt/readline/lib -fcommon
+else ifeq ($(UNAME), Darwin)
+	NUMPROC	:= $(shell sysctl -n hw.ncpu)
+	OS = "You are connected from 42 school's iMac 🖥 ! Welcome $(CYAN)$(USER)$(X)"
+	ifeq ($(USER), yuandre)
+		OS = "You are connected from -$(CYAN)MacBook$(X)- 💻 Welcome -$(CYAN)$(USER)$(X)-!"
+		RL_INC_OS := /opt/homebrew/Cellar/readline/8.1.2/include/
+		RL_LIB_OS := /opt/homebrew/Cellar/readline/8.1.2/lib
+	endif
+	ifeq ($(USER), akaraca)
+		OS = "You are connected from -$(CYAN)MacBook$(X)- 💻 Welcome -$(CYAN)$(USER)$(X)-!"
+		RL_INC_OS	:= /goinfre/$(USER)/homebrew/Cellar/readline/8.1.2/include
+		RL_LIB_OS	:= /goinfre/$(USER)/homebrew/Cellar/readline/8.1.2/lib
+	endif
+endif
+
 # **************************************************************************** #
 #   RULES                                                                      #
 # **************************************************************************** #
@@ -69,6 +96,7 @@ endif
 
 $(NAME): lib/libft/libft.a $(OBJS)
 	$(CC) $(CFLAGS) $(LDFLAGS) $(OBJS) -o $@ $(LDLIBS)
+	@echo $(OS) $(NUMPROC) cekirdekle derlendi
 
 $(ODIR)/%.o: %.c $(DDIR)/%.d | $(ODIR) $(DDIR)
 	$(CC) $(CFLAGS) $(CPPFLAGS) $(DEPFLAGS) -c $< -o $@

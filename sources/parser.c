@@ -12,14 +12,14 @@
 
 #include "../includes/minishell.h"
 
-int	cmd_create(t_base *base, int type)
+int	parser_cmd_create(t_base *base, int type)
 {
 	t_parser	*new;
 	t_parser	*tmp;
 	
 	new = (t_parser *)malloc(sizeof(t_parser));
 	if (!new)
-		return (ERROR);
+		return (print_error(T_NAME, NULL, NULL, strerror(ENOMEM)));
 	new->type = type;
 	//printf("type %d\n", type);
 	new->argv = NULL;
@@ -29,7 +29,7 @@ int	cmd_create(t_base *base, int type)
 	while (tmp != NULL)
 		tmp = tmp->next;
 	tmp = new;
-	/*if (base->parser == NULL)
+	if (base->parser == NULL)
 	{
 		base->parser = new;
 		base->parser->next = NULL;
@@ -40,11 +40,11 @@ int	cmd_create(t_base *base, int type)
 		while (tmp->next != NULL)
 			tmp = tmp->next;
 		tmp->next = new;
-	}*/
+	}
 	return (0);
 }
 
-int	cmd_type(t_lexer *lexer)
+int	parser_cmd_type(t_lexer *lexer)
 {
 	if (lexer == NULL)
 		return (ERROR);
@@ -73,7 +73,8 @@ int	parser_cmd(t_base *base)
 	tmp = base->lexer;
 	while (tmp)
 	{
-		cmd_create(base, cmd_type(tmp));
+		if (parser_cmd_create(base, parser_cmd_type(tmp)) == ERROR)
+			return (ERROR);
 		//printf("--%s\n", tmp->str);
 		tmp = tmp->next;
 	}
