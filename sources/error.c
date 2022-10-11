@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   error.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akaraca <akaraca@student.42.tr>            +#+  +:+       +#+        */
+/*   By: gsever <gsever@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/06 17:24:49 by akaraca           #+#    #+#             */
-/*   Updated: 2022/10/06 17:25:35 by akaraca          ###   ########.fr       */
+/*   Updated: 2022/10/10 14:05:45 by gsever           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,5 +35,12 @@ int	print_error(char *s1, char *s2, char *s3, char *message)
 		ft_putstr_fd(message, 2);
 	}
 	ft_putchar_fd('\n', 2);
+	return (ERROR);
+}
+
+int	print_error_errno(char *s1, char *s2, char *s3)
+{
+	print_error(s1, s2, s3, strerror(errno));
+	errno = 0;
 	return (ERROR);
 }

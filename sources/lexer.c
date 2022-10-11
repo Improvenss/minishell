@@ -6,11 +6,31 @@
 /*   By: gsever <gsever@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/06 17:57:01 by akaraca           #+#    #+#             */
-/*   Updated: 2022/10/09 17:45:38 by gsever           ###   ########.fr       */
+/*   Updated: 2022/10/10 14:11:21 by gsever           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
+char	*token_to_str(t_lexer *lexer)
+{
+	char	*str;
+	char	*tmp;
+
+	if (lexer == NULL || lexer->str == NULL)
+		return (NULL);
+	str = ft_strdup(lexer->str);
+	while (lexer && (lexer->flag & TOK_CONNECTED))
+	{
+		tmp = str;
+		str = ft_strjoin(str, lexer->next->str);
+		free(tmp);
+		if (str == NULL)
+			return (NULL);
+		lexer = lexer->next;
+	}
+	return (str);
+}
 
 t_lexer *token_create(t_base *base, char *str, int type)
 {
@@ -22,6 +42,7 @@ t_lexer *token_create(t_base *base, char *str, int type)
 		return (NULL);
 	new->flag = type;
 	new->str = str;
+	new->next = NULL;
 	if (base->lexer == NULL)
 	{
 		base->lexer = new;
@@ -50,10 +71,7 @@ int	lexer_bin_op(t_base *base, char *str, int *i)
 			return (print_error(SHELLNAME, NULL, NULL, strerror(ENOMEM)));
 		new = token_create(base, token, TOK_BIN_OP);
 		if (!new)
-		{
-			free(token);
 			return (print_error(SHELLNAME, NULL, NULL, strerror(ENOMEM)));
-		}
 		*i = *i + 2;
 	}
 	return (0);
@@ -95,10 +113,7 @@ int	lexer_bracket(t_base *base, char *str, int *i)
 		else
 			new = token_create(base, token, TOK_C_BRACKET);
 		if (!new)
-		{
-			free(token);
 			return (print_error(SHELLNAME, NULL, NULL, strerror(ENOMEM)));
-		}
 		(*i)++;
 	}
 	return (0);
@@ -123,10 +138,7 @@ int	lexer_redir(t_base *base, char *str, int *i)
 			return (print_error(SHELLNAME, NULL, NULL, strerror(ENOMEM)));
 		new = token_create(base, token, TOK_REDIR);
 		if (!new)
-		{
-			free(token);
 			return (print_error(SHELLNAME, NULL, NULL, strerror(ENOMEM)));
-		}
 		*i = *i + len;
 	}
 	return (0);
@@ -184,13 +196,11 @@ int	lexer_text(t_base *base, char *str, int *i)
 			return (print_error(SHELLNAME, NULL, NULL, strerror(ENOMEM)));
 		new = token_create(base, token, TOK_TEXT);
 		if (!new)
-		{
-			free(token);
 			return (print_error(SHELLNAME, NULL, NULL, strerror(ENOMEM)));
-		}
 		*i = *i + len;
 		if (!ft_strchr(WHITESPACES, str[*i]) && other_lenght(&str[*i]) == 0)
-			new->flag = TOK_CONNECTED;
+			new->flag |= TOK_CONNECTED;
+			//new->flag = new->flag + TOK_CONNECTED;
 	}
 	return (0);
 }
@@ -232,17 +242,15 @@ int	lexer_quote(t_base *base, char *str, int *i)
 		if(!token)
 			return (print_error(SHELLNAME, NULL, NULL, strerror(ENOMEM)));
 		if (str[*i] == '\'')
-			new = token_create(base, token, TOK_TEXT + TOK_S_QUOTE);
+			new = token_create(base, token, TOK_TEXT | TOK_S_QUOTE);
 		else
-			new = token_create(base, token, TOK_TEXT + TOK_D_QUOTE);
+			new = token_create(base, token, TOK_TEXT | TOK_D_QUOTE);
 		if (!new)
-		{
-			free(token);
 			return (print_error(SHELLNAME, NULL, NULL, strerror(ENOMEM)));
-		}
 		*i = *i + len;
 		if (!ft_strchr(WHITESPACES, str[*i]) && other_lenght(&str[*i]) == 0)
-			new->flag = TOK_CONNECTED;
+			new->flag |= TOK_CONNECTED;
+			//new->flag = new->flag + TOK_CONNECTED;
 	}
 	return (0);
 }
@@ -253,12 +261,12 @@ int	lexer_quote(t_base *base, char *str, int *i)
  * @param base 
  * @param str 
  */
-void	lexer_list(t_base *base, char *str)
+void	lexer(t_base *base, char *str)
 {
 	int	i;
 
 	i = 0;
-	while (str[i])
+	while (str && str[i])
 	{
 		if (lexer_bin_op(base, str, &i) == ERROR)
 			break;

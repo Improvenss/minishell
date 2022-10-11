@@ -6,7 +6,7 @@
 #    By: gsever <gsever@student.42kocaeli.com.tr    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/10/27 22:03:08 by tjensen           #+#    #+#              #
-#    Updated: 2022/10/09 18:02:25 by gsever           ###   ########.fr        #
+#    Updated: 2022/10/10 16:23:38 by gsever           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,10 +20,10 @@ UNAME		:= $(shell uname -s)
 NUMPROC		:= 8
 
 OS			:= NULL
-# RL_INC_OS	:= /goinfre/$(USER)/brew/Cellar/readline/8.1.2/include
-# RL_LIB_OS	:= /goinfre/$(USER)/brew/Cellar/readline/8.1.2/lib
-RL_INC_OS = /opt/homebrew/Cellar/readline/8.1.2/include/
-RL_LIB_OS = /opt/homebrew/Cellar/readline/8.1.2/lib
+RL_INC_OS	:= /goinfre/$(USER)/brew/Cellar/readline/8.1.2/include
+RL_LIB_OS	:= /goinfre/$(USER)/brew/Cellar/readline/8.1.2/lib
+# RL_INC_OS = /opt/homebrew/Cellar/readline/8.1.2/include/
+# RL_LIB_OS = /opt/homebrew/Cellar/readline/8.1.2/lib
 
 CPPFLAGS    := -I./inc -I./lib/libft/inc \
 	-I$(RL_INC_OS)

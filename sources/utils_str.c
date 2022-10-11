@@ -1,33 +1,46 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   signal.c                                           :+:      :+:    :+:   */
+/*   utils_str.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gsever <gsever@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/06 17:29:10 by akaraca           #+#    #+#             */
-/*   Updated: 2022/10/10 13:22:03 by gsever           ###   ########.fr       */
+/*   Created: 2022/10/10 13:23:45 by gsever            #+#    #+#             */
+/*   Updated: 2022/10/10 13:27:09 by gsever           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void	signal_ctrl_heredoc(int sig)
+char	*str_append_str(char *str, char *append)
 {
-	if (sig == SIGINT)
-	{
-		close(STDIN_FILENO);
-		write(STDERR_FILENO, "\n", 1);
-	}
+	char	*tmp;
+
+	tmp = str;
+	str = ft_strjoin(str, append);
+	free(tmp);
+	return (str);
 }
 
-void	action(int sig)
+char	*str_append_chr(char *str, char append)
 {
-	if (sig == SIGINT)
+	char	*new_str;
+	int		i;
+
+	if (str == NULL)
+		return (NULL);
+	new_str = malloc(ft_strlen(str) + 2);
+	if (new_str != NULL)
 	{
-		write(STDERR_FILENO, "\n", 1);
-		rl_replace_line("", 0);
-		rl_on_new_line();
-		rl_redisplay();
+		i = 0;
+		while (str[i])
+		{
+			new_str[i] = str[i];
+			i++;
+		}
+		new_str[i] = append;
+		new_str[i + 1] = '\0';
 	}
+	free(str);
+	return (new_str);
 }

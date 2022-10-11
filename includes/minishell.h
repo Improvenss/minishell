@@ -6,7 +6,7 @@
 /*   By: gsever <gsever@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/23 14:43:17 by gsever            #+#    #+#             */
-/*   Updated: 2022/10/09 17:38:14 by gsever           ###   ########.fr       */
+/*   Updated: 2022/10/10 17:49:56 by gsever           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -259,6 +259,16 @@ https://www.ibm.com/docs/en/i/7.5?topic=functions-fputs-write-string#fputs
 # define TOK_HEREDOC		1024
 # define TOK_WILDCARD		2048
 
+// REDIR_TYPES
+# define REDIR_OUT		1
+# define REDIR_OUT_APP	2
+# define REDIR_IN		3
+# define REDIR_HEREDOC	4
+
+// REDIR_FDs
+# define REDIR_FILE		0
+# define REDIR_NUM		1
+
 /* ************************************************************************** */
 /* STRUCT DEFINES AREA													  	  */
 /* ************************************************************************** */
@@ -298,16 +308,24 @@ typedef struct s_cmds
 	int		(*func)(t_base *base);
 }		t_cmds;
 
+typedef struct s_lexer
+{
+	int		flag;
+	char	*str;
+	struct	s_lexer *next;
+}		t_lexer;
 
 typedef	struct	s_redir
 {
-	char	**data;
+	int		flag;
+	char	*str;
 	struct	s_redir *next;
 }		t_redir;
 
 typedef struct s_argv
 {	
-	char	**data;
+	int		flag;
+	char	*str;
 	struct	s_argv *next;
 }		t_argv;
 
@@ -318,13 +336,6 @@ typedef struct s_parser
 	t_argv	*argv;
 	struct	s_parser *next;
 }		t_parser;
-
-typedef struct s_lexer
-{
-	int		flag;
-	char	*str;
-	struct	s_lexer *next;
-}		t_lexer;
 
 typedef struct s_env
 {
@@ -339,9 +350,9 @@ typedef struct s_base
 	int			exit_status;
 	char		*input_line;
 	char		**PATH;
-	t_parser	*parser;
-	t_lexer		*lexer;
 	t_env		*env;
+	t_lexer		*lexer;
+	t_parser	*parser;
 	t_cmds		cmds[3];
 }		t_base;
 
@@ -366,15 +377,24 @@ int		command_exec(t_base *base);
 
 // error.c
 int		print_error(char *s1, char *s2, char *s3, char *message);
+int		print_error_errno(char *s1, char *s2, char *s3);
+
+// exec_recursive.c
+// int	exec_recursive(t_base *base)
+
+// heredoc_parser.c
+int		parser_heredoc(t_lexer *lexer);
 
 // history.c
 int		history_empty_check(char *input_line);
 
 // lexer_syntax.c
+int		redir_mark_files(t_lexer *lexer);
 int		lexer_syntax(t_lexer *lexer);
 
 // lexer.c
-void	lexer_list(t_base *base, char *str);
+char	*token_to_str(t_lexer *lexer);
+void	lexer(t_base *base, char *str);
 
 // main.c
 int		main(int argc, char **argv, char **environ);
@@ -383,14 +403,28 @@ int		main(int argc, char **argv, char **environ);
 void	minishell(t_base *base);
 
 // parser.c
-int		parser(t_base *base);
+int			parser_scmd_set(t_parser *new, t_lexer **lexer);
+t_parser	*parser_cmd_create(t_base *base, int type);
+int			parser_cmd_type(t_lexer *lexer);
+int			parser_cmd(t_base *base);
+int			parser(t_base *base);
+
+// redir.c
+void	argv_lstadd(t_argv **redir, t_lexer *new);
+void	redir_lstadd(t_redir **redir, t_lexer *new);
+int		redir_type(char *redir);
 
 // signal.c
+void	signal_ctrl_heredoc(int sig);
 void	action(int sig);
 
 // utils_env.c
 void	set_env(t_base *base, char *env_name, char *new_str);
 char	*env_findret(t_base *base, char *env_name);
 int		env_struct(t_base *base, char *new_arg);
+
+// utils_str.c
+char	*str_append_str(char *str, char *append);
+char	*str_append_chr(char *str, char append);
 
 #endif

@@ -6,32 +6,24 @@
 /*   By: gsever <gsever@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/06 17:27:26 by akaraca           #+#    #+#             */
-/*   Updated: 2022/10/09 16:46:31 by gsever           ###   ########.fr       */
+/*   Updated: 2022/10/10 12:41:39 by gsever           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-int	redir_mark_files(t_lexer *lexer)
+void	ft_free(t_lexer **lexer)
 {
-	while (lexer)
+	t_lexer *tmp;
+
+	while (*lexer != NULL)
 	{
-		if (lexer->flag == TOK_REDIR)
-		{
-			if (lexer->next == NULL || lexer->next->flag != TOK_TEXT)
-				return (print_error(SHELLNAME, ERR_SYNTAX, NULL, ERR_REDIR)); // aa >'\0' veya a >>>'\0' veya a <<< b'\0'
-			lexer = lexer->next;
-			lexer->flag = lexer->flag + TOK_REDIR_FILE;
-			while (lexer->flag == TOK_CONNECTED)
-			{
-				printf("-->%d\n", lexer->flag);
-				lexer->flag = lexer->flag + TOK_REDIR_FILE;
-				lexer = lexer->next;
-			}
-		}
-		lexer = lexer->next;
+		tmp = (*lexer)->next;
+		free((*lexer)->str);
+		free(*lexer);
+		(*lexer) = tmp;
 	}
-	return (0);
+	*lexer = NULL;
 }
 
 /**
@@ -51,7 +43,7 @@ void	processes(t_base *base)
 	base->lexer = NULL;
 	base->parser = NULL;
 	base->exit_status = 0;
-	lexer_list(base, base->input_line);
+	lexer(base, base->input_line);
 	if (lexer_syntax(base->lexer) == ERROR
 	|| redir_mark_files(base->lexer) == ERROR)
 		base->exit_status = ERR_SYNTAX_EXIT;
@@ -97,6 +89,9 @@ void	minishell(t_base *base)
 		if (history_empty_check(base->input_line))
 			add_history(base->input_line);
 		processes(base);
+		ft_free(&base->lexer);
+		free(base->input_line);
+		// system("leaks minishell");
 	}
 	rl_clear_history();
 	//ft_free(base);
