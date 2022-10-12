@@ -6,16 +6,24 @@
 /*   By: gsever <gsever@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/05 14:36:42 by gsever            #+#    #+#             */
-/*   Updated: 2022/06/13 23:18:04 by gsever           ###   ########.fr       */
+/*   Updated: 2022/10/12 15:17:21 by gsever           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/libft.h"
-/*
-int olarak aramak istedigimiz karakteri unsigned chara cevirir ve 
-aradigimiz karakter dahil olmak uzere devamini dondurur.
-not: pontirini return ederek r ve geri kalanina ulasabiliyoruz.
-*/
+
+/**
+ * @brief String icinde char ariyoruz, buldugumuzda adresini donduruyoruz.
+ * 
+ * INT olarak aramak istedigimiz karakteri char'a cevirir ve
+ *  buldugu anda, aradigimiz karakter dahil olmak uzere devamini dondurur.
+ * NOT: Pointer'ini return ettigimizde, kendisi de dahil olmak uzere
+ * devamini dondurmus oluruz.
+ * 
+ * @param s char * -> string
+ * @param c char -> char
+ * @return char* 
+ */
 char	*ft_strchr(const char *s, int c)
 {
 	while (*s && *s != (char)c)

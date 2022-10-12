@@ -3,17 +3,29 @@
 /*                                                        :::      ::::::::   */
 /*   parser_scmd.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hepple <hepple@student.42.fr>              +#+  +:+       +#+        */
+/*   By: akaraca <akaraca@student.42.tr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/17 15:45:46 by hepple            #+#    #+#             */
-/*   Updated: 2022/01/17 15:45:59 by hepple           ###   ########.fr       */
+/*   Updated: 2022/10/11 10:14:47 by akaraca          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser.h"
 #include "redir.h"
+#include <stdio.h>
 
 static int	scmd_token_set(t_c_scmd *c_scmd, t_list **l_token);
+
+void b(t_c_token *b)
+{
+	printf("-->%s %d\n", b->str, b->flags);
+}
+
+void a(t_c_scmd *a)
+{
+	b(a->l_argv->content);
+	//b(a->l_redir->content);
+}
 
 t_list	*parser_scmd_tokens(t_list *l_token)
 {
@@ -32,6 +44,7 @@ t_list	*parser_scmd_tokens(t_list *l_token)
 			ft_lstclear(&l_scmd, c_scmd_destroy);
 			return (NULL);
 		}
+		//a(scmd->content);
 		if (scmd_content(scmd)->type != CMD_SCMD)
 		{
 			next = l_token->next;

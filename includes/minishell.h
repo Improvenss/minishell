@@ -6,7 +6,7 @@
 /*   By: gsever <gsever@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/23 14:43:17 by gsever            #+#    #+#             */
-/*   Updated: 2022/10/10 17:49:56 by gsever           ###   ########.fr       */
+/*   Updated: 2022/10/12 14:58:59 by gsever           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -215,7 +215,7 @@ https://www.ibm.com/docs/en/i/7.5?topic=functions-fputs-write-string#fputs
 # define T_NAME		"$> "
 # define SHELLNAME	"minishell"
 
-# define ERROR		-1
+# define ERROR				-1
 # define WHITESPACES		" \t\n"
 # define QUOTE_MARKS		"\'\""
 
@@ -231,20 +231,20 @@ https://www.ibm.com/docs/en/i/7.5?topic=functions-fputs-write-string#fputs
 # define ERR_MISS_OP		"missing operator"
 # define ERR_PIPE			"incomplete pipe"
 
-# define CMD_SCMD		1
+# define CMD_SCMD			1
 
-# define CMD_AND		2
-# define CMD_OR			4
-# define CMD_PIPE		8
+# define CMD_AND			2
+# define CMD_OR				4
+# define CMD_PIPE			8
 
-# define CMD_O_BRACKET	16
-# define CMD_C_BRACKET	32
+# define CMD_O_BRACKET		16
+# define CMD_C_BRACKET		32
 
-# define CMD_PIPELINE	64
-# define CMD_GROUP		128
+# define CMD_PIPELINE		64
+# define CMD_GROUP			128
 
-# define CMD_L_SCMD		256
-# define CMD_L_CMD		512
+# define CMD_L_SCMD			256
+# define CMD_L_CMD			512
 
 # define TOK_TEXT			1
 # define TOK_S_QUOTE		2
@@ -315,25 +315,30 @@ typedef struct s_lexer
 	struct	s_lexer *next;
 }		t_lexer;
 
-typedef	struct	s_redir
-{
-	int		flag;
-	char	*str;
-	struct	s_redir *next;
-}		t_redir;
+// typedef	struct	s_redir
+// {
+// 	int		flag;
+// 	char	*str;
+// 	struct	s_redir *next;
+// }		t_redir;
 
-typedef struct s_argv
-{	
-	int		flag;
-	char	*str;
-	struct	s_argv *next;
-}		t_argv;
+// typedef struct s_argv
+// {	
+// 	int		flag;
+// 	char	*str;
+// 	struct	s_argv *next;
+// }		t_argv;
+
+typedef struct s_parser t_parser;
 
 typedef struct s_parser
 {
 	int		type;
-	t_redir	*redir;
-	t_argv	*argv;
+	// t_redir	*redir;
+	// t_argv	*argv;
+	t_parser	*element;
+	t_lexer	*redir;
+	t_lexer	*argv;
 	struct	s_parser *next;
 }		t_parser;
 
@@ -403,15 +408,15 @@ int		main(int argc, char **argv, char **environ);
 void	minishell(t_base *base);
 
 // parser.c
-int			parser_scmd_set(t_parser *new, t_lexer **lexer);
-t_parser	*parser_cmd_create(t_base *base, int type);
-int			parser_cmd_type(t_lexer *lexer);
-int			parser_cmd(t_base *base);
-int			parser(t_base *base);
+// int			parser_scmd_set(t_parser *new, t_lexer *lexer);
+// t_parser	*parser_cmd_create(t_base *base, int type);
+// int			parser_cmd_type(t_lexer *lexer);
+// int			parser_cmd(t_base *base);
+int		parser(t_base *base);
 
 // redir.c
-void	argv_lstadd(t_argv **redir, t_lexer *new);
-void	redir_lstadd(t_redir **redir, t_lexer *new);
+// void	argv_lstadd(t_argv **redir, t_lexer *new);
+// void	redir_lstadd(t_redir **redir, t_lexer *new);
 int		redir_type(char *redir);
 
 // signal.c
@@ -427,4 +432,5 @@ int		env_struct(t_base *base, char *new_arg);
 char	*str_append_str(char *str, char *append);
 char	*str_append_chr(char *str, char append);
 
+int exec_recursive(t_base *base, bool);
 #endif

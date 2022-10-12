@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_pipeline.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hepple <hepple@student.42.fr>              +#+  +:+       +#+        */
+/*   By: akaraca <akaraca@student.42.tr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/17 15:44:54 by hepple            #+#    #+#             */
-/*   Updated: 2022/01/17 15:44:55 by hepple           ###   ########.fr       */
+/*   Updated: 2022/10/11 21:34:41 by akaraca          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,6 +94,7 @@ static void	pipeline_cleanup(t_c_cmd *c_pl, t_list *start, t_list *end)
 		}
 		else
 		{
+			
 			ft_lstadd_back(&(c_pl->l_element), iter);
 			if (iter != end)
 				iter->next = NULL;

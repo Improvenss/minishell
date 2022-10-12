@@ -6,7 +6,7 @@
 /*   By: gsever <gsever@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/06 17:57:01 by akaraca           #+#    #+#             */
-/*   Updated: 2022/10/10 14:11:21 by gsever           ###   ########.fr       */
+/*   Updated: 2022/10/12 15:18:41 by gsever           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -182,6 +182,23 @@ static int	text_lenght(char *str)
 	return (i);
 }
 
+/**
+ * @brief 
+ * 
+ * @param base 
+ * @param str 
+ * @param i 
+ * @fn text_lengt()
+ * @fn ft_substr()
+ * @fn print_error()
+ * @fn strerror()
+ * @fn token_create()
+ * @fn ft_strchr(): WHITESPACES: icinde str[i]'sini ariyor,
+ *  bulursa adresini donduruyor.
+ *  NOT: Bulamazsa kosula girecek.
+ * @fn other_lenght()
+ * @return int 
+ */
 int	lexer_text(t_base *base, char *str, int *i)
 {
 	char 	*token;
@@ -199,8 +216,10 @@ int	lexer_text(t_base *base, char *str, int *i)
 			return (print_error(SHELLNAME, NULL, NULL, strerror(ENOMEM)));
 		*i = *i + len;
 		if (!ft_strchr(WHITESPACES, str[*i]) && other_lenght(&str[*i]) == 0)
+		{
 			new->flag |= TOK_CONNECTED;
-			//new->flag = new->flag + TOK_CONNECTED;
+			printf(".....\n");
+		}
 	}
 	return (0);
 }
@@ -227,6 +246,23 @@ static int	quote_lenght(char *str)
 	return (i + 1);
 }
 
+/**
+ * @brief Tirnak gorduktan sonraki 
+ * 
+ * @param base 
+ * @param str 
+ * @param i 
+ * @fn quote_lenght()
+ * @fn ft_substr()
+ * @fn print_error()
+ * @fn strerror()
+ * @fn token_create()
+ * @fn ft_strchr(): WHITESPACES: icinde str[i]'sini ariyor,
+ *  bulursa adresini donduruyor.
+ *  NOT: Bulamazsa kosula girecek.
+ * @fn other_lenght()
+ * @return int 
+ */
 int	lexer_quote(t_base *base, char *str, int *i)
 {
 	char 	*token;
@@ -249,8 +285,10 @@ int	lexer_quote(t_base *base, char *str, int *i)
 			return (print_error(SHELLNAME, NULL, NULL, strerror(ENOMEM)));
 		*i = *i + len;
 		if (!ft_strchr(WHITESPACES, str[*i]) && other_lenght(&str[*i]) == 0)
+		{
 			new->flag |= TOK_CONNECTED;
-			//new->flag = new->flag + TOK_CONNECTED;
+			printf("----*\n");
+		}
 	}
 	return (0);
 }
@@ -276,9 +314,9 @@ void	lexer(t_base *base, char *str)
 			break;
 		if (lexer_redir(base, str, &i) == ERROR)
 			break;
-		if (lexer_text(base, str, &i) == ERROR)
-			break;
 		if (lexer_quote(base, str, &i) == ERROR)
+			break;
+		if (lexer_text(base, str, &i) == ERROR)
 			break;
 		while (str[i] && ft_strchr(WHITESPACES, str[i]))
 			i++;

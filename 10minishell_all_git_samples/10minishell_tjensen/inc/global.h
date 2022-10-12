@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   global.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tjensen <tjensen@student.42.fr>            +#+  +:+       +#+        */
+/*   By: gsever <gsever@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/17 16:01:31 by tjensen           #+#    #+#             */
-/*   Updated: 2022/01/17 16:01:32 by tjensen          ###   ########.fr       */
+/*   Updated: 2022/10/12 14:42:21 by gsever           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 # include <stdbool.h>
 # include <string.h>
 # include <unistd.h>
+# include <stdio.h>
 
 # include "libft.h"
 

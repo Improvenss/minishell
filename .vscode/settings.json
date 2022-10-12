@@ -5,6 +5,9 @@
 		"bitset": "c",
 		"functional": "c",
 		"iterator": "c",
-		"memory": "c"
+		"memory": "c",
+		"__config": "cpp",
+		"termios.h": "c",
+		"unistd.h": "c"
 	}
 }

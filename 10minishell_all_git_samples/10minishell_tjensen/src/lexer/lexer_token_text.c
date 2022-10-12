@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_token_text.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tjensen <tjensen@student.42.fr>            +#+  +:+       +#+        */
+/*   By: gsever <gsever@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/17 15:41:54 by hepple            #+#    #+#             */
-/*   Updated: 2022/01/17 16:10:17 by tjensen          ###   ########.fr       */
+/*   Updated: 2022/10/12 14:37:41 by gsever           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,10 @@ int	lexer_token_text(char *str, int *i, t_list **l_token)
 		ft_lstadd_back(l_token, token);
 		*i += len;
 		if (!ft_strchr(WHITESPACES, str[*i]) && other_len(&str[*i]) == 0)
+		{
 			token_content(token)->flags |= TOK_CONNECTED;
+			printf(".....\n");
+		}
 	}
 	return (0);
 }
@@ -62,7 +65,10 @@ int	lexer_token_quote(char *str, int *i, t_list **l_token)
 		ft_lstadd_back(l_token, token);
 		*i += len;
 		if (!ft_strchr(WHITESPACES, str[*i]) && other_len(&str[*i]) == 0)
+		{
 			token_content(token)->flags |= TOK_CONNECTED;
+			printf("----*\n");
+		}
 	}
 	return (0);
 }

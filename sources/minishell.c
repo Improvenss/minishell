@@ -6,7 +6,7 @@
 /*   By: gsever <gsever@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/06 17:27:26 by akaraca           #+#    #+#             */
-/*   Updated: 2022/10/10 12:41:39 by gsever           ###   ########.fr       */
+/*   Updated: 2022/10/12 13:56:01 by gsever           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,10 +47,16 @@ void	processes(t_base *base)
 	if (lexer_syntax(base->lexer) == ERROR
 	|| redir_mark_files(base->lexer) == ERROR)
 		base->exit_status = ERR_SYNTAX_EXIT;
+	// t_lexer *tmp = base->lexer;
+	// while (tmp)
+	// {
+	// 	printf("str: %s flag: %d\n", tmp->str, tmp->flag);
+	// 	tmp = tmp->next;
+	// }
 	if (base->lexer != NULL && base->exit_status != ERR_SYNTAX_EXIT)
 		parser(base);
-	// if (base->lexer != NULL && base->parser != NULL)
-	// 	exec_recursive(base);
+	if (base->lexer != NULL && base->parser != NULL)
+	 	exec_recursive(base, false);
 }
 
 /** OK:

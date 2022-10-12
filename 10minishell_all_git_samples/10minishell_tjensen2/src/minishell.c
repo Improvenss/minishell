@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gsever <gsever@student.42kocaeli.com.tr    +#+  +:+       +#+        */
+/*   By: akaraca <akaraca@student.42.tr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/17 15:57:32 by hepple            #+#    #+#             */
-/*   Updated: 2022/10/06 14:29:34 by gsever           ###   ########.fr       */
+/*   Updated: 2022/10/11 21:57:01 by akaraca          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,29 +75,30 @@ static char	*get_input(void)
 
 void	print_all_token_list(t_c_token *tmp)
 {
-	printf("tokenlerimiz: flagi: %d str: %s\n", tmp->flags, tmp->str);
-}
-
-void	print_all_parser_argv_list(t_list *tmp)
-{
-	printf("parser: type: %d\n", tmp->content);
-}
-
-void	print_all_parser_list(t_c_scmd *tmp)
-{
-	printf("parser: type: %d\n", tmp->type);
-	print_all_parser_argv_list(tmp->l_argv);
+	printf("lexer:  str: %s flagi: %d\n", tmp->str, tmp->flags);
 }
 
 
-typedef struct s_list
-{
-	t_list	token
-	t_list	parser;
-	t_list	parser->cmd;
-	t_list	parser->scmd;
-}		t_list;
 
+void bx(t_c_token *b)
+{
+	printf(">>%d\n", b->flags);
+	//printf("-->%s %d\n", b->str, b->flags);
+}
+
+void bz(t_list *a)
+{
+	bx(a->content);	
+}
+
+void	print_shit(t_c_scmd *a)//(t_c_cmd *a)
+{
+	// bx(a->l_element->content);
+	// bx(a->l_element->next->content);
+//	bx(a->l_argv->content);
+//	bx(a->l_argv->next->content);
+	bz(a->l_redir->content);
+}
 
 static void	process_input(char *input)
 {
@@ -122,9 +123,10 @@ static void	process_input(char *input)
 	tmp = l_parser;
 	while (tmp)
 	{
-		print_all_parser_list(tmp->content);
+		print_shit(tmp->content);
 		tmp = tmp->next;
 	}
+	printf("-------------------\n");
 	if (l_token != NULL && l_parser != NULL)
 		exec_recursive(l_parser, false, l_parser);
 	if (l_parser != NULL)
