@@ -6,7 +6,7 @@
 /*   By: gsever <gsever@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/23 14:43:17 by gsever            #+#    #+#             */
-/*   Updated: 2022/10/12 14:58:59 by gsever           ###   ########.fr       */
+/*   Updated: 2022/10/13 16:13:39 by gsever           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -212,8 +212,8 @@ https://www.ibm.com/docs/en/i/7.5?topic=functions-fputs-write-string#fputs
 # define CMD_CLEAR	"\e[1;1H\e[2J"
 
 //note: terminal isminin basina/sonuna renk kodlarini eklersek ust uste biniyor
-# define T_NAME		"$> "
-# define SHELLNAME	"minishell"
+# define T_NAME				"$> "
+# define SHELLNAME			"minishell"
 
 # define ERROR				-1
 # define WHITESPACES		" \t\n"
@@ -260,14 +260,14 @@ https://www.ibm.com/docs/en/i/7.5?topic=functions-fputs-write-string#fputs
 # define TOK_WILDCARD		2048
 
 // REDIR_TYPES
-# define REDIR_OUT		1
-# define REDIR_OUT_APP	2
-# define REDIR_IN		3
-# define REDIR_HEREDOC	4
+# define REDIR_OUT			1
+# define REDIR_OUT_APP		2
+# define REDIR_IN			3
+# define REDIR_HEREDOC		4
 
 // REDIR_FDs
-# define REDIR_FILE		0
-# define REDIR_NUM		1
+# define REDIR_FILE			0
+# define REDIR_NUM			1
 
 /* ************************************************************************** */
 /* STRUCT DEFINES AREA													  	  */
@@ -308,13 +308,6 @@ typedef struct s_cmds
 	int		(*func)(t_base *base);
 }		t_cmds;
 
-typedef struct s_lexer
-{
-	int		flag;
-	char	*str;
-	struct	s_lexer *next;
-}		t_lexer;
-
 // typedef	struct	s_redir
 // {
 // 	int		flag;
@@ -329,25 +322,33 @@ typedef struct s_lexer
 // 	struct	s_argv *next;
 // }		t_argv;
 
-typedef struct s_parser t_parser;
+typedef struct s_parser	t_parser;
+
+typedef struct s_lexer
+{
+	t_base			*base;
+	int				flag;
+	char			*str;
+	struct s_lexer	*next;
+}		t_lexer;
 
 typedef struct s_parser
 {
-	int		type;
-	// t_redir	*redir;
-	// t_argv	*argv;
-	t_parser	*element;
-	t_lexer	*redir;
-	t_lexer	*argv;
-	struct	s_parser *next;
+	int				type;
+	// t_redir		*redir;
+	// t_argv		*argv;
+	t_parser		*element;
+	t_lexer			*redir;
+	t_lexer			*argv;
+	struct s_parser	*next;
 }		t_parser;
 
 typedef struct s_env
 {
-	t_base	*base;
-	char	**data;
-	struct	s_env	*next;
-	struct	s_env	*prev;
+	t_base			*base;
+	char			**data;
+	struct s_env	*next;
+	struct s_env	*prev;
 }		t_env;
 
 typedef struct s_base
@@ -386,6 +387,9 @@ int		print_error_errno(char *s1, char *s2, char *s3);
 
 // exec_recursive.c
 // int	exec_recursive(t_base *base)
+
+// expand_var.c
+int	expand_var_token_list(t_lexer *token);
 
 // heredoc_parser.c
 int		parser_heredoc(t_lexer *lexer);
@@ -432,5 +436,6 @@ int		env_struct(t_base *base, char *new_arg);
 char	*str_append_str(char *str, char *append);
 char	*str_append_chr(char *str, char append);
 
-int exec_recursive(t_base *base, bool);
+int		exec_recursive(t_base *base, bool subshell);
+
 #endif

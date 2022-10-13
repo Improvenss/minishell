@@ -118,7 +118,7 @@ int	cmd_set(t_parser *new, t_lexer **lexer)
 	return (0);
 }
 
-t_parser *parser_cmd(t_lexer *lexer)
+t_parser	*parser_cmd(t_lexer *lexer)
 {
 	t_parser	*parser;
 	t_parser	*new;
@@ -379,6 +379,13 @@ static int	parser_recursive_merge(t_parser **parser)
 	return (0);
 }
 
+/**
+ * @brief Lexer'leme isleminden sonra parserleme islemlerini yapiyor.
+ * 
+ * @param base 
+ * @fn parser_cmd(): Lexer'lenmis struct'tan command'lerimizi aliyoruz.
+ * @fn parser_recurse_merge(): 
+ */
 int parser(t_base *base)
 {
 	base->parser = parser_cmd(base->lexer);
