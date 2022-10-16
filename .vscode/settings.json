@@ -1,13 +1,6 @@
 {
 	"files.associations": {
 		"minishell.h": "c",
-		"sstream": "c",
-		"bitset": "c",
-		"functional": "c",
-		"iterator": "c",
-		"memory": "c",
-		"__config": "cpp",
-		"termios.h": "c",
-		"unistd.h": "c"
+		"libft.h": "c"
 	}
 }

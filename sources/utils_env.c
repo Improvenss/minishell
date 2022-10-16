@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_env.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gsever <gsever@student.42kocaeli.com.tr    +#+  +:+       +#+        */
+/*   By: akaraca <akaraca@student.42.tr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/06 17:19:35 by akaraca           #+#    #+#             */
-/*   Updated: 2022/10/08 23:01:25 by gsever           ###   ########.fr       */
+/*   Created: 2022/10/15 22:03:34 by akaraca           #+#    #+#             */
+/*   Updated: 2022/10/15 22:03:34 by akaraca          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,16 +30,6 @@ void	set_env(t_base *base, char *env_name, char *new_str)
 	}
 }
 
-/** OK: base->env->data[1]\
- * @brief base->env stuctunda env_name'yi ariyor,
- *  bulunca data[1]'ini donduruyor.
- * 
- * @param base base->env'ye ulasabilmemiz icin.
- * @param env_name base->env'nin icinde aramak istedigimiz env_name.
- * @fn ft_strcmp_edited(): Stringi buldugunda 0 donduruyor,
- *  bulamadiginda farkini donduruyor. Boylelikle if'e girmiyor.
- * @return char* OK: base->env->data[1] NOK: NULL
- */
 char	*env_findret(t_base *base, char *env_name)
 {
 	t_env	*tmp;
@@ -54,22 +44,6 @@ char	*env_findret(t_base *base, char *env_name)
 	return (NULL);
 }
 
-/** OK: data[0] & data[1]\
- * @brief SHELL -> data[0] = /bin/zsh -> data[1] olacak sekilde ayiriyor.
- * 
- * env yazdigimizda '='in sol tarafindaki buyuk harflerle yazilan
- *  'tanimlama ismi'ni t_env->data'sina ayirarak yazar. Ornek;
- *  SHELL=/bin/zsh
- * t_env->**data -> *data[0] = "SHELL";
- * t_env->**data -> *data[1] = "/bin/zsh"; diye ayiriyor.
- * NOT: Sadece 1 satir geliyor. Satirda'da 1 tane '=' var.
- * 
- * @param base base->env icin.
- * @param new_arg envp'nin 1 satiri.
- * @fn malloc(): t_env kadar yer aciyoruz.
- * @fn ft_split(): "HOME"="/Users/yuandre" -> "data[0]"="data[1]".
- * @return int 
- */
 int	env_struct(t_base *base, char *new_arg)
 {
 	t_env	*new;
@@ -78,6 +52,9 @@ int	env_struct(t_base *base, char *new_arg)
 	new = (t_env *)malloc(sizeof(t_env));
 	if (!new)
 		return (ERROR);
+	new->is_env_equal = false;
+	if (ft_strncmp(new_arg, "=", 1))
+		new->is_env_equal = true;
 	new->data = ft_split(new_arg, '=');
 	new->next = NULL;
 	if (base->env == NULL)

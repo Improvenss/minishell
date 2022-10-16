@@ -3,27 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strchr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gsever <gsever@student.42kocaeli.com.tr    +#+  +:+       +#+        */
+/*   By: akaraca <akaraca@student.42.tr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/05 14:36:42 by gsever            #+#    #+#             */
-/*   Updated: 2022/10/12 15:17:21 by gsever           ###   ########.fr       */
+/*   Updated: 2022/10/14 10:33:55 by akaraca          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/libft.h"
-
-/**
- * @brief String icinde char ariyoruz, buldugumuzda adresini donduruyoruz.
- * 
- * INT olarak aramak istedigimiz karakteri char'a cevirir ve
- *  buldugu anda, aradigimiz karakter dahil olmak uzere devamini dondurur.
- * NOT: Pointer'ini return ettigimizde, kendisi de dahil olmak uzere
- * devamini dondurmus oluruz.
- * 
- * @param s char * -> string
- * @param c char -> char
- * @return char* 
- */
+/*
+int olarak aramak istedigimiz karakteri unsigned chara cevirir ve 
+aradigimiz karakter dahil olmak uzere devamini dondurur.
+not: pontirini return ederek r ve geri kalanina ulasabiliyoruz.
+*/
 char	*ft_strchr(const char *s, int c)
 {
 	while (*s && *s != (char)c)

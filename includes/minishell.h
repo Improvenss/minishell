@@ -6,7 +6,7 @@
 /*   By: gsever <gsever@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/23 14:43:17 by gsever            #+#    #+#             */
-/*   Updated: 2022/10/13 16:13:39 by gsever           ###   ########.fr       */
+/*   Updated: 2022/10/16 18:22:01 by gsever           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,8 @@ https://www.ibm.com/docs/en/i/7.2?topic=ssw_ibm_i_72/apis/sigkill.htm
 	uint8_t	 ->	unsigned char	1			8			0 to 255,
 	uint16_t ->	unsigned short	2			16			0 to 65535,
 	uint32_t ->	unsigned int	4			32			0 to 4294967295,
-	uint64_t ->	unsigned l_l 	8			64		0 to 18446744073709551615 */
+	uint64_t ->	unsigned l_l 	8			64		0 to 18446744073709551615
+*/
 # include <string.h> /*
 	malloc()	-> Allocating memory with NULL
 		void *malloc(size_t size);
@@ -169,25 +170,28 @@ https://www.ibm.com/docs/en/i/7.5?topic=functions-fputs-write-string#fputs
 	wait()		-> 
 	waitpid()	->
 	wait3()		->
-	wait4()		->  */
+	wait4()		->
+*/
 # include <sys/stat.h> /*
 	stat()		-> Get file status,
 	lstat()		-> Get file status,
-	fstat()		-> Get file status, */
+	fstat()		-> Get file status
+*/
 # include <sys/ioctl.h> /*
-	ioctl()		-> Control device. */
+	ioctl()		-> Control device.
+*/
 # include <readline/readline.h> /* 
 	readline()	->
 	rl_clear_history()	->
 	rl_on_new_line()	->
 	rl_replace_line()	->
 	rl_redisplay()	->
- */
+*/
 # include <readline/history.h> /*
 	add_history()	-> 
 	*/
-# include <pthread.h>
-# include <errno.h>
+# include <errno.h> /* 
+*/
 
 //	COLORS --> 🟥 🟩 🟦
 # define BLACK	"\e[0;30m"
@@ -211,13 +215,24 @@ https://www.ibm.com/docs/en/i/7.5?topic=functions-fputs-write-string#fputs
 
 # define CMD_CLEAR	"\e[1;1H\e[2J"
 
-//note: terminal isminin basina/sonuna renk kodlarini eklersek ust uste biniyor
-# define T_NAME				"$> "
-# define SHELLNAME			"minishell"
+/*
+terminal isminin basina/sonuna renk kodlarini eklersek yazilar ust uste biniyor
+*/
+# define T_NAME		"$୯> "
+# define SHELLNAME	"minishell"
 
 # define ERROR				-1
 # define WHITESPACES		" \t\n"
 # define QUOTE_MARKS		"\'\""
+
+# define TOK_TEXT			1
+# define TOK_S_QUOTE		2
+# define TOK_D_QUOTE		4
+# define TOK_REDIR_FILE		8
+# define TOK_CONNECTED		16
+# define TOK_PIPE			64
+# define TOK_REDIR			512
+# define TOK_HEREDOC		1024
 
 # define ERR_SYNTAX			"syntax error"
 # define ERR_SYNTAX_EXIT	2
@@ -231,211 +246,99 @@ https://www.ibm.com/docs/en/i/7.5?topic=functions-fputs-write-string#fputs
 # define ERR_MISS_OP		"missing operator"
 # define ERR_PIPE			"incomplete pipe"
 
-# define CMD_SCMD			1
 
-# define CMD_AND			2
-# define CMD_OR				4
-# define CMD_PIPE			8
-
-# define CMD_O_BRACKET		16
-# define CMD_C_BRACKET		32
-
-# define CMD_PIPELINE		64
-# define CMD_GROUP			128
-
-# define CMD_L_SCMD			256
-# define CMD_L_CMD			512
-
-# define TOK_TEXT			1
-# define TOK_S_QUOTE		2
-# define TOK_D_QUOTE		4
-# define TOK_REDIR_FILE		8
-# define TOK_CONNECTED		16
-# define TOK_BIN_OP			32
-# define TOK_PIPE			64
-# define TOK_O_BRACKET		128
-# define TOK_C_BRACKET		256
-# define TOK_REDIR			512
-# define TOK_HEREDOC		1024
-# define TOK_WILDCARD		2048
-
-// REDIR_TYPES
-# define REDIR_OUT			1
-# define REDIR_OUT_APP		2
-# define REDIR_IN			3
-# define REDIR_HEREDOC		4
-
-// REDIR_FDs
-# define REDIR_FILE			0
-# define REDIR_NUM			1
+# define READ_END 0
+# define WRITE_END 1
 
 /* ************************************************************************** */
 /* STRUCT DEFINES AREA													  	  */
 /* ************************************************************************** */
 
 typedef struct s_base	t_base;
+typedef struct s_cmd	t_cmd;
 
-/**
- * @brief Debuging'de list yazdirma islemi icin numara sirasi tutucu.
- */
-typedef enum s_state
-{
-	LEXER,
-	PARSER,
-	EXPANDER,
-	EXECUTOR
-}		t_state;
-
-// static const t_cmds	g_cmds[] = {
-// 	{"echo", cmd_echo},
-// 	{"cd", cmd_cd},
-// 	{"pwd", cmd_pwd},
-// 	{"unset", cmd_unset},
-// 	{"export", cmd_export},
-// 	{"env", cmd_env},
-// 	{"exit", cmd_exit},
-// 	{NULL, NULL},
-// };
-
-/**
- * @brief command'lar icin.
- * @param name*
- * @param (func*)(base*)
- */
-typedef struct s_cmds
+struct s_commands
 {
 	char	*name;
-	int		(*func)(t_base *base);
-}		t_cmds;
-
-// typedef	struct	s_redir
-// {
-// 	int		flag;
-// 	char	*str;
-// 	struct	s_redir *next;
-// }		t_redir;
-
-// typedef struct s_argv
-// {	
-// 	int		flag;
-// 	char	*str;
-// 	struct	s_argv *next;
-// }		t_argv;
-
-typedef struct s_parser	t_parser;
+	int		(*func)(t_base *base, t_cmd *cmd);
+};
 
 typedef struct s_lexer
 {
-	t_base			*base;
-	int				flag;
-	char			*str;
-	struct s_lexer	*next;
+	int		flag;
+	char	*str;
+	struct	s_lexer *next;
+	struct	s_lexer	*prev;
 }		t_lexer;
 
-typedef struct s_parser
+typedef struct s_cmd
 {
-	int				type;
-	// t_redir		*redir;
-	// t_argv		*argv;
-	t_parser		*element;
-	t_lexer			*redir;
-	t_lexer			*argv;
-	struct s_parser	*next;
-}		t_parser;
+	char	**full_cmd;
+	char	*full_path;
+	int		infile;
+	int		outfile;
+	struct s_cmd *next;
+}			t_cmd;
 
 typedef struct s_env
 {
-	t_base			*base;
-	char			**data;
-	struct s_env	*next;
-	struct s_env	*prev;
+	char	**data;
+	bool	is_env_equal;
+	struct	s_env	*next;
+	struct	s_env	*prev;
 }		t_env;
 
 typedef struct s_base
 {
-	int			exit_status;
+	int			fd_i;
+	char		*cd_tmp;
+	int			cmd_count;
+	pid_t		*pid;
+	int			**fd;
+	char		*old_token;
 	char		*input_line;
 	char		**PATH;
 	t_env		*env;
 	t_lexer		*lexer;
-	t_parser	*parser;
-	t_cmds		cmds[3];
+	t_cmd		*cmd;
 }		t_base;
 
 /* ************************************************************************** */
 /* FUNCTION PROTOTYPES														  */
 /* ************************************************************************** */
 
-// cmd_cd.c
-int		cmd_cd(t_base *base);
+int	g_status;
 
-// cmd_echo.c
-int		cmd_echo(t_base *base);
+int	main(int argc __attribute((unused))
+	, char **argv __attribute((unused))
+	, char **envp);
 
-// commands.c
-void	cmd_init(t_base *base);
-// int		command_find_arr(t_base *base)
-int		command_find(t_base *base);
-int		command_exec(t_base *base);
-
-// debuging.c
-// void	print_all_list(t_base *base);
-
-// error.c
-int		print_error(char *s1, char *s2, char *s3, char *message);
-int		print_error_errno(char *s1, char *s2, char *s3);
-
-// exec_recursive.c
-// int	exec_recursive(t_base *base)
-
-// expand_var.c
-int	expand_var_token_list(t_lexer *token);
-
-// heredoc_parser.c
-int		parser_heredoc(t_lexer *lexer);
-
-// history.c
-int		history_empty_check(char *input_line);
-
-// lexer_syntax.c
-int		redir_mark_files(t_lexer *lexer);
-int		lexer_syntax(t_lexer *lexer);
-
-// lexer.c
-char	*token_to_str(t_lexer *lexer);
-void	lexer(t_base *base, char *str);
-
-// main.c
-int		main(int argc, char **argv, char **environ);
-
-// minishell.c
 void	minishell(t_base *base);
+void	processes(t_base *base);
+int		print_error(char *s1, char *s2, char *s3, char *message);
+void	lexer(t_base *base, char *str);
+int		lexer_syntax(t_lexer *lexer);
+void	lexer_free(t_lexer **lexer);
+int		file_or_dir_search(char *str, int flag);
 
-// parser.c
-// int			parser_scmd_set(t_parser *new, t_lexer *lexer);
-// t_parser	*parser_cmd_create(t_base *base, int type);
-// int			parser_cmd_type(t_lexer *lexer);
-// int			parser_cmd(t_base *base);
-int		parser(t_base *base);
+int		command_exec(t_base *base, t_cmd *cmd);
+int		cmd_exit(t_base *base, t_cmd *cmd);
+int		cmd_echo(t_base *base, t_cmd *cmd);
+int		cmd_pwd(t_base *base, t_cmd *cmd);
+int		cmd_env(t_base *base, t_cmd *cmd);
+int		cmd_export(t_base *base, t_cmd *cmd);
+int		cmd_unset(t_base *base, t_cmd *cmd);
+int		cmd_cd(t_base *base, t_cmd *cmd);
 
-// redir.c
-// void	argv_lstadd(t_argv **redir, t_lexer *new);
-// void	redir_lstadd(t_redir **redir, t_lexer *new);
-int		redir_type(char *redir);
 
-// signal.c
-void	signal_ctrl_heredoc(int sig);
-void	action(int sig);
+int		export_arg_check(char **str);
+int		export_same_check(t_base *base, char *str);
+int		export_lstsize(t_env *lst);
+char	*export_find_max_str(t_base *base);
+char	*export_find_min_str(t_base *base);
 
-// utils_env.c
+
 void	set_env(t_base *base, char *env_name, char *new_str);
 char	*env_findret(t_base *base, char *env_name);
 int		env_struct(t_base *base, char *new_arg);
-
-// utils_str.c
-char	*str_append_str(char *str, char *append);
-char	*str_append_chr(char *str, char append);
-
-int		exec_recursive(t_base *base, bool subshell);
-
 #endif

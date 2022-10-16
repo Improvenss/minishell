@@ -3,82 +3,90 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gsever <gsever@student.42kocaeli.com.tr    +#+  +:+       +#+        */
+/*   By: akaraca <akaraca@student.42.tr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/06 17:27:26 by akaraca           #+#    #+#             */
-/*   Updated: 2022/10/12 13:56:01 by gsever           ###   ########.fr       */
+/*   Created: 2022/10/13 08:47:06 by akaraca           #+#    #+#             */
+/*   Updated: 2022/10/13 08:47:06 by akaraca          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void	ft_free(t_lexer **lexer)
+void	cmd_free(t_cmd **cmd)
+{
+	t_cmd	*tmp;
+
+	while (*cmd && (*cmd)->next != NULL)
+	{
+		tmp = (*cmd)->next;
+		free(*cmd);
+		(*cmd) = tmp;
+	}
+	*cmd = NULL;
+}
+
+void	lexer_free(t_lexer **lexer)
 {
 	t_lexer *tmp;
 
-	while (*lexer != NULL)
+	while (*lexer && (*lexer)->next != NULL)
 	{
 		tmp = (*lexer)->next;
-		free((*lexer)->str);
+		//if ((*lexer)->str[0] != '\0')
+		//	free((*lexer)->str);
 		free(*lexer);
 		(*lexer) = tmp;
 	}
 	*lexer = NULL;
 }
 
-/**
- * @brief 
- * 
- * @param base 
- * @fn lexer_list(): Lexer isleminde; operatorleri, yazim hatalarini falan
- *  kontrol edip tokenlerine ayiriyor.
- * @fn lexer_syntax(): Lexerleme isleminden sonra syntax(yazim hatasi)
- *  var mi onlari kontrol ediyor.
- * @fn redir_mark_files(): '<' '>' gibi redir operatorleri var mi onlari
- *  kontrol ediyor.
- * @fn parser(): Lexer'lenen input'u parcaliyor(parser).
- */
-void	processes(t_base *base)
+void	action(int sig)
 {
-	base->lexer = NULL;
-	base->parser = NULL;
-	base->exit_status = 0;
-	lexer(base, base->input_line);
-	if (lexer_syntax(base->lexer) == ERROR
-	|| redir_mark_files(base->lexer) == ERROR)
-		base->exit_status = ERR_SYNTAX_EXIT;
-	// t_lexer *tmp = base->lexer;
-	// while (tmp)
-	// {
-	// 	printf("str: %s flag: %d\n", tmp->str, tmp->flag);
-	// 	tmp = tmp->next;
-	// }
-	if (base->lexer != NULL && base->exit_status != ERR_SYNTAX_EXIT)
-		parser(base);
-	if (base->lexer != NULL && base->parser != NULL)
-	 	exec_recursive(base, false);
+	if (sig == SIGINT)
+	{
+		g_status = 130;
+		write(STDERR_FILENO, "\n", 1);
+		rl_replace_line("", 0);
+		rl_on_new_line();
+		rl_redisplay();
+	}
 }
 
-/** OK:
- * @brief Minishell starting here.
- * 
- * @param base: Main structure.
- * @fn signal(SIGQUIT, SIG_IGN): Klayeden girilen CTRL+C,D,\ sinyallerini
- *  kontrol ediyor. SIGQUIT: CTRL+\ signalini, (SIG_IGN) ignorluyor.
- * @fn action(): CTRL+*'dan gelen sinyal sonucunda hangi func()
- *  calismasini istedigimiz func().
- * @fn readline(): T_NAME'yi terminale yazip, input'umuzu girmemizi bekliyor.
- *  Input'umuzu girdikten sonra bunu base->input_line'ye yaziyor.
- * @fn ft_putendl_fd(): input_line'miz bossa file descriptor(fd)'a error yazar.
- * @fn rl_clear_history(): readline kutuphanesi icin gecmisi temizliyor.
- * @fn exit(): Exit BRUH.
- * @fn history_empty_check(): Terminal gecmisini kontrol ediyor,
- *  static char *last_entry'de tutuyor onceki girdiyi.
- *  If tekrardan ayni girdi girildiyse return 0.
- * @fn add_history(): readline'nin kendi func(), kendisi hafizasinda tutuyor.
- * @fn processes(): base->input_line'yi alip calistiriyor,
- *  lexer -> parser -> expander -> executor islemlerini uyguluyor.
- */
+int	ft_strcmp_edited(char *s1, char *s2)
+{
+	int	i;
+
+	i = 0;
+	if (!s1 || !s2)
+		return (-1);
+	while (s1[i] == s2[i] && s1[i] != '\0' && s2[i] != '\0')
+		i++;
+	return (s1[i] - s2[i]);
+}
+
+int	history_empty_check(char *input_line)
+{
+	static char	*last_entry;
+	int			i;
+	int			l;
+
+	if (ft_strcmp_edited(input_line, last_entry) == 0)
+		return (0);
+	free(last_entry);
+	last_entry = ft_strdup(input_line);
+	l = 0;
+	i = 0;
+	while (input_line[i])
+	{
+		if (input_line[i] == ' ')
+			l++;
+		i++;
+	}
+	if (i == l)
+		return (0);
+	return (1);
+}
+
 void	minishell(t_base *base)
 {
 	signal(SIGQUIT, SIG_IGN);
@@ -95,11 +103,12 @@ void	minishell(t_base *base)
 		if (history_empty_check(base->input_line))
 			add_history(base->input_line);
 		processes(base);
-		ft_free(&base->lexer);
+		lexer_free(&base->lexer);
+		cmd_free(&base->cmd);
 		free(base->input_line);
 		// system("leaks minishell");
 	}
 	rl_clear_history();
 	//ft_free(base);
-	//exit(base->exit_status);
+	exit(g_status);
 }

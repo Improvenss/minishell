@@ -6,7 +6,7 @@
 /*   By: gsever <gsever@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/05 14:37:02 by gsever            #+#    #+#             */
-/*   Updated: 2022/10/12 16:28:12 by gsever           ###   ########.fr       */
+/*   Updated: 2022/06/13 23:18:24 by gsever           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,12 +39,10 @@ ve u, isaretsiz tur anlamına gelir.
 #include <stdio.h>
 int	main()
 {
-	char b[] = "gorkem";
-	char a[] = "se";
+	char a[] = "gorkem";
+	char b[] = "sever";
 
-	printf("onceki a: %s, b: %s\n", a, b);
-	printf("ft_:%zu\n", ft_strlcat(a, b, 1));
-	printf("sonraki a: %s, b: %s\n", a, b);
-	printf("a -> %s b -> %s\n", a, b);
+	printf("ft_:%zu\n", ft_strlcat(a, b, 4));
+	printf("%s: %s\n", a, b);
 }
 */
