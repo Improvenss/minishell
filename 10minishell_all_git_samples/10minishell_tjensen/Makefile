@@ -6,7 +6,7 @@
 #    By: gsever <gsever@student.42kocaeli.com.tr    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/10/27 22:03:08 by tjensen           #+#    #+#              #
-#    Updated: 2022/10/10 16:23:38 by gsever           ###   ########.fr        #
+#    Updated: 2022/10/16 20:17:28 by gsever           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,21 +20,21 @@ UNAME		:= $(shell uname -s)
 NUMPROC		:= 8
 
 OS			:= NULL
-RL_INC_OS	:= /goinfre/$(USER)/brew/Cellar/readline/8.1.2/include
-RL_LIB_OS	:= /goinfre/$(USER)/brew/Cellar/readline/8.1.2/lib
-# RL_INC_OS = /opt/homebrew/Cellar/readline/8.1.2/include/
-# RL_LIB_OS = /opt/homebrew/Cellar/readline/8.1.2/lib
+# RL_INC_OS	= /goinfre/$(USER)/brew/Cellar/readline/8.2.1/include
+# RL_LIB_OS	= /goinfre/$(USER)/brew/Cellar/readline/8.2.1/lib
+RL_INC_OS = /opt/homebrew/Cellar/readline/8.2.1/include/
+RL_LIB_OS = /opt/homebrew/Cellar/readline/8.2.1/lib
 
 CPPFLAGS    := -I./inc -I./lib/libft/inc \
 	-I$(RL_INC_OS)
 # -I/Users/gsever/goinfre/brew/include
-# -I/opt/homebrew/Cellar/readline/8.1.2/include/
+# -I/opt/homebrew/Cellar/readline/8.2.1/include/
 DEPFLAGS     = -MT $@ -MMD -MP -MF $(DDIR)/$*.d
 
 LDFLAGS     := -L./lib/libft \
 	-L$(RL_LIB_OS)
 # -L/Users/gsever/goinfre/brew/lib
-# -L/opt/homebrew/Cellar/readline/8.1.2/lib
+# -L/opt/homebrew/Cellar/readline/8.2.1/lib
 
 LDLIBS      := -lft -lreadline
 
@@ -84,13 +84,13 @@ else ifeq ($(UNAME), Darwin)
 	OS = "You are connected from 42 school's iMac 🖥 ! Welcome $(CYAN)$(USER)$(X)"
 	ifeq ($(USER), yuandre)
 		OS = "You are connected from -$(CYAN)MacBook$(X)- 💻 Welcome -$(CYAN)$(USER)$(X)-!"
-		RL_INC_OS = /opt/homebrew/Cellar/readline/8.1.2/include/
-		RL_LIB_OS = /opt/homebrew/Cellar/readline/8.1.2/lib
+		RL_INC_OS := /opt/homebrew/Cellar/readline/8.2.1/include/
+		RL_LIB_OS := /opt/homebrew/Cellar/readline/8.2.1/lib
 	endif
 	ifeq ($(USER), akaraca)
 		OS = "You are connected from -$(CYAN)MacBook$(X)- 💻 Welcome -$(CYAN)$(USER)$(X)-!"
-		RL_INC_OS	:= /goinfre/$(USER)/homebrew/Cellar/readline/8.1.2/include
-		RL_LIB_OS	:= /goinfre/$(USER)/homebrew/Cellar/readline/8.1.2/lib
+		RL_INC_OS	:= /goinfre/$(USER)/homebrew/Cellar/readline/8.2.1/include
+		RL_LIB_OS	:= /goinfre/$(USER)/homebrew/Cellar/readline/8.2.1/lib
 	endif
 endif
 

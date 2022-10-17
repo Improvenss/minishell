@@ -27,7 +27,7 @@ void	cmd_free(t_cmd **cmd)
 
 void	lexer_free(t_lexer **lexer)
 {
-	t_lexer *tmp;
+	t_lexer	*tmp;
 
 	while (*lexer && (*lexer)->next != NULL)
 	{
@@ -87,9 +87,18 @@ int	history_empty_check(char *input_line)
 	return (1);
 }
 
+/**
+ * @brief 
+ * 
+ * @param base 
+ * @note 
+ * 	TODO: exit argv1
+ * 	TODO: DEBUG=tirnaksiz hali dahil edilecek "tirnakli hali calisiyor"
+ */
 void	minishell(t_base *base)
 {
 	signal(SIGQUIT, SIG_IGN);
+	commands_init(base);
 	while (1)
 	{
 		signal(SIGINT, action);

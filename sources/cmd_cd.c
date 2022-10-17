@@ -12,7 +12,6 @@
 
 #include "../includes/minishell.h"
 
-
 char	*clear_slash(t_base *base, char *str)
 {
 	char		*tmp;
@@ -80,6 +79,7 @@ char	*delete_front_slash(char *str)
 
 int	cmd_cd(t_base *base, t_cmd *cmd)
 {
+	ft_putendl_fd(GREEN"cmd_cd() calisti"END, 1);
 	if (cmd->full_cmd[2] != NULL)
 	{
 		print_error(SHELLNAME, "cd", NULL, "too many arguments");

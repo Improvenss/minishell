@@ -19,6 +19,7 @@ int	cmd_unset(t_base *base, t_cmd *cmd)
 	t_env	*del;
 	int		l;
 
+	ft_putendl_fd(GREEN"cmd_unset() calisti"END, 1);
 	l = 0;
 	while (cmd->full_cmd[++l] != NULL)
 	{

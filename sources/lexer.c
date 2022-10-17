@@ -58,7 +58,6 @@ t_lexer *token_create(t_base *base, char *str, int type)
 	return (new);
 }
 
-
 int	lexer_pipe(t_base *base, char *str, int *i)
 {
 	char *token;
@@ -383,11 +382,5 @@ void	lexer(t_base *base, char *str)
 	}
 	if (str[i] != '\0')
 		g_status = 1;
-	t_lexer *tmp = base->lexer;
-	while (tmp)
-	{
-		printf("							->: STR: %s FLAG: %d\n", tmp->str, tmp->flag);
-		tmp = tmp->next;
-	}
-	printf("\n");
+	debug_print_str(base, "DEBUG", "print");
 }

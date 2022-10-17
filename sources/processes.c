@@ -261,6 +261,24 @@ void	fork_dup(t_base *base, int i, t_cmd *cmd)
 		dup2(base->fd[i][cmd->outfile], 1);
 }
 
+/**
+ * @brief command_exec() burada calisacak.
+ * 
+ * @note base->cmd_count: Pipe sayisi + 1 kadar. Bu kadar process acilacak.
+ * 
+ * @param base 
+ * @fn fork(): Eger birden fazla pipe'miz varsa o kadar calistirilacak
+ *  ve islemi bitince sonlandirilacak.
+ * @fn fork_dup(): Bir onceki pipe'den(fork'tan) bilgiyi alabilmek icin.
+ * @fn fd_close()
+ * @fn command_exec(): Komut burada calistirilacak, eger cmd_*()'da tanimli
+ *  bir komut yoksa execve()'ye gonderilip calistirilacak.
+ * @fn print_error(): Eger komutumuz ve execve'miz calismazsa
+ *  yazdirilacak error.
+ * @fn exit()
+ * @fn ft_wait()
+ * @return int 
+ */
 int	fork_start(t_base *base)
 {
 	int i;
@@ -303,20 +321,7 @@ void	cmd(t_base *base)
 	{
 		tmp = cmd_create(&base->cmd, tmp);
 	}
-	t_cmd *write;
-	write = base->cmd;
-	while (write)
-	{
-		int i = 0;
-		while (write->full_cmd[i])
-		{
-			printf("CMD->[%d]: %s\n", i, write->full_cmd[i]);
-			i++;
-		}
-		printf("[%d]: in: %d out: %d\n",i, write->infile, write->outfile);
-		write = write->next;
-	}
-	printf("###############################################################################\n");
+	debug_print_cmd(base, "DEBUG", "print");
 	if (fork_init(base) == 0)
 	{
 		print_error(SHELLNAME, "fork", NULL, "Cannot allocate memory");
@@ -327,12 +332,12 @@ void	cmd(t_base *base)
 
 void	processes(t_base *base)
 {
+	signal(SIGINT, SIG_IGN);
 	lexer(base, base->input_line);
 	if (lexer_syntax(base->lexer) == ERROR)
 		g_status = 1;
 	else
 	{
-		printf("###############################################################################\n");
 		cmd(base);
 	}
 }

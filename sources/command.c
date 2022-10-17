@@ -12,22 +12,36 @@
 
 #include "../includes/minishell.h"
 
-static const struct s_commands	g_commands[] = {
-	{"echo", cmd_echo},
-	{"cd", cmd_cd},
-	{"pwd", cmd_pwd},
-	{"unset", cmd_unset},
-	{"export", cmd_export},
-	{"env", cmd_env},
-	{"exit", cmd_exit},
-	{NULL, NULL},
-};
+// static const struct s_commands	g_commands[] = {
+// 	{"echo", cmd_echo},
+// 	{"cd", cmd_cd},
+// 	{"pwd", cmd_pwd},
+// 	{"unset", cmd_unset},
+// 	{"export", cmd_export},
+// 	{"env", cmd_env},
+// 	{"exit", cmd_exit},
+// 	{NULL, NULL},
+// };
+
+void	commands_init(t_base *base)
+{
+	base->commands[0] = (t_commands){"echo", cmd_echo};
+	base->commands[1] = (t_commands){"cd", cmd_cd};
+	base->commands[2] = (t_commands){"pwd", cmd_pwd};
+	base->commands[3] = (t_commands){"unset", cmd_unset};
+	base->commands[4] = (t_commands){"export", cmd_export};
+	base->commands[5] = (t_commands){"env", cmd_env};
+	base->commands[6] = (t_commands){"exit", cmd_exit};
+	base->commands[7] = (t_commands){NULL, NULL};
+}
 
 char	*ft_path(char **path, char *cmd_name)
 {
-	char *dir1;
-	char *dir2;
-	int i = -1;
+	char	*dir1;
+	char	*dir2;
+	int		i;
+
+	i = -1;
 	while (path[++i])
 	{
 		dir2 = ft_strjoin("/", cmd_name);
@@ -76,6 +90,8 @@ int	cmd_other(t_base *base, char **cmd_array)
 			extern char **environ; /////////kaldırılcak, base->env char** yapısında olmadığından hatalı durumda.
 			int pi;
 			pi = fork();
+			signal(SIGINT, SIG_DFL);
+			signal(SIGQUIT, SIG_DFL);
 			if (pi == 0)
 				g_status = execve(ft_path(base->PATH, cmd_array[0]), cmd_array, environ);
 			waitpid(pi, &g_status, 0);
@@ -86,6 +102,8 @@ int	cmd_other(t_base *base, char **cmd_array)
 		extern char **environ; /////////kaldırılcak, base->env char** yapısında olmadığından hatalı durumda.
 		int pi;
 		pi = fork();
+		signal(SIGINT, SIG_DFL);
+		signal(SIGQUIT, SIG_DFL);
 		if (pi == 0)
 		{
 			if (base->fd_i != base->cmd_count - 1)
@@ -113,11 +131,11 @@ int	command_find_arr(t_base *base, char **cmd_array)
 	if (cmd_array[0] == NULL)
 		return (0);
 	i = -1;
-	while (cmd_array && g_commands[++i].name != NULL)
+	while (cmd_array && base->commands[++i].name != NULL)
 	{
-		c_name = ft_strlen(g_commands[i].name);
+		c_name = ft_strlen(base->commands[i].name);
 		if (cmd_array && ft_strncmp_edited(cmd_array[0],
-			g_commands[i].name, c_name))
+			base->commands[i].name, c_name))
 		{
 			return (i + 1);
 		}
@@ -133,6 +151,43 @@ int	command_exec(t_base *base, t_cmd *cmd)
 	if (cmd_i == 127)
 		return (ERROR);
 	if (cmd_i > 0 && cmd_i < 8)
-		return (g_commands[cmd_i - 1].func(base, cmd));
+		return (base->commands[cmd_i - 1].func(base, cmd));
 	return (0);
 }
+
+// int	command_find_arr(t_base *base, char **cmd_array)
+// {
+// 	int	c_name;
+// 	int	i;
+
+// 	if (cmd_array[0] == NULL)
+// 		return (0);
+// 	i = -1;
+// 	while (cmd_array && g_commands[++i].name != NULL)
+// 	{
+// 		c_name = ft_strlen(g_commands[i].name);
+// 		// printf("cmd_array: %s\n", cmd_array[0]);
+// 		if (cmd_array && ft_strncmp_edited(cmd_array[0],
+// 			g_commands[i].name, c_name))
+// 		{
+// 			return (i + 1);
+// 		}
+// 	}
+// 	return (cmd_other(base, cmd_array));
+// }
+
+// int	command_exec(t_base *base, t_cmd *cmd)
+// {
+// 	int	cmd_i;
+
+// 	printf("base->cmd->full_cmd: %s\n", cmd->full_cmd[0]);
+// 	printf("base->cmd->full_cmd: %s\n", cmd->full_cmd[1]);
+// 	printf("base->cmd->full_cmd: %s\n", cmd->full_cmd[2]);
+// 	printf("base->cmd->full_cmd: %s\n", cmd->full_cmd[3]);
+// 	cmd_i = command_find_arr(base, cmd->full_cmd);
+// 	if (cmd_i == 127)
+// 		return (ERROR);
+// 	if (cmd_i > 0 && cmd_i < 8)
+// 		return (g_commands[cmd_i - 1].func(base, cmd));
+// 	return (0);
+// }

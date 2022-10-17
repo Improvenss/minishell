@@ -83,6 +83,7 @@ void	cmd_export_print(t_base *base, t_cmd *cmd)
 
 int	cmd_export(t_base *base, t_cmd *cmd)
 {
+	ft_putendl_fd(GREEN"cmd_export() calisti"END, 1);
 	if (cmd->full_cmd[1] == NULL)
 		cmd_export_print(base, cmd);
 	else if (export_arg_check(cmd->full_cmd))

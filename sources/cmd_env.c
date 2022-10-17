@@ -17,6 +17,7 @@ int	cmd_env(t_base *base, t_cmd *cmd)
 	t_env	*tmp;
 	int		i;
 
+	ft_putendl_fd(GREEN"cmd_env() calisti"END, 1);
 	tmp = base->env;
 	while (tmp != NULL)
 	{

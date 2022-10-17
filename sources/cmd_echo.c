@@ -35,6 +35,7 @@ int	cmd_echo(t_base *base, t_cmd *cmd)
 	int		i;
 	bool	new_line;
 
+	printf(GREEN"cmd_echo() calisti\n"RESET);
 	i = 0;
 	if(cmd->full_cmd[1] == NULL)
 		write(cmd->outfile, "\n", 1);

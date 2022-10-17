@@ -12,6 +12,38 @@
 
 #include "../includes/minishell.h"
 
+/** OK:
+ * @brief Environmentlerin icinde disaridan verdigimiz variable ve valuesini
+ *  ariyoruz; eger varsa true donuyor, yoksa(bulamazsa) false donuyor.
+ * 
+ * @param base For base->env
+ * @param env_var env -> [HERE]=not_here
+ * @param value env -> [not_here]=[HERE]
+ * @return If variable found OK: true. Not found NOK: false.
+ */
+bool	env_is_have(t_base *base, char *env_var, char *value)
+{
+	t_env	*tmp;
+
+	tmp = base->env;
+	while(tmp)
+	{
+		if (ft_strncmp(tmp->data[0], env_var, ft_strlen(env_var)) == 0
+			&& ft_strncmp(tmp->data[1], value, ft_strlen(value)) == 0)
+			return (true);
+		tmp = tmp->next;
+	}
+	return (false);
+}
+
+/**
+ * @brief Set the env object
+ * 
+ * @param base 
+ * @param env_name 
+ * @param new_str 
+ * @note int exit; kullanilmiyor.
+ */
 void	set_env(t_base *base, char *env_name, char *new_str)
 {
 	t_env	*tmp;

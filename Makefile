@@ -6,7 +6,7 @@
 #    By: gsever <gsever@student.42kocaeli.com.tr    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/09/15 17:54:15 by gsever            #+#    #+#              #
-#    Updated: 2022/10/16 03:47:21 by gsever           ###   ########.fr        #
+#    Updated: 2022/10/16 20:05:51 by gsever           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,12 +27,6 @@ RL_LIB_OS	:= /goinfre/$(USER)/brew/Cellar/readline/8.1.2/lib
 #	Libft Part --> OK
 LIBFTDIR		= ./libraries/libft
 # LIBFT		= $(LIBFTDIR)/libft.a
-
-#READLINE_INC_MACOS	:= /goinfre/$(USER)/brew/include
-#READLINE_LIB_MACOS	:= /goinfre/$(USER)/brew/lib
-
-# READLINE_INC_MACOS := /goinfre/$(USER)/homebrew/Cellar/readline/8.1.2/include
-# READLINE_LIB_MACOS := /goinfre/$(USER)/homebrew/Cellar/readline/8.1.2/lib
 
 #	Locations Part --> OK
 LIBRARIES	= \
@@ -102,13 +96,13 @@ else ifeq ($(UNAME), Darwin)
 	OS = "You are connected from 42 school's iMac 🖥 ! Welcome $(CYAN)$(USER)$(X)"
 	ifeq ($(USER), yuandre)
 		OS = "You are connected from -$(CYAN)MacBook$(X)- 💻 Welcome -$(CYAN)$(USER)$(X)-!"
-		RL_INC_OS := /opt/homebrew/Cellar/readline/8.1.2/include/
-		RL_LIB_OS := /opt/homebrew/Cellar/readline/8.1.2/lib
+		RL_INC_OS := /opt/homebrew/Cellar/readline/8.2.1/include/
+		RL_LIB_OS := /opt/homebrew/Cellar/readline/8.2.1/lib
 	endif
 	ifeq ($(USER), akaraca)
 		OS = "You are connected from -$(CYAN)MacBook$(X)- 💻 Welcome -$(CYAN)$(USER)$(X)-!"
-		RL_INC_OS	:= /goinfre/$(USER)/homebrew/Cellar/readline/8.1.2/include
-		RL_LIB_OS	:= /goinfre/$(USER)/homebrew/Cellar/readline/8.1.2/lib
+		RL_INC_OS	:= /goinfre/$(USER)/homebrew/Cellar/readline/8.2.1/include
+		RL_LIB_OS	:= /goinfre/$(USER)/homebrew/Cellar/readline/8.2.1/lib
 	endif
 endif
 # You can use --> man sysctl -> shell: sysctl -a | grep "hw.ncpu"

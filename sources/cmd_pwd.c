@@ -17,6 +17,7 @@ int	cmd_pwd(t_base *base, t_cmd *cmd)
 	char	*output;
 	int		i;
 
+	ft_putendl_fd(GREEN"cmd_pwd() calisti"END, 1);
 	if (cmd->full_cmd[1] == NULL)
 	{
 		i = 0;

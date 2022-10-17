@@ -16,6 +16,10 @@ int	cmd_exit(t_base *base, t_cmd *cmd)
 {
 	(void)*base;
 	(void)*cmd;
+	// int	exit_num;
+
+	// exit_num = g_status;
+	// if (cmd->)
 	ft_putendl_fd(RED"exit"END, STDERR_FILENO);
 	exit(0);
 	return (0);

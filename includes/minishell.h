@@ -6,7 +6,7 @@
 /*   By: gsever <gsever@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/23 14:43:17 by gsever            #+#    #+#             */
-/*   Updated: 2022/10/16 18:22:01 by gsever           ###   ########.fr       */
+/*   Updated: 2022/10/16 23:56:53 by gsever           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -194,15 +194,15 @@ https://www.ibm.com/docs/en/i/7.5?topic=functions-fputs-write-string#fputs
 */
 
 //	COLORS --> 🟥 🟩 🟦
-# define BLACK	"\e[0;30m"
-# define RED	"\e[0;31m"
-# define GREEN	"\e[0;32m"
-# define YELLOW	"\e[0;33m"
-# define BLUE	"\e[0;34m"
-# define PURPLE	"\e[0;35m"
-# define CYAN	"\e[0;36m"
-# define WHITE	"\e[0;37m"
-# define END	"\e[m"
+# define BLACK	"\033[0;30m"
+# define RED	"\033[0;31m"
+# define GREEN	"\033[0;32m"
+# define YELLOW	"\033[0;33m"
+# define BLUE	"\033[0;34m"
+# define PURPLE	"\033[0;35m"
+# define CYAN	"\033[0;36m"
+# define WHITE	"\033[0;37m"
+# define END	"\033[m"
 # define RESET	"\033[0m"
 
 //	COLORS BOLD--> B🟥 B🟩 B🟦
@@ -257,11 +257,17 @@ terminal isminin basina/sonuna renk kodlarini eklersek yazilar ust uste biniyor
 typedef struct s_base	t_base;
 typedef struct s_cmd	t_cmd;
 
-struct s_commands
+// struct s_commands
+// {
+// 	char	*name;
+// 	int		(*func)(t_base *base, t_cmd *cmd);
+// };
+
+typedef struct s_commands
 {
 	char	*name;
 	int		(*func)(t_base *base, t_cmd *cmd);
-};
+}		t_commands;
 
 typedef struct s_lexer
 {
@@ -273,19 +279,19 @@ typedef struct s_lexer
 
 typedef struct s_cmd
 {
-	char	**full_cmd;
-	char	*full_path;
-	int		infile;
-	int		outfile;
-	struct s_cmd *next;
-}			t_cmd;
+	char			**full_cmd;
+	char			*full_path;
+	int				infile;
+	int				outfile;
+	struct s_cmd	*next;
+}		t_cmd;
 
 typedef struct s_env
 {
-	char	**data;
-	bool	is_env_equal;
-	struct	s_env	*next;
-	struct	s_env	*prev;
+	char			**data;
+	bool			is_env_equal;
+	struct s_env	*next;
+	struct s_env	*prev;
 }		t_env;
 
 typedef struct s_base
@@ -301,6 +307,7 @@ typedef struct s_base
 	t_env		*env;
 	t_lexer		*lexer;
 	t_cmd		*cmd;
+	t_commands	commands[8];
 }		t_base;
 
 /* ************************************************************************** */
@@ -321,6 +328,7 @@ int		lexer_syntax(t_lexer *lexer);
 void	lexer_free(t_lexer **lexer);
 int		file_or_dir_search(char *str, int flag);
 
+void	commands_init(t_base *base);
 int		command_exec(t_base *base, t_cmd *cmd);
 int		cmd_exit(t_base *base, t_cmd *cmd);
 int		cmd_echo(t_base *base, t_cmd *cmd);
@@ -338,7 +346,11 @@ char	*export_find_max_str(t_base *base);
 char	*export_find_min_str(t_base *base);
 
 
+bool	env_is_have(t_base *base, char *env_var, char *value);
 void	set_env(t_base *base, char *env_name, char *new_str);
 char	*env_findret(t_base *base, char *env_name);
 int		env_struct(t_base *base, char *new_arg);
+
+void	debug_print_cmd(t_base *base, char *env_var, char *value);
+void	debug_print_str(t_base *base, char *env_var, char *value);
 #endif
