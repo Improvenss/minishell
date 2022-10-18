@@ -159,19 +159,23 @@ char	*env_expand_next_next(t_base *base, char *token, int *i, char *new)
 	while (token[*i] && token[*i] != '$')
 		(*i)++;
 	env_name = ft_substr(token, l, *i - l);
-	//free(token);
 	if (!env_name)
-		return ("");
+		return (ft_strdup(""));
 	str = env_findret(base, env_name);
-	//free(env_name);
-	//printf("...%s\n", str);
+	free(env_name);
 	if (new != NULL && str != NULL)
-		return (ft_strjoin(new, str));
+	{
+		base->mem_1 = ft_strjoin(new, str);
+		free(new);
+		return (base->mem_1);
+	}
 	if (new != NULL && str == NULL)
 		return (new);
 	if (new == NULL && str != NULL)
-		return (str);
-	return ("");
+	{
+		return (ft_strdup(str));
+	}
+	return (ft_strdup("")); //dup kullanılmaz ise hatalı olur.
 }
 
 char	*env_expand_next(t_base *base, char *token, int *i, char *new)
@@ -180,17 +184,28 @@ char	*env_expand_next(t_base *base, char *token, int *i, char *new)
 	if (token[*i] == '\0')
 	{
 		if (new == NULL)
-			return ("$");
+			return (ft_strdup("$"));
 		else
-			return (ft_strjoin(new, "$"));
+		{
+			base->mem_1 = new;
+			base->mem_2 = ft_strjoin(new, "$");
+			free(base->mem_1);
+			return (base->mem_2);
+		}
 	}
 	if (token[*i] == '?')
 	{
 		(*i)++;
 		if (new == NULL)
-			return (ft_itoa(g_status));
+			return (ft_itoa(errno));
 		else
-			return(ft_strjoin(new, ft_itoa(g_status)));
+		{
+			base->mem_1 = ft_itoa(errno);
+			base->mem_2 = ft_strjoin(new, base->mem_1);
+			free(base->mem_1);
+			free(new);
+			return(base->mem_2);
+		}
 	}
 	return (env_expand_next_next(base, token, i, new));
 }
@@ -211,19 +226,29 @@ char	*env_expand(t_base *base, char *token)
 		if (i > 0 && new == NULL)
 			new = ft_substr(token, 0, i);
 		else if (i > l)
-			new = ft_strjoin(new, ft_substr(token, l, l + i));
+		{
+			base->mem_1 = ft_substr(token, l, l + i);
+			base->mem_2 = new;
+			new = ft_strjoin(new, base->mem_1);
+			free(base->mem_1);
+			free(base->mem_2);
+		}
 		while (token[i] == '$' && token[i + 1] == '$')
 		{
 			i = i + 2;
 			if (new == NULL)
-				new = ft_strdup("2840"); // hata aldığından dolayı strdup <3
+				new = ft_strdup("777"); // hata aldığından dolayı strdup <3, hafızada yer açılmadan eşitlenme söz konusu ile freelenemez.
 			else
-				new = ft_strjoin(new, "2840");
+			{
+				base->mem_1 = new;
+				new = ft_strjoin(new, "777");
+				free(base->mem_1);
+			}
 		}
 		if (token[i] == '$')
 			new = env_expand_next(base, token, &i, new);
 	}
-	//printf("#%11s#\n", new);
+	free(token);
 	return (new);
 }
 
@@ -242,6 +267,7 @@ t_lexer	*lexer_lstlast(t_lexer *lexer)
 void node_merge(t_lexer **lexer, char *token, char *str, int *i)
 {
 	char	*tmp;
+
 	if (!ft_strchr(WHITESPACES, str[*i]) && other_lenght(&str[*i]) == 0)
 		(*lexer)->flag = TOK_CONNECTED + TOK_TEXT;
 	else if ((*lexer)->prev && (*lexer)->prev->flag & (TOK_REDIR | TOK_HEREDOC)) //"AHMETKARACA" > "42"'MAHMUT'$PWD
@@ -281,14 +307,9 @@ int	lexer_text(t_base *base, char *str, int *i)
 			node_merge(&last, token, str, i);
 			return (0);
 		}
-		// if (token[0] == '\0') //pipelar arası argüman gerekli olduğundan dolayı kapattım.(boş argüman olsada lazım)
-		// {
-		// 	*i = *i + len;
-		// 	return (0);
-		// }
 		if(!token)
 			return (print_error(SHELLNAME, NULL, NULL, strerror(ENOMEM)));
-		new = token_create(base, token, lexer_type(last, TOK_TEXT));//TOK_TEXT);
+		new = token_create(base, token, lexer_type(last, TOK_TEXT));
 		if (!new)
 			return (print_error(SHELLNAME, NULL, NULL, strerror(ENOMEM)));
 		*i = *i + len;
@@ -342,17 +363,12 @@ int	lexer_quote(t_base *base, char *str, int *i)
 			node_merge(&last, token, str, i);
 			return (0);
 		}
-		// if (token[0] == '\0')
-		// {
-		// 	*i = *i + len;
-		// 	return (0);
-		// }
 		if(!token)
 			return (print_error(SHELLNAME, NULL, NULL, strerror(ENOMEM)));
 		if (str[*i] == '\'')
-			new = token_create(base, token, lexer_type(last, TOK_TEXT + TOK_S_QUOTE));//TOK_TEXT + TOK_S_QUOTE);
+			new = token_create(base, token, lexer_type(last, TOK_TEXT + TOK_S_QUOTE));
 		else
-			new = token_create(base, token, lexer_type(last, TOK_TEXT + TOK_D_QUOTE));//TOK_TEXT + TOK_D_QUOTE);
+			new = token_create(base, token, lexer_type(last, TOK_TEXT + TOK_D_QUOTE));
 		if (!new)
 			return (print_error(SHELLNAME, NULL, NULL, strerror(ENOMEM)));
 		*i = *i + len;
@@ -381,6 +397,6 @@ void	lexer(t_base *base, char *str)
 			i++;
 	}
 	if (str[i] != '\0')
-		g_status = 1;
+		errno = 1;
 	debug_print_str(base, "DEBUG", "print");
 }

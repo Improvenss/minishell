@@ -42,15 +42,15 @@ int	set_arg(t_base *base, char **environ)
 {
 	int	i;
 
-	g_status = 0;
+	errno = 0;
 	base->cmd = NULL;
 	base->env = NULL;
 	base->lexer = NULL;
 	i = -1;
 	while (environ[++i])
 		env_struct(base, environ[i]);
-	base->PATH = ft_split(env_findret(base, "PATH"), ':');
-	if (base->PATH == NULL)
+	base->env_path = ft_split(env_findret(base, "PATH"), ':');
+	if (base->env_path == NULL)
 		return (print_error(T_NAME, NULL, NULL, strerror(ENOMEM)));
 	return (0);
 }

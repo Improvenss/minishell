@@ -40,6 +40,6 @@ int	cmd_env(t_base *base, t_cmd *cmd)
 		}
 		tmp = tmp->next;
 	}
-	g_status = 0;
+	errno = 0;
 	return (0);
 }

@@ -83,7 +83,7 @@ int	cmd_cd(t_base *base, t_cmd *cmd)
 	if (cmd->full_cmd[2] != NULL)
 	{
 		print_error(SHELLNAME, "cd", NULL, "too many arguments");
-		g_status = 1;
+		errno = 1;
 	}
 	else if (cmd->full_cmd[1] == NULL
 		|| ft_strncmp_edited(cmd->full_cmd[1], "~", 1)
@@ -92,19 +92,20 @@ int	cmd_cd(t_base *base, t_cmd *cmd)
 		set_env(base, "OLDPWD", env_findret(base, "PWD"));
 		set_env(base, "PWD", env_findret(base, "HOME"));
 		chdir(env_findret(base, "HOME"));
-		g_status = 0;
+		errno = 0;
 	}
 	else if (ft_strncmp_edited(cmd->full_cmd[1], "-", 1))
 	{
-		base->cd_tmp = env_findret(base, "OLDPWD");
+		base->mem_1 = env_findret(base, "OLDPWD");
 		set_env(base, "OLDPWD", env_findret(base, "PWD"));
-		set_env(base, "PWD", base->cd_tmp);
-		chdir(base->cd_tmp);
+		set_env(base, "PWD", base->mem_1);
+		chdir(base->mem_1);
 		int i = 0;
-		while (base->cd_tmp[i])
-			write(cmd->outfile, &base->cd_tmp[i++], 1);
+		while (base->mem_1[i])
+			write(cmd->outfile, &base->mem_1[i++], 1);
+		free(base->mem_1);
 		write(cmd->outfile, "\n", 1);
-		g_status = 0;
+		errno = 0;
 	}
 	else if (cmd->full_cmd[1] != NULL && file_or_dir_search(cmd->full_cmd[1], O_DIRECTORY))
 	{
@@ -115,21 +116,22 @@ int	cmd_cd(t_base *base, t_cmd *cmd)
 			set_env(base, "PWD", cd_slash(cmd->full_cmd[1]));
 		else if (!ft_strncmp_edited(cmd->full_cmd[1], ".", 1))
 		{
-			base->cd_tmp = clear_slash(base, cmd->full_cmd[1]);
-			set_env(base, "PWD", ft_strjoin(env_findret(base, "PWD"), base->cd_tmp));
+			base->mem_1 = clear_slash(base, cmd->full_cmd[1]);
+			set_env(base, "PWD", ft_strjoin(env_findret(base, "PWD"), base->mem_1));
+			free(base->mem_1);
 		}
 		chdir(env_findret(base, "PWD"));
-		g_status = 0;
+		errno = 0;
 	}
 	else if (file_or_dir_search(cmd->full_cmd[1], 0))
 	{
 		print_error("cd", cmd->full_cmd[1], NULL,"Not a directory");
-		g_status = 1;
+		errno = 1;
 	}
 	else
 	{
 		print_error("cd", cmd->full_cmd[1], NULL, "No such file or directory");
-		g_status = 1;
+		errno = 1;
 	}
 	return (0);
 }

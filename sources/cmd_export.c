@@ -88,6 +88,6 @@ int	cmd_export(t_base *base, t_cmd *cmd)
 		cmd_export_print(base, cmd);
 	else if (export_arg_check(cmd->full_cmd))
 		cmd_export_add(base, cmd);
-	g_status = 0;
+	errno = 0;
 	return (0);
 }

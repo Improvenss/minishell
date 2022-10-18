@@ -12,13 +12,28 @@
 
 #include "../includes/minishell.h"
 
+void	chr_free(char **line)
+{
+	int	i;
+
+	i = -1;
+	while (line[++i])
+		free(line[i]);
+	free(line);
+}
+
 void	cmd_free(t_cmd **cmd)
 {
 	t_cmd	*tmp;
 
-	while (*cmd && (*cmd)->next != NULL)
+	while (*cmd )//&& (*cmd)->next != NULL)
 	{
 		tmp = (*cmd)->next;
+		chr_free((*cmd)->full_cmd);
+		// if ((*cmd)->infile != 0)
+		// 	close((*cmd)->infile);
+		// if ((*cmd)->outfile != 1)
+		// 	close((*cmd)->outfile);
 		free(*cmd);
 		(*cmd) = tmp;
 	}
@@ -29,10 +44,11 @@ void	lexer_free(t_lexer **lexer)
 {
 	t_lexer	*tmp;
 
-	while (*lexer && (*lexer)->next != NULL)
+	while (*lexer )//&& (*lexer)->next != NULL)
 	{
 		tmp = (*lexer)->next;
-		//if ((*lexer)->str[0] != '\0')
+		free((*lexer)->str);
+		//if ((*lexer)->str[0] != '\0') // $pwd'dönüş değeri '\0' olduğundan dolayı freelenemez.
 		//	free((*lexer)->str);
 		free(*lexer);
 		(*lexer) = tmp;
@@ -44,7 +60,7 @@ void	action(int sig)
 {
 	if (sig == SIGINT)
 	{
-		g_status = 130;
+		errno = 130;
 		write(STDERR_FILENO, "\n", 1);
 		rl_replace_line("", 0);
 		rl_on_new_line();
@@ -115,9 +131,9 @@ void	minishell(t_base *base)
 		lexer_free(&base->lexer);
 		cmd_free(&base->cmd);
 		free(base->input_line);
-		// system("leaks minishell");
+		//system("leaks minishell");
 	}
 	rl_clear_history();
 	//ft_free(base);
-	exit(g_status);
+	exit(errno);
 }

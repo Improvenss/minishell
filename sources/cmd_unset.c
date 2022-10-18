@@ -39,6 +39,6 @@ int	cmd_unset(t_base *base, t_cmd *cmd)
 				tmp->prev = before;
 		}
 	}
-	g_status = 0;
+	errno = 0;
 	return (0);
 }

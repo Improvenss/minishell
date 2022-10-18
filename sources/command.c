@@ -78,12 +78,13 @@ int	search_and_launch(char **cmd_array)
 
 int	cmd_other(t_base *base, char **cmd_array)
 {
+	base->mem_1 = ft_path(base->env_path, cmd_array[0]);
 	if (search_and_launch(cmd_array))
 	{
 		if (file_or_dir_search(cmd_array[0], O_DIRECTORY))
 		{
 			print_error(SHELLNAME, NULL, cmd_array[0], "Is a directory");
-			g_status = 1;
+			errno = 1;
 		}
 		else
 		{
@@ -93,11 +94,11 @@ int	cmd_other(t_base *base, char **cmd_array)
 			signal(SIGINT, SIG_DFL);
 			signal(SIGQUIT, SIG_DFL);
 			if (pi == 0)
-				g_status = execve(ft_path(base->PATH, cmd_array[0]), cmd_array, environ);
-			waitpid(pi, &g_status, 0);
+				errno = execve(base->mem_1, cmd_array, environ);
+			waitpid(pi, &errno, 0);
 		}
 	}
-	else if (ft_path(base->PATH, cmd_array[0]))
+	else if (base->mem_1)
 	{
 		extern char **environ; /////////kaldırılcak, base->env char** yapısında olmadığından hatalı durumda.
 		int pi;
@@ -111,15 +112,16 @@ int	cmd_other(t_base *base, char **cmd_array)
 				dup2(base->cmd->infile, 0);
 				dup2(base->cmd->outfile, 1);
 			}
-			g_status = execve(ft_path(base->PATH, cmd_array[0]), cmd_array, environ);
+			errno = execve(base->mem_1, cmd_array, environ);
 		}
-		waitpid(pi, &g_status, 0);
+		waitpid(pi, &errno, 0);
 	}
 	else
 	{
 		print_error(SHELLNAME, NULL, cmd_array[0], "command not found");
-		g_status = 127;
+		errno = 127;
 	}
+	free(base->mem_1);
 	return (0);
 }
 

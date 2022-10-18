@@ -6,7 +6,7 @@
 /*   By: gsever <gsever@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/23 14:43:17 by gsever            #+#    #+#             */
-/*   Updated: 2022/10/16 23:56:53 by gsever           ###   ########.fr       */
+/*   Updated: 2022/10/18 18:16:25 by gsever           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -246,7 +246,6 @@ terminal isminin basina/sonuna renk kodlarini eklersek yazilar ust uste biniyor
 # define ERR_MISS_OP		"missing operator"
 # define ERR_PIPE			"incomplete pipe"
 
-
 # define READ_END 0
 # define WRITE_END 1
 
@@ -271,10 +270,10 @@ typedef struct s_commands
 
 typedef struct s_lexer
 {
-	int		flag;
-	char	*str;
-	struct	s_lexer *next;
-	struct	s_lexer	*prev;
+	int				flag;
+	char			*str;
+	struct s_lexer	*next;
+	struct s_lexer	*prev;
 }		t_lexer;
 
 typedef struct s_cmd
@@ -296,6 +295,8 @@ typedef struct s_env
 
 typedef struct s_base
 {
+	char		*mem_1;
+	char		*mem_2;
 	int			fd_i;
 	char		*cd_tmp;
 	int			cmd_count;
@@ -303,7 +304,7 @@ typedef struct s_base
 	int			**fd;
 	char		*old_token;
 	char		*input_line;
-	char		**PATH;
+	char		**env_path;
 	t_env		*env;
 	t_lexer		*lexer;
 	t_cmd		*cmd;
@@ -314,11 +315,11 @@ typedef struct s_base
 /* FUNCTION PROTOTYPES														  */
 /* ************************************************************************** */
 
-int	g_status;
+// int	g_status;
 
-int	main(int argc __attribute((unused))
-	, char **argv __attribute((unused))
-	, char **envp);
+int		main(int argc __attribute((unused)),
+			char **argv __attribute((unused)),
+			char **envp);
 
 void	minishell(t_base *base);
 void	processes(t_base *base);
@@ -338,13 +339,11 @@ int		cmd_export(t_base *base, t_cmd *cmd);
 int		cmd_unset(t_base *base, t_cmd *cmd);
 int		cmd_cd(t_base *base, t_cmd *cmd);
 
-
 int		export_arg_check(char **str);
 int		export_same_check(t_base *base, char *str);
 int		export_lstsize(t_env *lst);
 char	*export_find_max_str(t_base *base);
 char	*export_find_min_str(t_base *base);
-
 
 bool	env_is_have(t_base *base, char *env_var, char *value);
 void	set_env(t_base *base, char *env_name, char *new_str);
