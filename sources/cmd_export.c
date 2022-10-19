@@ -10,6 +10,17 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+/**
+ * @file cmd_export.c
+ * @author Ahmet KARACA (akaraca)
+ * @author Gorkem SEVER (gsever)
+ * @brief 
+ * @version 0.1
+ * @date 2022-08-07
+ * 
+ * @copyright Copyright (c) 2022
+ * 
+ */
 #include "../includes/minishell.h"
 
 int		cmd_export_add(t_base *base, t_cmd *cmd)
@@ -56,7 +67,6 @@ void	cmd_export_print(t_base *base, t_cmd *cmd)
 			write(cmd->outfile, "declare -x ", 12);
 			while (print[l])
 				write(cmd->outfile, &print[l++], 1);
-				//printf("declare -x %s\n", print);
 			if (str != NULL)
 			{
 				l = 0;
@@ -64,7 +74,6 @@ void	cmd_export_print(t_base *base, t_cmd *cmd)
 				while (str[l])
 					write(cmd->outfile, &str[l++], 1);
 				write(cmd->outfile, "\"", 1);
-				//printf("declare -x %s=%c%s%c\n", print, '"', str, '"');
 			}
 			write(cmd->outfile, "\n", 1);
 		}
@@ -83,11 +92,10 @@ void	cmd_export_print(t_base *base, t_cmd *cmd)
 
 int	cmd_export(t_base *base, t_cmd *cmd)
 {
-	ft_putendl_fd(GREEN"cmd_export() calisti"END, 1);
 	if (cmd->full_cmd[1] == NULL)
 		cmd_export_print(base, cmd);
 	else if (export_arg_check(cmd->full_cmd))
 		cmd_export_add(base, cmd);
-	errno = 0;
+	exit_status(0, 0);
 	return (0);
 }

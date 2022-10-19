@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: akaraca <akaraca@student.42.tr>            +#+  +:+       +#+         #
+#    By: gsever <gsever@student.42kocaeli.com.tr    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/09/15 17:54:15 by gsever            #+#    #+#              #
-#    Updated: 2022/10/18 13:51:01 by akaraca          ###   ########.fr        #
+#    Updated: 2022/10/19 16:26:45 by gsever           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,7 +32,7 @@ LIBFTDIR		= ./libraries/libft
 LIBRARIES	= \
 	-L$(LIBFTDIR)/ -lft \
 	-L$(RL_LIB_OS) -lreadline
-#	-L/opt/homebrew/Cellar/readline/8.2.1/lib -lreadline
+#	-L/opt/homebrew/Cellar/readline/8.1.2/lib -lreadline
 #	-L/goinfre/homebrew/opt/readline/lib -lreadline -fcommon
 
 # -L.brew/opt/readline/lib -lreadline
@@ -40,7 +40,7 @@ INCLUDES	= \
 	-I$(HEADERS_DIRECTORY) \
 	-I$(LIBFTDIR)/includes \
 	-I$(RL_INC_OS)
-#	-I/opt/homebrew/Cellar/readline/8.2.1/include/
+#	-I/opt/homebrew/Cellar/readline/8.1.2/include/
 #	-I/goinfre/homebrew/opt/readline/include -fcommon
 #	-I$(READLINE_DIR)/include
 
@@ -101,8 +101,8 @@ else ifeq ($(UNAME), Darwin)
 	endif
 	ifeq ($(USER), akaraca)
 		OS = "You are connected from -$(CYAN)MacBook$(X)- 💻 Welcome -$(CYAN)$(USER)$(X)-!"
-		RL_INC_OS	:= /goinfre/$(USER)/brew/Cellar/readline/8.2.1/include
-		RL_LIB_OS	:= /goinfre/$(USER)/brew/Cellar/readline/8.2.1/lib
+		RL_INC_OS	:= /goinfre/$(USER)/homebrew/Cellar/readline/8.2.1/include
+		RL_LIB_OS	:= /goinfre/$(USER)/homebrew/Cellar/readline/8.2.1/lib
 	endif
 endif
 # You can use --> man sysctl -> shell: sysctl -a | grep "hw.ncpu"
@@ -149,8 +149,22 @@ re:
 	@$(MAKE) fclean --no-print-directory
 	@$(MAKE) all --no-print-directory
 
+brew_readline:
+	git clone --depth=1 https://github.com/Homebrew/brew \
+/goinfre/$(USER)/brew \
+&& echo 'export PATH=/goinfre/$(USER)/brew/bin:$(PATH)' >> $(HOME)/.zshrc
+	@echo "$(GREEN)Brew installed inside /goinfre/$(USER)/brew 🤓$(X)"
+	brew install readline
+	@echo "$(GREEN)Brew readline installed. 💩$(X)"
+	brew link --force readline
+	@echo "$(GREEN)Brew readline linked. 🎈$(X)"
+# 	echo 'export C_INCLUDE_PATH="/goinfre/$(USER)/brew/\
+# include:$(C_INCLUDE_PATH)"' >> ~/.zshrc
+# 	echo 'export LIBRARY_PATH="/goinfre/$(USER)/brew/\
+# lib:$(LIBRARY_PATH)"' >> ~/.zshrc
+
 test:
-	@cd testers && bash tester.sh a
+	@cd testers && bash tester.sh m
 
 leaksps:
 	$(LEAKS_PH)

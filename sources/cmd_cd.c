@@ -10,6 +10,17 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+/**
+ * @file cmd_cd.c
+ * @author Ahmet KARACA (akaraca)
+ * @author Gorkem SEVER (gsever)
+ * @brief 
+ * @version 0.1
+ * @date 2022-08-07
+ * 
+ * @copyright Copyright (c) 2022
+ * 
+ */
 #include "../includes/minishell.h"
 
 char	*clear_slash(t_base *base, char *str)
@@ -79,11 +90,10 @@ char	*delete_front_slash(char *str)
 
 int	cmd_cd(t_base *base, t_cmd *cmd)
 {
-	ft_putendl_fd(GREEN"cmd_cd() calisti"END, 1);
 	if (cmd->full_cmd[2] != NULL)
 	{
 		print_error(SHELLNAME, "cd", NULL, "too many arguments");
-		errno = 1;
+		exit_status(1, 0);
 	}
 	else if (cmd->full_cmd[1] == NULL
 		|| ft_strncmp_edited(cmd->full_cmd[1], "~", 1)
@@ -92,7 +102,7 @@ int	cmd_cd(t_base *base, t_cmd *cmd)
 		set_env(base, "OLDPWD", env_findret(base, "PWD"));
 		set_env(base, "PWD", env_findret(base, "HOME"));
 		chdir(env_findret(base, "HOME"));
-		errno = 0;
+		exit_status(0, 0);
 	}
 	else if (ft_strncmp_edited(cmd->full_cmd[1], "-", 1))
 	{
@@ -105,7 +115,7 @@ int	cmd_cd(t_base *base, t_cmd *cmd)
 			write(cmd->outfile, &base->mem_1[i++], 1);
 		free(base->mem_1);
 		write(cmd->outfile, "\n", 1);
-		errno = 0;
+		exit_status(0, 0);
 	}
 	else if (cmd->full_cmd[1] != NULL && file_or_dir_search(cmd->full_cmd[1], O_DIRECTORY))
 	{
@@ -121,17 +131,17 @@ int	cmd_cd(t_base *base, t_cmd *cmd)
 			free(base->mem_1);
 		}
 		chdir(env_findret(base, "PWD"));
-		errno = 0;
+		exit_status(0, 0);
 	}
 	else if (file_or_dir_search(cmd->full_cmd[1], 0))
 	{
-		print_error("cd", cmd->full_cmd[1], NULL,"Not a directory");
-		errno = 1;
+		print_error("cd", cmd->full_cmd[1], NULL, "Not a directory");
+		exit_status(1, 0);
 	}
 	else
 	{
 		print_error("cd", cmd->full_cmd[1], NULL, "No such file or directory");
-		errno = 1;
+		exit_status(1, 0);
 	}
 	return (0);
 }

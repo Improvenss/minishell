@@ -10,6 +10,17 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+/**
+ * @file cmd_unset.c
+ * @author Ahmet KARACA (akaraca)
+ * @author Gorkem SEVER (gsever)
+ * @brief 
+ * @version 0.1
+ * @date 2022-08-07
+ * 
+ * @copyright Copyright (c) 2022
+ * 
+ */
 #include "../includes/minishell.h"
 
 int	cmd_unset(t_base *base, t_cmd *cmd)
@@ -19,7 +30,6 @@ int	cmd_unset(t_base *base, t_cmd *cmd)
 	t_env	*del;
 	int		l;
 
-	ft_putendl_fd(GREEN"cmd_unset() calisti"END, 1);
 	l = 0;
 	while (cmd->full_cmd[++l] != NULL)
 	{
@@ -39,6 +49,6 @@ int	cmd_unset(t_base *base, t_cmd *cmd)
 				tmp->prev = before;
 		}
 	}
-	errno = 0;
+	exit_status(0, 0);
 	return (0);
 }

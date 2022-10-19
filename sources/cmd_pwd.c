@@ -10,6 +10,17 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+/**
+ * @file cmd_pwd.c
+ * @author Ahmet KARACA (akaraca)
+ * @author Gorkem SEVER (gsever)
+ * @brief 
+ * @version 0.1
+ * @date 2022-08-07
+ * 
+ * @copyright Copyright (c) 2022
+ * 
+ */
 #include "../includes/minishell.h"
 
 int	cmd_pwd(t_base *base, t_cmd *cmd)
@@ -28,12 +39,12 @@ int	cmd_pwd(t_base *base, t_cmd *cmd)
 		}
 		write(cmd->outfile, "\n", 1);
 		if (output != NULL)
-			errno = 0;
+			exit_status(0, 0);
 	}
 	else
 	{
 		print_error(SHELLNAME, "pwd", NULL, "too many arguments");
-		errno = 1;
+		exit_status(1, 0);
 	}
 	return (0);
 }

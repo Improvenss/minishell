@@ -10,6 +10,17 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+/**
+ * @file cmd_env.c
+ * @author Ahmet KARACA (akaraca)
+ * @author Gorkem SEVER (gsever)
+ * @brief 
+ * @version 0.1
+ * @date 2022-08-07
+ * 
+ * @copyright Copyright (c) 2022
+ * 
+ */
 #include "../includes/minishell.h"
 
 int	cmd_env(t_base *base, t_cmd *cmd)
@@ -17,7 +28,6 @@ int	cmd_env(t_base *base, t_cmd *cmd)
 	t_env	*tmp;
 	int		i;
 
-	ft_putendl_fd(GREEN"cmd_env() calisti"END, 1);
 	tmp = base->env;
 	while (tmp != NULL)
 	{
@@ -40,6 +50,6 @@ int	cmd_env(t_base *base, t_cmd *cmd)
 		}
 		tmp = tmp->next;
 	}
-	errno = 0;
+	exit_status(0, 0);
 	return (0);
 }

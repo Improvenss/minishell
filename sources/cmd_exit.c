@@ -10,6 +10,17 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+/**
+ * @file cmd_exit.c
+ * @author Ahmet KARACA (akaraca)
+ * @author Gorkem SEVER (gsever)
+ * @brief 
+ * @version 0.1
+ * @date 2022-08-07
+ * 
+ * @copyright Copyright (c) 2022
+ * 
+ */
 #include "../includes/minishell.h"
 
 static bool	err_num_is_num(char *argv)
@@ -42,13 +53,13 @@ int	cmd_exit(t_base __unused *base, t_cmd *cmd)
 	while (cmd->full_cmd[argc])
 		argc++;
 	if (argc >= 2 && err_num_is_num(cmd->full_cmd[1]) == false)
-		errno = 255;
+		exit_status(255, 0);
 	else if (argc == 2)
-		errno = ft_atoi(cmd->full_cmd[1]);
+		exit_status(ft_atoi(cmd->full_cmd[1]), 0);
 	else if (argc > 2)
 	{
 		print_error(SHELLNAME, "exit", NULL, "to many arguments");
 		return (EXIT_FAILURE);
 	}
-	exit(errno);
+	exit(exit_status(0, 1));
 }

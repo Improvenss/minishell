@@ -10,6 +10,17 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+/**
+ * @file cmd_echo.c
+ * @author Ahmet KARACA (akaraca)
+ * @author Gorkem SEVER (gsever)
+ * @brief 
+ * @version 0.1
+ * @date 2022-08-07
+ * 
+ * @copyright Copyright (c) 2022
+ * 
+ */
 #include "../includes/minishell.h"
 
 void	cmd_echo_print(t_base *base, t_cmd *cmd, int i)
@@ -52,6 +63,6 @@ int	cmd_echo(t_base *base, t_cmd *cmd)
 				write(cmd->outfile, "\n", 1);
 		}
 	}
-	errno = 0;
+	exit_status(0, 0);
 	return (0);
 }

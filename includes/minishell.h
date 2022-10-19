@@ -6,14 +6,13 @@
 /*   By: gsever <gsever@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/23 14:43:17 by gsever            #+#    #+#             */
-/*   Updated: 2022/10/18 18:16:25 by gsever           ###   ########.fr       */
+/*   Updated: 2022/10/19 16:59:01 by gsever           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
-# include "../libraries/libft/includes/libft.h"
 # include <unistd.h> /*
 	write()		-> System call used to write data from the buffer
 		ssize_t	write(int fd, const void *buf, size_t count);
@@ -52,11 +51,13 @@ https://www.ibm.com/docs/en/i/7.5?topic=ssw_ibm_i_75/apis/pipe2.htm
 	isatty()	-> Tests if there is an open file. If have open any file
 			return 1, not have opened file return 0.
 		int isatty(int fd);
-https://www.ibm.com/docs/en/zos/2.2.0?topic=functions-isatty-test-if-descriptor-represents-terminal
+https://www.ibm.com/docs/en/zos/2.2.0?topic=functions-isatty-\
+test-if-descriptor-represents-terminal
 	ttyname()	-> Get name of associated terminal (tty) from file descriptor.
 			It's working if isatty() is true.
 		char *ttyname(int fildes);
-https://www.ibm.com/docs/en/zos/2.2.0?topic=functions-ttyname-get-name-terminal#rttty
+https://www.ibm.com/docs/en/zos/2.2.0?topic=functions-ttyname-\
+get-name-terminal#rttty
 	ttyslot()	-> Find the slot of the current user's terminal in some file.
 		int ttyslot(void);
 https://man7.org/linux/man-pages/man3/ttyslot.3.html
@@ -79,7 +80,8 @@ https://linuxhint.com/getenv-function-usage/
 https://man7.org/linux/man-pages/man3/printf.3.html
 	perror()	-> System error messages
 		void perror(const char *string);
-https://www.ibm.com/docs/en/zos/2.3.0?topic=functions-perror-print-error-message
+https://www.ibm.com/docs/en/zos/2.3.0?topic=functions-perror\
+-print-error-message
 */
 # include <signal.h> /*
 	signal()	-> Simplified software signal facilities.
@@ -88,13 +90,16 @@ https://linuxhint.com/signal_handlers_c_programming_language/
 	sigaction()	-> 
 		int sigaction(int signum, const struct sigaction *restrict act,
 		struct sigaction *restrict oldact);
-https://www.ibm.com/docs/en/zos/2.1.0?topic=functions-sigaction-examine-change-signal-action#rtsigac
+https://www.ibm.com/docs/en/zos/2.1.0?topic=functions-sigaction-\
+examine-change-signal-action#rtsigac
 	sigemptyset()	-> 
 		int sigemptyset(sigset_t *set);
-https://www.ibm.com/docs/en/zos/2.5.0?topic=functions-sigemptyset-initialize-signal-mask-exclude-all-signals
+https://www.ibm.com/docs/en/zos/2.5.0?topic=functions-sigemptyset-\
+initialize-signal-mask-exclude-all-signals
 	sigaddset()	-> 
 		int sigaddset(sigset_t *set, int signal);
-https://www.ibm.com/docs/en/zos/2.2.0?topic=functions-sigaddset-add-signal-signal-mask
+https://www.ibm.com/docs/en/zos/2.2.0?topic=functions-sigaddset-\
+add-signal-signal-mask
 	kill()		-> Send Signal to Process or Group of Processes. (PID).
 		int kill(pid_t pid, int sig);
 https://www.ibm.com/docs/en/i/7.2?topic=ssw_ibm_i_72/apis/sigkill.htm
@@ -104,7 +109,7 @@ https://www.ibm.com/docs/en/i/7.2?topic=ssw_ibm_i_72/apis/sigkill.htm
 	int8_t	 ->	char			1			8		-128 to 127,
 	int16_t	 ->	short			2			16		-32768 to 32767,
 	int32_t	 ->	int				4			32		-2147483648 to 2147483647,
-	int64_t	 ->	long long		8			64		-9.223372e+18 to 9.223372e+18
+	int64_t	 ->	long long		8			64	-9.223372e+18 to 9.223372e+18
 	uint8_t	 ->	unsigned char	1			8			0 to 255,
 	uint16_t ->	unsigned short	2			16			0 to 65535,
 	uint32_t ->	unsigned int	4			32			0 to 4294967295,
@@ -113,10 +118,12 @@ https://www.ibm.com/docs/en/i/7.2?topic=ssw_ibm_i_72/apis/sigkill.htm
 # include <string.h> /*
 	malloc()	-> Allocating memory with NULL
 		void *malloc(size_t size);
-https://www.ibm.com/docs/en/zos/2.2.0?topic=functions-malloc-reserve-storage-block
+https://www.ibm.com/docs/en/zos/2.2.0?topic=functions-malloc-\
+reserve-storage-block
 	strerror()	-> System error messages; Writing int errno's string value.
 		char *strerror(int errnum);
-https://www.ibm.com/docs/en/zos/2.5.0?topic=functions-strerror-get-pointer-runtime-error-message
+https://www.ibm.com/docs/en/zos/2.5.0?topic=functions-strerror-\
+get-pointer-runtime-error-message
 */
 # include <fcntl.h> /* -File control-
 	open()		-> Open or Create a file for reading or writing.
@@ -130,11 +137,13 @@ https://www.ibm.com/docs/en/i/7.5?topic=ssw_ibm_i_75/apis/close.htm
 	opendir()	-> Opens a directory so that it can be
  read with readdir() or __readdir2().
 		DIR *opendir(const char *dirname);
-https://www.ibm.com/docs/en/zos/2.3.0?topic=functions-opendir-open-directory#rtoped
+https://www.ibm.com/docs/en/zos/2.3.0?topic=functions-opendir-\
+open-directory#rtoped
 	readdir()	-> Returns a pointer to a dirent structure describing
  the next directory entry in the directory stream associated with dir.
 		struct dirent *readdir(DIR *dir);
-https://www.ibm.com/docs/en/zos/2.3.0?topic=functions-readdir-read-entry-from-directory
+https://www.ibm.com/docs/en/zos/2.3.0?topic=functions-readdir-\
+read-entry-from-directory
 	closedir()	-> Closes the directory indicated by dir.
  It frees the buffer that readdir() uses when reading the directory stream.
 		int closedir(DIR *dir);
@@ -144,22 +153,25 @@ https://www.ibm.com/docs/en/zos/2.5.0?topic=functions-closedir-close-directory
 	tcsetattr()	-> Set the parameters associated with the terminal
 		int tcsetattr(int fildes, int optional_actions,
 		const struct termios *termios_p);
-https://www.ibm.com/docs/en/zos/2.5.0?topic=functions-tcsetattr-set-attributes-terminal
+https://www.ibm.com/docs/en/zos/2.5.0?topic=functions-tcsetattr-\
+set-attributes-terminal
 	tcgetattr()	-> Get the parameters associated with the terminal.
 		int tcsetattr(int fd, int when, const struct termios *termptr);
-https://www.ibm.com/docs/en/zos/2.5.0?topic=functions-tcsetattr-set-attributes-terminal
+https://www.ibm.com/docs/en/zos/2.5.0?topic=functions-tcgetattr-\
+get-attributes-terminal#rttcga
 */
 # include <curses.h> /* -Definitions for screen handling
  and optimization functions-
 	tgetent()	-> Direct curses interface to the terminfo capability database,
-		Routine loads the entry for name. It returns 1 on success, 0 if there 
-		is no such entry, and -1 if the terminfo database could not be found. 
-		The emulation ignores the buffer pointer bp.
+		Routine loads the entry for name. It returns 1 on success, 0 if there
+ is no such entry, and -1 if the terminfo database could not be found. The
+ emulation ignores the buffer pointer bp.
 	tgetflag()	-> Routine gets the boolean entry for id,
 	tgetnum()	-> Routine gets the numeric entry for id,
 	tgetstr()	-> Routine returns the string entry for id. 
 		Use tputs() to output the returned string,
-	tgoto()		-> Routine instantiates the parameters into the given capability. 
+	tgoto()		-> Routine instantiates the parameters
+ into the given capability.
 		The output from this routine is to be passed to tputs(),
 	tputs()		-> Routine is described on the curs_terminfo() manual page. 
 	 It can retrieve capabilities by either termcap or terminfo name.
@@ -191,35 +203,29 @@ https://www.ibm.com/docs/en/i/7.5?topic=functions-fputs-write-string#fputs
 	add_history()	-> 
 	*/
 # include <errno.h> /* 
+	errno;
 */
-
-//	COLORS --> 🟥 🟩 🟦
-# define BLACK	"\033[0;30m"
-# define RED	"\033[0;31m"
-# define GREEN	"\033[0;32m"
-# define YELLOW	"\033[0;33m"
-# define BLUE	"\033[0;34m"
-# define PURPLE	"\033[0;35m"
-# define CYAN	"\033[0;36m"
-# define WHITE	"\033[0;37m"
-# define END	"\033[m"
-# define RESET	"\033[0m"
-
-//	COLORS BOLD--> B🟥 B🟩 B🟦
-# define B_CYAN		"\033[1;36m"
-# define B_BLUE		"\033[1;34m"
-# define B_YELLOW	"\033[1;33m"
-# define B_GREEN	"\033[1;32m"
-# define B_RED		"\033[1;31m"
-# define B_RESET	"\033[1m"
+# include "../libraries/libft/includes/libft.h"
+# include "colors.h" /* 🟥 🟩 🟦
+	BLACK	"\033[0;30m"	B_RED		"\033[1;31m"
+	RED		"\033[0;31m"	B_GREEN		"\033[1;32m"
+	GREEN	"\033[0;32m"	B_YELLOW	"\033[1;33m"
+	YELLOW	"\033[0;33m"	B_BLUE		"\033[1;34m"
+	BLUE	"\033[0;34m"	B_CYAN		"\033[1;36m"
+	PURPLE	"\033[0;35m"	B_RESET		"\033[1m"
+	CYAN	"\033[0;36m"
+	WHITE	"\033[0;37m"
+	END		"\033[m"
+	RESET	"\033[0m"
+*/
 
 # define CMD_CLEAR	"\e[1;1H\e[2J"
 
 /*
 terminal isminin basina/sonuna renk kodlarini eklersek yazilar ust uste biniyor
 */
-# define T_NAME		"$୯> "
-# define SHELLNAME	"minishell"
+# define T_NAME				"$୯> "
+# define SHELLNAME			"minishell"
 
 # define ERROR				-1
 # define WHITESPACES		" \t\n"
@@ -246,8 +252,8 @@ terminal isminin basina/sonuna renk kodlarini eklersek yazilar ust uste biniyor
 # define ERR_MISS_OP		"missing operator"
 # define ERR_PIPE			"incomplete pipe"
 
-# define READ_END 0
-# define WRITE_END 1
+# define READ_END			0
+# define WRITE_END			1
 
 /* ************************************************************************** */
 /* STRUCT DEFINES AREA													  	  */
@@ -256,18 +262,28 @@ terminal isminin basina/sonuna renk kodlarini eklersek yazilar ust uste biniyor
 typedef struct s_base	t_base;
 typedef struct s_cmd	t_cmd;
 
-// struct s_commands
-// {
-// 	char	*name;
-// 	int		(*func)(t_base *base, t_cmd *cmd);
-// };
-
+/**
+ * @brief Function pointer'ini tutan struct.
+ * 
+ * @param name*: Function name.
+ * @param func*(base*_and_cmd*): Function'un kendisini tutan function pointer.
+ * 
+ */
 typedef struct s_commands
 {
 	char	*name;
 	int		(*func)(t_base *base, t_cmd *cmd);
 }		t_commands;
 
+/**
+ * @brief readline()'den alinan 'input'u tokenlerine ayirip,
+ *  lexerli halini tutuyor.
+ * 
+ * @param flag: Token tipi (INTEGER).
+ * @param str*: Lexer'li hali.
+ * @param next*: Struct list'inin sonraki isaretcisi.
+ * @param prev*: Struct list'inin onceki isaretcisi.
+ */
 typedef struct s_lexer
 {
 	int				flag;
@@ -276,6 +292,15 @@ typedef struct s_lexer
 	struct s_lexer	*prev;
 }		t_lexer;
 
+/**
+ * @brief Lexer'leme isleminden sonraki command listesini tutuyor.
+ * 
+ * @param full_cmd**: 
+ * @param full_path*:
+ * @param infile
+ * @param outfile
+ * @param next*: Struct list'inin sonraki isaretcisi.
+ */
 typedef struct s_cmd
 {
 	char			**full_cmd;
@@ -285,6 +310,23 @@ typedef struct s_cmd
 	struct s_cmd	*next;
 }		t_cmd;
 
+/**
+ * @brief Environment'lerimizi tutan struct.
+ * 
+ * NOTE: Env'nin sadece bir satirini tutuyor. 
+ * 
+ * @param data**: Environment'in; '='gordugunde
+ *  sol ve sag kismi olarak ayriliyor,
+ *  data[0]'da ETC=
+ *  data[1]'de    =value		olarak tutuluyor.
+ *  ETC:
+ * 		PWD=/Users/gsever	-> data[0]=data[1]; -> "USER", "/Users/gsever"
+ * @param is_env_equal: cmd_export icin, eger ayni env'den bir/birkac tane
+ *  varsa false donecek. Eger ayni isimde env varsa true donecek.
+ * @param next*: Struct list'inin sonraki isaretcisi.
+ * @param prev*: Struct list'inin onceki isaretcisi. 
+ * 
+ */
 typedef struct s_env
 {
 	char			**data;
@@ -293,6 +335,33 @@ typedef struct s_env
 	struct s_env	*prev;
 }		t_env;
 
+/**
+ * @brief Main structure.
+ * 
+ * @param mem_1*
+ * @param mem_2*
+ * @param fd_i
+ * @param cd_tmp*
+ * @param cmd_count
+ * @param pid*
+ * @param fd**
+ * @param old_token*
+ * @param input_line*: readline()'dan okunan input.
+ * @param env_path**: Env'nin icindeki 'PATH' -> char **'la ':' olan kisimlari
+ *  ayrilmis bir sekilde tutuyor.
+ *  ETC:
+ * 	PATH=/goinfre/gsever/brew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:
+ * 		env_path[0]:	/goinfre/gsever/brew/bin:
+ * 		env_path[1]:			  /usr/local/bin:
+ * 		env_path[2]:					/usr/bin:
+ * 		env_path[3]:						/bin:
+ * 		env_path[4]:				   /usr/sbin:
+ * 		env_path[5]:					   /sbin:
+ * @param env*: Environment'lerimizi tutan struct.
+ * @param lexer*: Input'tan 'Token'leri alarak lexer'ledigimiz struct.
+ * @param cmd*: Lexer'lenen 'token'leri integer command turune donusturuyor.
+ * @param commands[8]: Bizden istenilen komutlari tutan struct.
+ */
 typedef struct s_base
 {
 	char		*mem_1;
@@ -315,41 +384,142 @@ typedef struct s_base
 /* FUNCTION PROTOTYPES														  */
 /* ************************************************************************** */
 
-// int	g_status;
-
-int		main(int argc __attribute((unused)),
-			char **argv __attribute((unused)),
-			char **envp);
-
-void	minishell(t_base *base);
-void	processes(t_base *base);
-int		print_error(char *s1, char *s2, char *s3, char *message);
-void	lexer(t_base *base, char *str);
-int		lexer_syntax(t_lexer *lexer);
-void	lexer_free(t_lexer **lexer);
-int		file_or_dir_search(char *str, int flag);
-
-void	commands_init(t_base *base);
-int		command_exec(t_base *base, t_cmd *cmd);
-int		cmd_exit(t_base *base, t_cmd *cmd);
-int		cmd_echo(t_base *base, t_cmd *cmd);
-int		cmd_pwd(t_base *base, t_cmd *cmd);
-int		cmd_env(t_base *base, t_cmd *cmd);
-int		cmd_export(t_base *base, t_cmd *cmd);
-int		cmd_unset(t_base *base, t_cmd *cmd);
+// cmd_cd.c
+char	*clear_slash(t_base *base, char *str);
+char	*cd_slash(char *str);
+char	*delete_front_slash(char *str);
 int		cmd_cd(t_base *base, t_cmd *cmd);
 
+// cmd_echo.c
+void	cmd_echo_print(t_base *base, t_cmd *cmd, int i);
+int		cmd_echo(t_base *base, t_cmd *cmd);
+
+// cmd_env.c
+int	cmd_env(t_base *base, t_cmd *cmd);
+
+// cmd_exit.c
+int	cmd_exit(t_base __unused *base, t_cmd *cmd);
+
+// cmd_export.c
+int		cmd_export_add(t_base *base, t_cmd *cmd);
+void	cmd_export_print(t_base *base, t_cmd *cmd);
+int		cmd_export(t_base *base, t_cmd *cmd);
+
+// cmd_pwd.c
+int		cmd_pwd(t_base *base, t_cmd *cmd);
+
+// cmd_set_fd.c
+int		set_fd(int oldfd, char *path, int flags[2]);
+char	*get_heredoc_str(char *limit);
+int		set_heredoc(char *limit);
+void	cmd_set_fd(t_lexer *tmp, t_cmd **new);
+
+// cmd_unset.c
+int		cmd_unset(t_base *base, t_cmd *cmd);
+
+// cmd.c
+t_lexer	*cmd_node_create(t_cmd **new, t_lexer *last, int i);
+t_lexer	*cmd_create(t_cmd **lst, t_lexer *last);
+void	cmd(t_base *base);
+
+// command.c
+void	commands_init(t_base *base);
+int		cmd_other(t_base *base, char **cmd_array);
+int		command_find_arr(t_base *base, char **cmd_array);
+int		command_exec(t_base *base, t_cmd *cmd);
+
+// debugging.c
+void	debug_print_cmd(t_base *base, char *env_var, char *value);
+void	debug_print_str(t_base *base, char *env_var, char *value);
+
+// error.c
+int		print_error(char *s1, char *s2, char *s3, char *message);
+int		exit_status(int err, bool status);
+
+// fork.c
+void	ft_wait(t_base *base);
+void	fd_close(t_base *base);
+void	fork_dup(t_base *base, int i, t_cmd *cmd);
+int		fork_start(t_base *base);
+int		fork_init(t_base *base);
+
+// free.c
+void	chr_free(char **line);
+void	cmd_free(t_cmd **cmd);
+void	lexer_free(t_lexer **lexer);
+void	env_free(t_env **env);
+void	all_free(t_base **base);
+
+// history.c
+int		history_empty_check(char *input_line);
+
+// lexer_env_expand.c
+char	*env_expand_next_next(t_base *base, char *token, int *i, char *new);
+char	*env_expand_next(t_base *base, char *token, int *i, char *new);
+char	*env_expand(t_base *base, char *token);
+
+// lexer_pipe.c
+int		lexer_pipe(t_base *base, char *str, int *i);
+
+// lexer_qutoe.c
+int		lexer_quote(t_base *base, char *str, int *i);
+
+// lexer_redir.c
+int		lexer_redir(t_base *base, char *str, int *i);
+
+// lexer_syntax.c
+int		lexer_syntax(t_lexer *lexer);
+
+// lexer_text.c
+int		lexer_text(t_base *base, char *str, int *i);
+
+// lexer.c
+void	lexer(t_base *base, char *str);
+
+// main.c
+int		set_arg(t_base *base, char **environ);
+int		main(int argc __attribute((unused))
+	, char **argv __attribute((unused))
+	, char **envp);
+
+// minishell.c
+void	minishell(t_base *base);
+
+// signal.c
+void	action(int sig);
+
+// utils_cmd.c
+int		cmd_count(t_cmd *cmd);
+char	*str_add(char *tmp, char *str);
+void	cmd_lstadd_back(t_cmd **lst, t_cmd *new);
+
+// utils_command.c
+char	*ft_path(char **path, char *cmd_name);
+int		file_or_dir_search(char *str, int flag);
+int		search_and_launch(char **cmd_array);
+
+// utils_env.c
+bool	env_is_have(t_base *base, char *env_var, char *value);
+void	set_env(t_base *base, char *env_name, char *new_str);
+char	*env_findret(t_base *base, char *env_name);
+int		env_struct(t_base *base, char *new_arg);
+
+// utils_export.c
+int		export_dot_slash_check(char *str);
 int		export_arg_check(char **str);
 int		export_same_check(t_base *base, char *str);
 int		export_lstsize(t_env *lst);
 char	*export_find_max_str(t_base *base);
 char	*export_find_min_str(t_base *base);
 
-bool	env_is_have(t_base *base, char *env_var, char *value);
-void	set_env(t_base *base, char *env_name, char *new_str);
-char	*env_findret(t_base *base, char *env_name);
-int		env_struct(t_base *base, char *new_arg);
+// utils_func.c
+int		ft_strcmp_edited(char *s1, char *s2);
 
-void	debug_print_cmd(t_base *base, char *env_var, char *value);
-void	debug_print_str(t_base *base, char *env_var, char *value);
+// utils_lexer.c
+t_lexer	*token_create(t_base *base, char *str, int type);
+int		other_lenght(char *str);
+void	node_merge(t_lexer **lexer, char *token, char *str, int *i);
+t_lexer	*lexer_lstlast(t_lexer *lexer);
+int		lexer_type(t_lexer *last, int type);
+
 #endif

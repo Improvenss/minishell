@@ -6,7 +6,7 @@
 /*   By: gsever <gsever@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/28 14:47:36 by akaraca           #+#    #+#             */
-/*   Updated: 2022/10/03 19:54:13 by gsever           ###   ########.fr       */
+/*   Updated: 2022/10/18 17:42:01 by gsever           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -281,7 +281,7 @@ void	ft_fork(t_base *base)
 		base->pid[l] = fork();
 		if (base->pid[l] != 0 && base->pipe_line[l]) // base->array_line[l], enter girdisi sonrasında hata döndürdüğünden dolayı koşul eklendi.
 		{
-			err = access(ft_path(base->PATH, base->pipe_line[l]), 0);
+			err = access(ft_path(base->env_path, base->pipe_line[l]), 0);
 			if (err == -1)
 				printf("%c", '\0');
 		}
@@ -317,9 +317,9 @@ void	ft_fork(t_base *base)
 				close(base->fd[i][1]);
 				i++;
 			}
-			/*char *görkem = ft_path(base->PATH, base->pipe_line[l]);
+			/*char *görkem = ft_path(base->env_path, base->pipe_line[l]);
 				if (görkem != NULL)
-					execve(ft_path(base->PATH, base->pipe_line[l]), ft_split(base->pipe_line[l], ' '), base->environ);
+					execve(ft_path(base->env_path, base->pipe_line[l]), ft_split(base->pipe_line[l], ' '), base->environ);
 				else
 					exit(0);*/
 			if (command_exec(base, base->pipe_line[l]) == ERROR)
