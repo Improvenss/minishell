@@ -6,7 +6,7 @@
 /*   By: akaraca <akaraca@student.42.tr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/23 14:43:17 by gsever            #+#    #+#             */
-/*   Updated: 2022/10/20 19:00:43 by akaraca          ###   ########.fr       */
+/*   Updated: 2022/10/20 19:54:08 by akaraca          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -341,7 +341,6 @@ typedef struct s_env
  * @param mem_1*
  * @param mem_2*
  * @param fd_i
- * @param cd_tmp*
  * @param cmd_count
  * @param pid*
  * @param fd**
@@ -364,6 +363,8 @@ typedef struct s_env
  */
 typedef struct s_base
 {
+	char		**env_chr;
+	int			err;
 	char		*mem_1;
 	char		*mem_2;
 	int			fd_i;
@@ -499,6 +500,7 @@ int		file_or_dir_search(char *str, int flag);
 int		search_and_launch(char **cmd_array);
 
 // utils_env.c
+char	**env_struct_to_char(t_env *env);
 bool	env_is_have(t_base *base, char *env_var, char *value);
 void	set_env(t_base *base, char *env_name, char *new_str);
 char	*env_findret(t_base *base, char *env_name);

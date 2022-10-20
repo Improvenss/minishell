@@ -27,6 +27,7 @@ int	set_arg(t_base *base, char **environ)
 {
 	int	i;
 
+	base->env_chr = NULL;
 	base->cmd = NULL;
 	base->env = NULL;
 	base->lexer = NULL;
@@ -182,7 +183,6 @@ Ayrıştırıcı, başka bir dile kolay çeviri için verileri daha küçük ö�
  * 	dondurmeli -> islemi durdurmali,
  * TODO: norminette icin ayirma islemi yapilacak,
  * TODO: unset icin leaks var,
- * TODO: << EOF yani heredoc icin CTRL+C sinyali kapatma islemi yapacak.
  * @return int 
  */
 int	main(int argc __attribute((unused))

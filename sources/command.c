@@ -38,6 +38,7 @@ void	commands_init(t_base *base)
 int	cmd_other(t_base *base, char **cmd_array)
 {
 	base->mem_1 = ft_path(base->env_path, cmd_array[0]);
+	base->env_chr = env_struct_to_char(base->env);
 	if (search_and_launch(cmd_array))
 	{
 		if (file_or_dir_search(cmd_array[0], O_DIRECTORY))
@@ -47,25 +48,19 @@ int	cmd_other(t_base *base, char **cmd_array)
 		}
 		else
 		{
-			int	err;
-			extern char **environ; /////////kaldırılcak, base->env char** yapısında olmadığından hatalı durumda.
-			int pi;
+			int	pi;
 
-			err = 0;
 			pi = fork();
 			if (pi == 0)
-				err = execve(base->mem_1, cmd_array, environ);
-			waitpid(pi, &err, 0);
-			exit_status(err, 0);
+				base->err = execve(base->mem_1, cmd_array, base->env_chr);
+			waitpid(pi, &base->err, 0);
+			exit_status(base->err, 0);
 		}
 	}
 	else if (base->mem_1)
 	{
-		int	err;
-		extern char **environ; /////////kaldırılcak, base->env char** yapısında olmadığından hatalı durumda.
-		int pi;
+		int	pi;
 
-		err = 0;
 		pi = fork();
 		if (pi == 0)
 		{
@@ -75,25 +70,26 @@ int	cmd_other(t_base *base, char **cmd_array)
 				dup2(base->cmd->outfile, 1);
 			}
 			if (base->cmd->infile == -1 || base->cmd->outfile == -1)
-				exit(0);
-			err = execve(base->mem_1, cmd_array, environ);
+				exit(1);
+			else
+				base->err = execve(base->mem_1, cmd_array, base->env_chr);
 		}
-		waitpid(pi, &err, 0);
-		exit_status(err, 0);
+		waitpid(pi, &base->err, 0);
+		if (-1 & (base->cmd->infile | base->cmd->outfile)) // execve err çıktısını 256'ya böldüğünden dolayı ayrı bir exit durumu söz konusu ise 256'ya bölünmelidir.
+			base->err = base->err / 256;
+		exit_status(base->err, 0);
 	}
 	else if (access(cmd_array[0], 0) == 0)
 	{
-		int err;
-		extern char **environ;
-		int pi;
+		int	pi;
 
 		pi = fork();
 		if (pi == 0)
 		{
-			err = execve(cmd_array[0], cmd_array, environ);
+			base->err = execve(cmd_array[0], cmd_array, base->env_chr);
 		}
-		waitpid(pi, &err, 0);
-		exit_status(err, 0);
+		waitpid(pi, &base->err, 0);
+		exit_status(base->err, 0);
 	}
 	else
 	{
@@ -101,6 +97,7 @@ int	cmd_other(t_base *base, char **cmd_array)
 		exit_status(127, 0);
 	}
 	free(base->mem_1);
+	chr_free(base->env_chr);
 	return (0);
 }
 

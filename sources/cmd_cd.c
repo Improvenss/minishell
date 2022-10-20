@@ -110,10 +110,7 @@ int	cmd_cd(t_base *base, t_cmd *cmd)
 		set_env(base, "OLDPWD", env_findret(base, "PWD"));
 		set_env(base, "PWD", base->mem_1);
 		chdir(base->mem_1);
-		int i = 0;
-		while (base->mem_1[i])
-			write(cmd->outfile, &base->mem_1[i++], 1);
-		free(base->mem_1);
+		ft_putstr_fd(base->mem_1, cmd->outfile);
 		write(cmd->outfile, "\n", 1);
 		exit_status(0, 0);
 	}

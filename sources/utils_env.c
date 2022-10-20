@@ -23,6 +23,89 @@
  */
 #include "../includes/minishell.h"
 
+int	env_strlen(t_env *env)
+{
+	int		i;
+	t_env	*tmp;
+
+	i = 0;
+	tmp = env;
+	while (tmp != NULL)
+	{
+		i++;
+		tmp = tmp->next;
+	}
+	return (i);
+}
+
+int	env_datalen(char **data)
+{
+	int	i;
+	int	len;
+
+	i = 0;
+	len = 0;
+	while (data[i])
+	{
+		len = len + ft_strlen(data[i]) - 1;
+		i++;
+	}
+	return (len);
+}
+
+char	*env_data_ret(char **data)
+{
+	char	*ret;
+	int		i;
+	int		l;
+	int		k;
+
+	ret = (char *)malloc(sizeof(char) * (env_datalen(data) + 2));
+	if (!ret)
+		return (NULL);
+	i = 0;
+	k = 0;
+	while (data[i] != NULL)
+	{
+		l = 0;
+		while (data[i][l] != '\0')
+		{
+			ret[k] = data[i][l];
+			k++;
+			l++;
+		}
+		if (i == 0)
+		{
+			ret[k] = '=';
+			k++;
+		}
+		i++;
+	}
+	ret[k] = '\0';
+	return (ret);
+}
+
+char	**env_struct_to_char(t_env *env)
+{
+	char	**tmp;
+	int		i;
+	t_env	*env_tmp;
+
+	tmp = (char **)malloc(sizeof(char *) * env_strlen(env) + 1);
+	if (!tmp)
+		return (NULL);
+	i = 0;
+	env_tmp = env;
+	while (env_tmp != NULL)
+	{
+		tmp[i] = env_data_ret(env_tmp->data);
+		i++;
+		env_tmp = env_tmp->next;
+	}
+	tmp[i] = NULL;
+	return (tmp);
+}
+
 /** OK:
  * @brief Environmentlerin icinde disaridan verdigimiz variable ve valuesini
  *  ariyoruz; eger varsa true donuyor, yoksa(bulamazsa) false donuyor.
