@@ -83,6 +83,20 @@ int	cmd_other(t_base *base, char **cmd_array)
 		waitpid(pi, &err, 0);
 		exit_status(err, 0);
 	}
+	else if (access(cmd_array[0], 0) == 0)
+	{
+		int err;
+		extern char **environ;
+		int pi;
+
+		pi = fork();
+		if (pi == 0)
+		{
+			err = execve(cmd_array[0], cmd_array, environ);
+		}
+		waitpid(pi, &err, 0);
+		exit_status(err, 0);
+	}
 	else
 	{
 		print_error(SHELLNAME, NULL, cmd_array[0], "command not found");

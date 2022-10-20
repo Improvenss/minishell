@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gsever <gsever@student.42kocaeli.com.tr    +#+  +:+       +#+        */
+/*   By: akaraca <akaraca@student.42.tr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/23 14:43:17 by gsever            #+#    #+#             */
-/*   Updated: 2022/10/19 16:59:01 by gsever           ###   ########.fr       */
+/*   Updated: 2022/10/20 12:00:21 by akaraca          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -395,10 +395,10 @@ void	cmd_echo_print(t_base *base, t_cmd *cmd, int i);
 int		cmd_echo(t_base *base, t_cmd *cmd);
 
 // cmd_env.c
-int	cmd_env(t_base *base, t_cmd *cmd);
+int		cmd_env(t_base *base, t_cmd *cmd);
 
 // cmd_exit.c
-int	cmd_exit(t_base __unused *base, t_cmd *cmd);
+int		cmd_exit(t_base __unused *base, t_cmd *cmd);
 
 // cmd_export.c
 int		cmd_export_add(t_base *base, t_cmd *cmd);
@@ -513,6 +513,8 @@ char	*export_find_max_str(t_base *base);
 char	*export_find_min_str(t_base *base);
 
 // utils_func.c
+char	*ft_chrjoin(char *s1, char c);
+int		ft_strncmp_edited(const char *s1, const char *s2, size_t n);
 int		ft_strcmp_edited(char *s1, char *s2);
 
 // utils_lexer.c

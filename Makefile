@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: gsever <gsever@student.42kocaeli.com.tr    +#+  +:+       +#+         #
+#    By: akaraca <akaraca@student.42.tr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/09/15 17:54:15 by gsever            #+#    #+#              #
-#    Updated: 2022/10/19 16:26:45 by gsever           ###   ########.fr        #
+#    Updated: 2022/10/20 12:04:01 by akaraca          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -89,20 +89,20 @@ LEAKS_PH	= leaks -atExit -- ./minishell
 ifeq ($(UNAME), Linux)
 	NUMPROC	:= $(shell grep -c ^processor /proc/cpuinfo)
 	OS = "You are connected from -$(CYAN)$(UNAME)$(X)- 🐧 Welcome -$(CYAN)$(USER)$(X)- 😄!"
-	RL_INC_OS := /goinfre/homebrew/opt/readline/include -fcommon
-	RL_LIB_OS := /goinfre/homebrew/opt/readline/lib -fcommon
+	RL_INC_OS := /goinfre/brew/opt/readline/include -fcommon
+	RL_LIB_OS := /goinfre/brew/opt/readline/lib -fcommon
 else ifeq ($(UNAME), Darwin)
 	NUMPROC	:= $(shell sysctl -n hw.ncpu)
 	OS = "You are connected from 42 school's iMac 🖥 ! Welcome $(CYAN)$(USER)$(X)"
 	ifeq ($(USER), yuandre)
 		OS = "You are connected from -$(CYAN)MacBook$(X)- 💻 Welcome -$(CYAN)$(USER)$(X)-!"
-		RL_INC_OS := /opt/homebrew/Cellar/readline/8.2.1/include/
-		RL_LIB_OS := /opt/homebrew/Cellar/readline/8.2.1/lib
+		RL_INC_OS := /opt/brew/Cellar/readline/8.2.1/include/
+		RL_LIB_OS := /opt/brew/Cellar/readline/8.2.1/lib
 	endif
 	ifeq ($(USER), akaraca)
 		OS = "You are connected from -$(CYAN)MacBook$(X)- 💻 Welcome -$(CYAN)$(USER)$(X)-!"
-		RL_INC_OS	:= /goinfre/$(USER)/homebrew/Cellar/readline/8.2.1/include
-		RL_LIB_OS	:= /goinfre/$(USER)/homebrew/Cellar/readline/8.2.1/lib
+		RL_INC_OS	:= /goinfre/$(USER)/brew/Cellar/readline/8.2.1/include
+		RL_LIB_OS	:= /goinfre/$(USER)/brew/Cellar/readline/8.2.1/lib
 	endif
 endif
 # You can use --> man sysctl -> shell: sysctl -a | grep "hw.ncpu"

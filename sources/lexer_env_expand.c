@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_env_expand.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gsever <gsever@student.42kocaeli.com.tr    +#+  +:+       +#+        */
+/*   By: akaraca <akaraca@student.42.tr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/19 16:50:31 by gsever            #+#    #+#             */
-/*   Updated: 2022/10/19 16:50:41 by gsever           ###   ########.fr       */
+/*   Updated: 2022/10/20 12:05:36 by akaraca          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ char	*env_expand_next_next(t_base *base, char *token, int *i, char *new)
 	char	*str;
 
 	l = (*i);
-	while (token[*i] && token[*i] != '$')
+	while (token[*i] && token[*i] != '$' && !ft_strchr(WHITESPACES, token[*i]))
 		(*i)++;
 	env_name = ft_substr(token, l, *i - l);
 	if (!env_name)
@@ -70,6 +70,11 @@ char	*env_expand_next(t_base *base, char *token, int *i, char *new)
 			return(base->mem_2);
 		}
 	}
+	if (ft_strchr(WHITESPACES, token[*i]))
+	{
+		(*i)++;
+		return (ft_chrjoin("$", token[*i - 1]));
+	}
 	return (env_expand_next_next(base, token, i, new));
 }
 
@@ -90,7 +95,7 @@ char	*env_expand(t_base *base, char *token)
 			new = ft_substr(token, 0, i);
 		else if (i > l)
 		{
-			base->mem_1 = ft_substr(token, l, l + i);
+			base->mem_1 = ft_substr(token, l, i - l);
 			base->mem_2 = new;
 			new = ft_strjoin(new, base->mem_1);
 			free(base->mem_1);

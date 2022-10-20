@@ -51,5 +51,4 @@ void	minishell(t_base *base)
 		free(base->input_line);
 	}
 	all_free(&base);
-	exit(0);
 }
