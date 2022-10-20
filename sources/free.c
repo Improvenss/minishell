@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gsever <gsever@student.42kocaeli.com.tr    +#+  +:+       +#+        */
+/*   By: akaraca <akaraca@student.42.tr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/19 16:49:16 by gsever            #+#    #+#             */
-/*   Updated: 2022/10/20 12:55:12 by gsever           ###   ########.fr       */
+/*   Updated: 2022/10/20 14:26:43 by akaraca          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,11 @@ void	chr_free(char **line)
 	int	i;
 
 	i = 0;
-	while (line[i] && line[i + 1])
+	while (line[i])
 	{
 		free(line[i]);
+		if (line[i + 1] == NULL)
+			break;
 		i++;
 	}
 	free(line);
@@ -32,7 +34,8 @@ void	cmd_free(t_cmd **cmd)
 	while (*cmd)
 	{
 		tmp = (*cmd)->next;
-		chr_free((*cmd)->full_cmd);
+		free((*cmd)->full_cmd);
+		//chr_free((*cmd)->full_cmd); // lexer içeriği freelendiğinden dolayı freelemeye gerek yok.
 		free(*cmd);
 		(*cmd) = tmp;
 	}
@@ -71,6 +74,6 @@ void	all_free(t_base **base)
 	rl_clear_history();
 	lexer_free(&(**base).lexer);
 	cmd_free(&(**base).cmd);
-	env_free(&(**base).env);
+	//env_free(&(**base).env);
 	free((*base)->input_line);
 }

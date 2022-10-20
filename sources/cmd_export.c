@@ -38,11 +38,11 @@ int		cmd_export_add(t_base *base, t_cmd *cmd)
 			if (!new)
 			{
 				exit_status(2, 0);
-				print_error(SHELLNAME, "export_new_add", NULL, strerror(ENOMEM));
+				return(print_error(SHELLNAME, "export_new_add", NULL, strerror(ENOMEM)));
 			}
 			new->data = ft_split(cmd->full_cmd[i], '=');
 			if (cmd->full_cmd[i][ft_strlen(cmd->full_cmd[i]) - 1] == '=')
-				new->data[1] = "";
+				new->data[1] = ft_strdup("");
 			tmp = base->env;
 			while (tmp->next->next != NULL)
 				tmp = tmp->next;
@@ -68,16 +68,12 @@ void	cmd_export_print(t_base *base, t_cmd *cmd)
 		str = env_findret(base, print);
 		if (ft_strcmp_edited(print, "_"))
 		{
-			int l = 0;
-			write(cmd->outfile, "declare -x ", 12);
-			while (print[l])
-				write(cmd->outfile, &print[l++], 1);
+			ft_putstr_fd("declare -x ", cmd->outfile);
+			ft_putstr_fd(print, cmd->outfile);
 			if (str != NULL)
 			{
-				l = 0;
-				write(cmd->outfile, "\"", 1);
-				while (str[l])
-					write(cmd->outfile, &str[l++], 1);
+				write(cmd->outfile, "=\"", 2);
+				ft_putstr_fd(str, cmd->outfile);
 				write(cmd->outfile, "\"", 1);
 			}
 			write(cmd->outfile, "\n", 1);

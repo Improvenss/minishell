@@ -6,7 +6,7 @@
 /*   By: akaraca <akaraca@student.42.tr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/23 14:43:17 by gsever            #+#    #+#             */
-/*   Updated: 2022/10/20 12:00:21 by akaraca          ###   ########.fr       */
+/*   Updated: 2022/10/20 13:03:34 by akaraca          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -367,7 +367,6 @@ typedef struct s_base
 	char		*mem_1;
 	char		*mem_2;
 	int			fd_i;
-	char		*cd_tmp;
 	int			cmd_count;
 	pid_t		*pid;
 	int			**fd;

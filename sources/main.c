@@ -175,13 +175,13 @@ Ayrıştırıcı, başka bir dile kolay çeviri için verileri daha küçük ö�
  *  boylelikle girdi hangi err kodunu donduruyor onu anlayabiliyoruz.
  * 
  * NOTE: malloc() durumlari kontrol edilecek
- * 	malloc()
- * if (malloc == NULL),
- * cd'nin leaks'leri giderilecek,
- * < operatoru olusturulmayan dosya gordugunde hata
- *  dondurmeli -> islemi durdurmali,
- * norminette icin ayirma islemi yapilacak,
- * cd /dizini icin yolu gormuyor hatasi duzeltielcek.
+ * TODO:malloc()
+ * 	if (malloc == NULL),
+ * TODO: cd'nin leaks'leri giderilecek,
+ * TODO: < operatoru olusturulmayan dosya gordugunde hata
+ * 	dondurmeli -> islemi durdurmali,
+ * TODO: norminette icin ayirma islemi yapilacak,
+ * TODO: unset icin leaks var,
  * 
  * @return int 
  */

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gsever <gsever@student.42kocaeli.com.tr    +#+  +:+       +#+        */
+/*   By: akaraca <akaraca@student.42.tr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/19 16:46:00 by gsever            #+#    #+#             */
-/*   Updated: 2022/10/19 16:46:16 by gsever           ###   ########.fr       */
+/*   Updated: 2022/10/20 14:26:46 by akaraca          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ t_lexer	*cmd_node_create(t_cmd **new, t_lexer *last, int i)
 	{
 		if (tmp->flag & (TOK_TEXT | TOK_D_QUOTE | TOK_S_QUOTE))//if (tmp->flag == TOK_TEXT)
 		{
-			(*new)->full_cmd[i] = ft_strdup(tmp->str);
+			(*new)->full_cmd[i] = tmp->str;//ft_strdup(tmp->str); //lexer içeriğini eşitliyoruz.
 			i++;
 		}
 		cmd_set_fd(tmp, new);

@@ -74,11 +74,15 @@ int	export_same_check(t_base *base, char *str)
 		if (ft_strcmp_edited(data[0], check->data[0]) == 0)
 		{
 			if (l != 0 && data[1] != NULL)
+			{
 				check->data[1] = data[1];
+			}
+			chr_free(data);
 			return (0);
 		}
 		check = check->next;
 	}
+	chr_free(data);
 	return (1);
 }
 
