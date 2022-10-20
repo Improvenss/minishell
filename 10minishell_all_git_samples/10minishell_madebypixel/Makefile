@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: gsever <gsever@student.42kocaeli.com.tr    +#+  +:+       +#+         #
+#    By: akaraca <akaraca@student.42.tr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/10/22 13:38:18 by aperez-b          #+#    #+#              #
-#    Updated: 2022/10/06 15:31:39 by gsever           ###   ########.fr        #
+#    Updated: 2022/10/20 18:36:54 by akaraca          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,8 +24,8 @@ WHITE = \033[0;97m
 SHELL=/bin/bash
 UNAME = $(shell uname -s)
 
-RL_INC_OS	:= /goinfre/$(USER)/brew/Cellar/readline/8.1.2/include
-RL_LIB_OS	:= /goinfre/$(USER)/brew/Cellar/readline/8.1.2/lib
+RL_INC_OS	:= /goinfre/$(USER)/brew/Cellar/readline/8.2.1/include
+RL_LIB_OS	:= /goinfre/$(USER)/brew/Cellar/readline/8.2.1/lib
 
 # Properties for MacOS
 CDEBUG = #-fsanitize=address

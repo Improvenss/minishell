@@ -6,7 +6,7 @@
 /*   By: akaraca <akaraca@student.42.tr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/23 14:43:17 by gsever            #+#    #+#             */
-/*   Updated: 2022/10/20 13:03:34 by akaraca          ###   ########.fr       */
+/*   Updated: 2022/10/20 19:00:43 by akaraca          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -485,6 +485,7 @@ int		main(int argc __attribute((unused))
 void	minishell(t_base *base);
 
 // signal.c
+void	action_heredoc(int sig);
 void	action(int sig);
 
 // utils_cmd.c

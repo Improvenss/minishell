@@ -6,7 +6,7 @@
 /*   By: akaraca <akaraca@student.42.tr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/19 16:45:03 by gsever            #+#    #+#             */
-/*   Updated: 2022/10/20 13:07:24 by akaraca          ###   ########.fr       */
+/*   Updated: 2022/10/20 19:01:06 by akaraca          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,9 @@ char	*get_heredoc_str(char *limit)
 
 	str = NULL;
 	tmp = NULL;
-	while (exit_status(0, 1) != 130 && !ft_strncmp_edited(str, limit, ft_strlen(limit)))
+	signal(SIGINT, action_heredoc);
+	while (exit_status(0, 1) != 130 && (!ft_strncmp_edited(str, limit, ft_strlen(limit))
+	|| !str))
 	{
 		free(str);
 		str = readline("> ");
@@ -75,7 +77,10 @@ int	set_heredoc(char *limit)
 		return (print_error(SHELLNAME, "error creating pipe", NULL, NULL));
 	str = get_heredoc_str(limit);
 	if (str == NULL) //crlt+D için
+	{
+		close(fd[WRITE_END]);
 		return (fd[READ_END]);
+	}
 	write(fd[WRITE_END], str, ft_strlen(str));
 	free(str);
 	close(fd[WRITE_END]);

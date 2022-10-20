@@ -53,8 +53,6 @@ int	cmd_other(t_base *base, char **cmd_array)
 
 			err = 0;
 			pi = fork();
-			signal(SIGINT, SIG_DFL);
-			signal(SIGQUIT, SIG_DFL);
 			if (pi == 0)
 				err = execve(base->mem_1, cmd_array, environ);
 			waitpid(pi, &err, 0);
@@ -69,8 +67,6 @@ int	cmd_other(t_base *base, char **cmd_array)
 
 		err = 0;
 		pi = fork();
-		signal(SIGINT, SIG_DFL);
-		signal(SIGQUIT, SIG_DFL);
 		if (pi == 0)
 		{
 			if (base->fd_i != base->cmd_count - 1)
@@ -78,6 +74,8 @@ int	cmd_other(t_base *base, char **cmd_array)
 				dup2(base->cmd->infile, 0);
 				dup2(base->cmd->outfile, 1);
 			}
+			if (base->cmd->infile == -1 || base->cmd->outfile == -1)
+				exit(0);
 			err = execve(base->mem_1, cmd_array, environ);
 		}
 		waitpid(pi, &err, 0);

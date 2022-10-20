@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbueno-g <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: akaraca <akaraca@student.42.tr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/09 10:17:00 by mbueno-g          #+#    #+#             */
-/*   Updated: 2022/03/14 17:19:55 by aperez-b         ###   ########.fr       */
+/*   Updated: 2022/10/20 18:39:46 by akaraca          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ int	get_here_doc(char *str[2], char *aux[2])
 	close(fd[WRITE_END]);
 	if (g_status == 130)
 	{
+		printf("%d\n", __LINE__);
 		close(fd[READ_END]);
 		return (-1);
 	}
