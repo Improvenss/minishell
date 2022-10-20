@@ -35,6 +35,11 @@ int		cmd_export_add(t_base *base, t_cmd *cmd)
 		if (export_same_check(base, cmd->full_cmd[i]))
 		{
 			new = (t_env *)malloc(sizeof(t_env));
+			if (!new)
+			{
+				exit_status(2, 0);
+				print_error(SHELLNAME, "export_new_add", NULL, strerror(ENOMEM));
+			}
 			new->data = ft_split(cmd->full_cmd[i], '=');
 			if (cmd->full_cmd[i][ft_strlen(cmd->full_cmd[i]) - 1] == '=')
 				new->data[1] = "";
