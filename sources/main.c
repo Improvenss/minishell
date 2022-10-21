@@ -157,23 +157,11 @@ Ayrıştırıcı, başka bir dile kolay çeviri için verileri daha küçük ö�
  sözlükler sözcük düzeyinde çalışır.
 	EXPANDER: -> -Birlestirici-
 	EXECUTOR: -> -Calistirici-
- 
- * @fn signal(): Klayeden girilen CTRL+C,D,\ sinyallerini kontrol ediyor.
- * @fn env_init(): Program baslatma konumlarini falan hafizasinda tutan
- *  degiskenler.
- * @fn action(): CTRL+*'dan gelen sinyal sonucunda hangi func()
- *  calismasini istedigimiz func().
- * @fn get_input(): readline() ile terminale yazilan girdiyi
- *  string tipinde aldigimiz func().
- * @fn isatty(): Terminal(tty) var mi yok mu onu kontrol ediyor.
- * @fn ft_putendl_fd(): libft-> file descriptor'a istedigimiz str'yi yazar.
- * @fn process_input(): get_input()'tan aldigimiz girdiyi calistiriyoruz.
- * @fn rl_clear_history(): readline kutuphanesi icin gerekli.
- * @fn ft_free_split(): Ozel olarak yazilmis split icin teker teker
- *  free'leme islemi yapiyor.
- * @fn exit(): Exit BRUH.
- * @fn exec_exit_status_get(): return/error degerimiz icin kullaniyoruz,
- *  boylelikle girdi hangi err kodunu donduruyor onu anlayabiliyoruz.
+ * 
+ * @fn set_arg(): envp'le aldigimiz environmen'lerimizi base->env
+ *  structuna atiyoruz(set ediyoruz).
+ * @fn minishell(): Buradan itibaren basliyor bash shell'imiz.
+ * @fn exit_status(): bash'tan cikildiktan sonra 0'la return ediyoruz.
  * 
  * NOTE: malloc() durumlari kontrol edilecek
  * TODO:malloc()
@@ -182,8 +170,11 @@ Ayrıştırıcı, başka bir dile kolay çeviri için verileri daha küçük ö�
  * TODO: < operatoru olusturulmayan dosya gordugunde hata
  * 	dondurmeli -> islemi durdurmali,
  * TODO: norminette icin ayirma islemi yapilacak,
- * TODO: unset icin leaks var,
- * TODO: cat << $pwd -> $pwd'nin expand edilmemesi gerekiyor, heredoc $pwd argümanı ile kapatılması gerekiyor.
+ * TODO: unset icin leaks var; exportlama islemi yapildiktan sonra
+ *  tekrar unset yapilirsa malloc_error_break hatasi.
+ * TODO: cat << $pwd -> $pwd'nin expand edilmemesi gerekiyor,
+ *  heredoc $pwd argümanı ile kapatılması gerekiyor.
+ * TODO: exit komutu icin command_exec()'deki return degerleri duzene cekilecek.
  * @return int 
  */
 int	main(int argc __attribute((unused))

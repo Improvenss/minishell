@@ -3,15 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   signal.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akaraca <akaraca@student.42.tr>            +#+  +:+       +#+        */
+/*   By: gsever <gsever@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/19 14:30:15 by akaraca           #+#    #+#             */
-/*   Updated: 2022/10/20 19:02:16 by akaraca          ###   ########.fr       */
+/*   Updated: 2022/10/21 15:34:33 by gsever           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
+int	termios_change(bool )
 
 void	action_heredoc(int sig)
 {

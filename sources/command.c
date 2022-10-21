@@ -23,6 +23,22 @@
  */
 #include "../includes/minishell.h"
 
+/**
+ * @brief PDF'den istenilen komutlarimizi burada base->commands[]'i
+ *  t_commands structuna init ediyoruz.
+ * 
+ * Terminal'imize girilen girdimizde buradaki komutlardan biri varsa sahip
+ *  olduklari functionlari calistirilacak.
+ * 
+ * @param base base->commands[8]'in icine init ediyoruz.
+ * @fn cmd_echo()
+ * @fn cmd_cd()
+ * @fn cmd_pwd()
+ * @fn cmd_unset()
+ * @fn cmd_export()
+ * @fn cmd_env()
+ * @fn cmd_exit()
+ */
 void	commands_init(t_base *base)
 {
 	base->commands[0] = (t_commands){"echo", cmd_echo};
@@ -101,6 +117,21 @@ int	cmd_other(t_base *base, char **cmd_array)
 	return (0);
 }
 
+/**
+ * @brief base->commands[]'in icinde isimleriyle cmd_array'ini
+ *  karsilastiriyoruz.
+ * 
+ * NULL: return (0).
+ * FIND: cmd_*.c icindeki gerekli komutun index sirasini donduruyor
+ *  o yuzden i + 1 var.
+ * NFIND: cmd_other()'e giderek execve()'yle cmd_array'i calistiriyor.
+ * 
+ * @param base 
+ * @param cmd_array 
+ * @fn ft_strlen(): command_name; base->commands[0]'daki 
+ * NOTE: exit komutu yazildiginda exit'e ozel olarak ERROR donecek
+ * @return int NULL: 0, OK: commands[] index'i, NOK: execve's return value.
+ */
 int	command_find_arr(t_base *base, char **cmd_array)
 {
 	int	c_name;
@@ -114,20 +145,29 @@ int	command_find_arr(t_base *base, char **cmd_array)
 		c_name = ft_strlen(base->commands[i].name);
 		if (cmd_array && ft_strncmp_edited(cmd_array[0],
 			base->commands[i].name, c_name))
-		{
 			return (i + 1);
-		}
 	}
 	return (cmd_other(base, cmd_array));
 }
 
+/**
+ * @brief Genel komut calistirma islemi buradan basliyor.
+ * 
+ * 			lexer->parser->expander
+ * FIND: Islemleri bittikten sonra bizim kendi tanimladigimiz base->commands[]
+ *  structunun icinde base->cmd->full_cmd komutlarimizi ariyoruz,
+ *  buldugumuzda kendi yazmis oldugumuz cmd_* func()'larimizi calistiriyoruz.
+ * NFIND: Eger bulamazsak 
+ * 
+ * @param base 
+ * @param cmd 
+ * @return int 
+ */
 int	command_exec(t_base *base, t_cmd *cmd)
 {
 	int	cmd_i;
 
 	cmd_i = command_find_arr(base, cmd->full_cmd);
-	if (cmd_i == 127)
-		return (ERROR);
 	if (cmd_i > 0 && cmd_i < 8)
 		return (base->commands[cmd_i - 1].func(base, cmd));
 	return (0);

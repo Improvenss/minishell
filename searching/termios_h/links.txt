@@ -1,0 +1,4 @@
+CTRL+C hide ^C
+{
+	https://stackoverflow.com/questions/42563400/hide-c-pressing-ctrl-c-in-c
+}

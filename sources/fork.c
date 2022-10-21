@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fork.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akaraca <akaraca@student.42.tr>            +#+  +:+       +#+        */
+/*   By: gsever <gsever@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/19 16:48:49 by gsever            #+#    #+#             */
-/*   Updated: 2022/10/20 18:52:09 by akaraca          ###   ########.fr       */
+/*   Updated: 2022/10/21 15:00:59 by gsever           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,9 +75,7 @@ int	fork_start(t_base *base)
 		{
 			fork_dup(base, i, tmp);
 			fd_close(base);
-			if (command_exec(base, tmp) == ERROR)
-				print_error(SHELLNAME, NULL, NULL,
-				"command_exec not working!\n");
+			command_exec(base, tmp);
 			exit(0);
 		}
 		tmp = tmp->next;
