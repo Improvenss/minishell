@@ -6,7 +6,7 @@
 /*   By: akaraca <akaraca@student.42.tr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/19 16:45:03 by gsever            #+#    #+#             */
-/*   Updated: 2022/10/20 20:15:36 by akaraca          ###   ########.fr       */
+/*   Updated: 2022/10/21 12:06:44 by akaraca          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	set_fd(int oldfd, char *path, int flags[2])
 	else if (access(path, R_OK) == -1 && !flags[0])
 	{
 		exit_status(126, 0);
-		return (print_error(SHELLNAME, "permission denied", path, NULL));
+		return (print_error(SHELLNAME, path, "No such file or directory", NULL));
 	}
 	else if (access(path, W_OK) == -1 && access(path, F_OK) == 0 && flags[0])
 	{

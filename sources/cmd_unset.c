@@ -41,7 +41,7 @@ int	cmd_unset(t_base *base, t_cmd *cmd)
 			{
 				del = tmp;
 				tmp->prev->next = tmp->next;
-				free(del->data);
+				chr_free(del->data);
 			}
 			before = tmp;
 			tmp = tmp->next;
@@ -49,6 +49,5 @@ int	cmd_unset(t_base *base, t_cmd *cmd)
 				tmp->prev = before;
 		}
 	}
-	exit_status(0, 0);
 	return (0);
 }
