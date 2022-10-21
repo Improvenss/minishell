@@ -47,7 +47,7 @@ int	env_datalen(char **data)
 	len = 0;
 	while (data[i])
 	{
-		len = len + ft_strlen(data[i]) - 1;
+		len = len + ft_strlen(data[i]);
 		i++;
 	}
 	return (len);

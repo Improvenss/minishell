@@ -183,6 +183,7 @@ Ayrıştırıcı, başka bir dile kolay çeviri için verileri daha küçük ö�
  * 	dondurmeli -> islemi durdurmali,
  * TODO: norminette icin ayirma islemi yapilacak,
  * TODO: unset icin leaks var,
+ * TODO: cat << $pwd -> $pwd'nin expand edilmemesi gerekiyor, heredoc $pwd argümanı ile kapatılması gerekiyor.
  * @return int 
  */
 int	main(int argc __attribute((unused))

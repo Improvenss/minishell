@@ -6,7 +6,7 @@
 /*   By: akaraca <akaraca@student.42.tr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/23 14:43:17 by gsever            #+#    #+#             */
-/*   Updated: 2022/10/20 19:54:08 by akaraca          ###   ########.fr       */
+/*   Updated: 2022/10/21 11:49:15 by akaraca          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -398,7 +398,7 @@ int		cmd_echo(t_base *base, t_cmd *cmd);
 int		cmd_env(t_base *base, t_cmd *cmd);
 
 // cmd_exit.c
-int		cmd_exit(t_base __unused *base, t_cmd *cmd);
+int		cmd_exit(t_base *base __attribute((unused)), t_cmd *cmd);
 
 // cmd_export.c
 int		cmd_export_add(t_base *base, t_cmd *cmd);
@@ -406,7 +406,7 @@ void	cmd_export_print(t_base *base, t_cmd *cmd);
 int		cmd_export(t_base *base, t_cmd *cmd);
 
 // cmd_pwd.c
-int		cmd_pwd(t_base *base, t_cmd *cmd);
+int		cmd_pwd(t_base *base __attribute((unused)), t_cmd *cmd);
 
 // cmd_set_fd.c
 int		set_fd(int oldfd, char *path, int flags[2]);

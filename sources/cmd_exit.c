@@ -44,7 +44,7 @@ static bool	err_num_is_num(char *argv)
 	return (true);
 }
 
-int	cmd_exit(t_base __unused *base, t_cmd *cmd)
+int	cmd_exit(t_base *base __attribute((unused)), t_cmd *cmd)
 {
 	int	argc;
 

@@ -23,23 +23,14 @@
  */
 #include "../includes/minishell.h"
 
-int	cmd_pwd(t_base *base, t_cmd *cmd)
+int	cmd_pwd(t_base *base __attribute((unused)), t_cmd *cmd)
 {
-	char	*output;
-	int		i;
+	char	pwd[256];
 
 	if (cmd->full_cmd[1] == NULL)
 	{
-		i = 0;
-		output = env_findret(base, "PWD");
-		while (output[i])
-		{
-			write(cmd->outfile, &output[i], 1);
-			i++;
-		}
-		write(cmd->outfile, "\n", 1);
-		if (output != NULL)
-			exit_status(0, 0);
+		getcwd(pwd, sizeof(pwd));
+		ft_putendl_fd(pwd, cmd->outfile);
 	}
 	else
 	{
