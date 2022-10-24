@@ -68,7 +68,9 @@ int	cmd_other(t_base *base, char **cmd_array)
 
 			pi = fork();
 			if (pi == 0)
+			{
 				base->err = execve(base->mem_1, cmd_array, base->env_chr);
+			}
 			waitpid(pi, &base->err, 0);
 			exit_status(base->err, 0);
 		}
@@ -88,7 +90,9 @@ int	cmd_other(t_base *base, char **cmd_array)
 			if (base->cmd->infile == -1 || base->cmd->outfile == -1)
 				exit(1);
 			else
+			{
 				base->err = execve(base->mem_1, cmd_array, base->env_chr);
+			}
 		}
 		waitpid(pi, &base->err, 0);
 		if (-1 & (base->cmd->infile | base->cmd->outfile)) // execve err çıktısını 256'ya böldüğünden dolayı ayrı bir exit durumu söz konusu ise 256'ya bölünmelidir.
@@ -107,7 +111,7 @@ int	cmd_other(t_base *base, char **cmd_array)
 		waitpid(pi, &base->err, 0);
 		exit_status(base->err, 0);
 	}
-	else
+	else 
 	{
 		print_error(SHELLNAME, NULL, cmd_array[0], "command not found");
 		exit_status(127, 0);

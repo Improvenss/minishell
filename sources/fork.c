@@ -6,7 +6,7 @@
 /*   By: akaraca <akaraca@student.42.tr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/19 16:48:49 by gsever            #+#    #+#             */
-/*   Updated: 2022/10/24 16:58:17 by akaraca          ###   ########.fr       */
+/*   Updated: 2022/10/24 17:43:53 by akaraca          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,10 +40,15 @@ void	fd_close(t_base *base)
 
 void	fork_dup(t_base *base, int i, t_cmd *cmd)
 {
+	(void)cmd;
 	if (i > 0)
-		dup2(base->fd[i - 1][cmd->infile], 0);
+		dup2(base->fd[i - 1][0], 0);
 	if (i != base->cmd_count - 1)
-		dup2(base->fd[i][cmd->outfile], 1);
+		dup2(base->fd[i][1], 1);
+	// if (i > 0)
+	// 	dup2(base->fd[i - 1][cmd->infile], 0);
+	// if (i != base->cmd_count - 1)
+	// 	dup2(base->fd[i][cmd->outfile], 1);
 }
 
 /**

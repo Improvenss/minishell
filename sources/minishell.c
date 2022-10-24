@@ -23,6 +23,21 @@
  */
 #include "../includes/minishell.h"
 
+void	close_fd(t_cmd *cmd)
+{
+	t_cmd *tmp;
+
+	tmp = cmd;
+	while (tmp)
+	{
+		if (tmp->infile != 0)
+			close(tmp->infile);
+		if (tmp->outfile != 1)
+			close(tmp->outfile);
+		tmp = tmp->next;
+	}
+}
+
 /**
  * @brief Bash shell starting here.
  * 
@@ -81,6 +96,7 @@ void	minishell(t_base *base)
 			exit_status(1, 0);
 		else
 			cmd(base);
+		close_fd(base->cmd);
 		free_cmd(&base->cmd);
 		free_lexer(&base->lexer);
 		free(base->input_line);
