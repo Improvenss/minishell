@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: akaraca <akaraca@student.42.tr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/09/23 14:43:17 by gsever            #+#    #+#             */
-/*   Updated: 2022/10/24 18:09:37 by akaraca          ###   ########.fr       */
+/*   Created: 2022/10/24 19:40:24 by akaraca           #+#    #+#             */
+/*   Updated: 2022/10/24 19:52:52 by akaraca          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -397,7 +397,7 @@ int		cmd_echo(t_base *base, t_cmd *cmd);
 int		cmd_env(t_base *base, t_cmd *cmd);
 
 // cmd_exit.c
-int		cmd_exit(t_base *base __attribute((unused)), t_cmd *cmd);
+int		cmd_exit(t_base *base, t_cmd *cmd);
 
 // cmd_export.c
 int		cmd_export_add(t_base *base, t_cmd *cmd);
@@ -405,10 +405,10 @@ void	cmd_export_print(t_base *base, t_cmd *cmd);
 int		cmd_export(t_base *base, t_cmd *cmd);
 
 // cmd_pwd.c
-int		cmd_pwd(t_base *base __attribute((unused)), t_cmd *cmd);
+int		cmd_pwd(t_base *base, t_cmd *cmd);
 
 // cmd_set_fd.c
-int		set_fd(int oldfd, char *path, int flags[2]);
+int		set_fd(int oldfd, char *path, int *flags);
 char	*get_heredoc_str(char *limit);
 int		set_heredoc(char *limit);
 void	cmd_set_fd(t_lexer *tmp, t_cmd **new);
@@ -450,7 +450,6 @@ void	free_lexer(t_lexer **lexer);
 void	free_cmd(t_cmd **cmd);
 void	free_all(t_base *base);
 
-
 // history.c
 int		history_empty_check(char *input_line);
 
@@ -480,9 +479,7 @@ void	lexer(t_base *base, char *str);
 
 // main.c
 int		set_arg(t_base *base, char **environ);
-int		main(int argc __attribute((unused))
-	, char **argv __attribute((unused))
-	, char **envp);
+int		main(int argc, char **argv, char **envp);
 
 // minishell.c
 void	minishell(t_base *base);

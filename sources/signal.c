@@ -6,7 +6,7 @@
 /*   By: akaraca <akaraca@student.42.tr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/19 14:30:15 by akaraca           #+#    #+#             */
-/*   Updated: 2022/10/24 18:57:08 by akaraca          ###   ########.fr       */
+/*   Updated: 2022/10/24 19:26:53 by akaraca          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ void	action_heredoc(int sig)
 		ioctl(STDIN_FILENO, TIOCSTI, "\n");
 		rl_replace_line("", 0);
 		rl_on_new_line();
-		rl_redisplay();
+		//rl_redisplay();
 	}
 }
 

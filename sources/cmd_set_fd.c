@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   cmd_set_fd.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gsever <gsever@student.42kocaeli.com.tr    +#+  +:+       +#+        */
+/*   By: akaraca <akaraca@student.42.tr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/19 16:45:03 by gsever            #+#    #+#             */
-/*   Updated: 2022/10/24 13:30:02 by gsever           ###   ########.fr       */
+/*   Updated: 2022/10/24 19:52:49 by akaraca          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-int	set_fd(int oldfd, char *path, int flags[2])
+int	set_fd(int oldfd, char *path, int *flags)
 {
 	int	fd;
 

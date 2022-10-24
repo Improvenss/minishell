@@ -51,6 +51,17 @@ void	commands_init(t_base *base)
 	base->commands[7] = (t_commands){NULL, NULL};
 }
 
+void test(int sig)
+{
+	if (sig == SIGINT)
+	{
+		exit_status(1, 0);
+		write(STDERR_FILENO, "\n", 1);
+		rl_replace_line("", 0);
+		rl_on_new_line();
+	}
+}
+
 int	cmd_other(t_base *base, char **cmd_array)
 {
 	base->mem_1 = ft_path(base->env_path, cmd_array[0]);
@@ -78,7 +89,7 @@ int	cmd_other(t_base *base, char **cmd_array)
 	else if (base->mem_1)
 	{
 		int	pi;
-
+		signal(SIGINT, test);
 		pi = fork();
 		if (pi == 0)
 		{
@@ -90,7 +101,7 @@ int	cmd_other(t_base *base, char **cmd_array)
 			if (base->cmd->infile == -1 || base->cmd->outfile == -1)
 				exit(1);
 			else
-			{
+			{	
 				base->err = execve(base->mem_1, cmd_array, base->env_chr);
 			}
 		}
