@@ -40,6 +40,31 @@ int	env_strlen(t_env *env)
 
 char	*env_data(t_env *tmp)
 {
+	// char *new;
+	// int	i;
+	// int	l;
+
+	// new = (char *)malloc(sizeof(char) * (ft_strlen(tmp->data[0]) + ft_strlen(tmp->data[1]) + 1));
+	// i = 0;
+	// l = 0;
+	// while (tmp->data[0][i])
+	// {
+	// 	new[l] = tmp->data[0][i];
+	// 	i++;
+	// 	l++;
+	// }
+	// if (tmp->is_env_equal == true)
+	// 	new[l++] = '=';
+	// i = 0;
+	// while (tmp->data[1][i])
+	// {
+	// 	new[l] = tmp->data[1][i];
+	// 	i++;
+	// 	l++;
+	// }
+	// new[l] = '\0';
+	// return (new);
+
 	char	*new;
 	char	*del;
 
@@ -68,13 +93,13 @@ char	**env_be_char(t_env *env)
 
 	i = 0;
 	size = env_strlen(env);
-	new = (char **)malloc(sizeof(char *) * size);
+	new = (char **)malloc(sizeof(char *) * (size + 1));
+	if (!new)
+		return (NULL);
 	tmp = env;
 	while (tmp != NULL)
 	{
-		char *del = env_data(tmp);
-		new[i] = del;
-		free(del);
+		new[i] = env_data(tmp);
 		i++;
 		tmp = tmp->next;
 	}

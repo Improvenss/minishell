@@ -113,7 +113,7 @@ int	cmd_other(t_base *base, char **cmd_array)
 		exit_status(127, 0);
 	}
 	free(base->mem_1);
-	free(base->env_chr);
+	free_pp_str(base->env_chr);
 	return (0);
 }
 
