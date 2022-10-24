@@ -7,3 +7,6 @@ Lexer and Parser
 	Parser
 	https://www.techopedia.com/definition/3854/parser#:~:text=A%20parser%20is%20a%20compiler,by%20other%20components%20in%20programming.
 }
+
+https://stackoverflow.com/questions/657846/how-do-i-write-non-ascii-characters-using-echo
+https://ss64.com/ascii.html

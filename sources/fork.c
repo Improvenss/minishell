@@ -6,12 +6,17 @@
 /*   By: gsever <gsever@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/19 16:48:49 by gsever            #+#    #+#             */
-/*   Updated: 2022/10/21 15:00:59 by gsever           ###   ########.fr       */
+/*   Updated: 2022/10/24 13:38:01 by gsever           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
+/**
+ * @brief !!!!!!!!!!!!!!! ERRNO DEGISTIRILECEK EXIT_ASODJFASLD() YAPILACAK.
+ * 
+ * @param base 
+ */
 void	ft_wait(t_base *base)
 {
 	int	i;

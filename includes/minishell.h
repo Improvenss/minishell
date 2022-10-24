@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akaraca <akaraca@student.42.tr>            +#+  +:+       +#+        */
+/*   By: gsever <gsever@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/23 14:43:17 by gsever            #+#    #+#             */
-/*   Updated: 2022/10/21 11:49:15 by akaraca          ###   ########.fr       */
+/*   Updated: 2022/10/24 14:04:55 by gsever           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -299,6 +299,7 @@ typedef struct s_lexer
  * @param full_path*:
  * @param infile
  * @param outfile
+ * @param size
  * @param next*: Struct list'inin sonraki isaretcisi.
  */
 typedef struct s_cmd
@@ -307,6 +308,7 @@ typedef struct s_cmd
 	char			*full_path;
 	int				infile;
 	int				outfile;
+	int				size;
 	struct s_cmd	*next;
 }		t_cmd;
 
@@ -385,9 +387,6 @@ typedef struct s_base
 /* ************************************************************************** */
 
 // cmd_cd.c
-char	*clear_slash(t_base *base, char *str);
-char	*cd_slash(char *str);
-char	*delete_front_slash(char *str);
 int		cmd_cd(t_base *base, t_cmd *cmd);
 
 // cmd_echo.c
@@ -434,6 +433,7 @@ void	debug_print_str(t_base *base, char *env_var, char *value);
 
 // error.c
 int		print_error(char *s1, char *s2, char *s3, char *message);
+int		print_error_errno(char *s1, char *s2, char *s3);
 int		exit_status(int err, bool status);
 
 // fork.c
@@ -444,16 +444,18 @@ int		fork_start(t_base *base);
 int		fork_init(t_base *base);
 
 // free.c
-void	chr_free(char **line);
-void	cmd_free(t_cmd **cmd);
-void	lexer_free(t_lexer **lexer);
-void	env_free(t_env **env);
-void	all_free(t_base **base);
+void	free_pp_str(char **line);
+void	free_env(t_env **env);
+void	free_lexer(t_lexer **lexer);
+void	free_cmd(t_cmd **cmd);
+void	free_all(t_base *base);
+
 
 // history.c
 int		history_empty_check(char *input_line);
 
 // lexer_env_expand.c
+int		is_it_expand(t_base *base);
 char	*env_expand_next_next(t_base *base, char *token, int *i, char *new);
 char	*env_expand_next(t_base *base, char *token, int *i, char *new);
 char	*env_expand(t_base *base, char *token);
@@ -486,6 +488,7 @@ int		main(int argc __attribute((unused))
 void	minishell(t_base *base);
 
 // signal.c
+int		termios_change(bool echo_ctrl_character);
 void	action_heredoc(int sig);
 void	action(int sig);
 
@@ -500,11 +503,17 @@ int		file_or_dir_search(char *str, int flag);
 int		search_and_launch(char **cmd_array);
 
 // utils_env.c
-char	**env_struct_to_char(t_env *env);
+int		env_strlen(t_env *env);
+char	*env_data(t_env *tmp);
+char	**env_be_char(t_env *env);
 bool	env_is_have(t_base *base, char *env_var, char *value);
 void	set_env(t_base *base, char *env_name, char *new_str);
 char	*env_findret(t_base *base, char *env_name);
+char	*find_chr_ret_str(char *str, char c, bool status);
+int		env_size(char *src);
+char	**env_split(char *src);
 int		env_struct(t_base *base, char *new_arg);
+char	*env_findret_no_dup(t_base *base, char *env_name);
 
 // utils_export.c
 int		export_dot_slash_check(char *str);

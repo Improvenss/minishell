@@ -6,7 +6,7 @@
 /*   By: gsever <gsever@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/04 19:56:31 by gsever            #+#    #+#             */
-/*   Updated: 2022/09/18 03:07:53 by gsever           ###   ########.fr       */
+/*   Updated: 2022/10/24 13:49:40 by gsever           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,5 @@ int		ft_lstsize(t_list *lst);
 
 ///////////////////// EXTRAS //////////////////////
 int		ft_isdigit_wsm(char c);
-int		ft_strcmp_edited(char *s1, char *s2);
-int		ft_strncmp_edited(const char *s1, const char *s2, size_t n);
 
 #endif

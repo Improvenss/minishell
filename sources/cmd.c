@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akaraca <akaraca@student.42.tr>            +#+  +:+       +#+        */
+/*   By: gsever <gsever@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/19 16:46:00 by gsever            #+#    #+#             */
-/*   Updated: 2022/10/20 19:57:32 by akaraca          ###   ########.fr       */
+/*   Updated: 2022/10/24 13:32:50 by gsever           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,10 @@ t_lexer	*cmd_node_create(t_cmd **new, t_lexer *last, int i)
 	t_lexer *tmp;
 
 	tmp = last;
-	*new = malloc(sizeof(t_cmd));
+	*new = (t_cmd *)malloc(sizeof(t_cmd));
 	if (!*new)
 		return (NULL);
-	(*new)->full_cmd = (char **)malloc(sizeof(char *) * i + 1);
+	(*new)->full_cmd = (char **)malloc(sizeof(char *) * (i + 1));
 	if (!(*new)->full_cmd)
 		return (NULL);
 	(*new)->full_path = NULL;
@@ -33,18 +33,19 @@ t_lexer	*cmd_node_create(t_cmd **new, t_lexer *last, int i)
 	{
 		if (tmp->flag & (TOK_TEXT | TOK_D_QUOTE | TOK_S_QUOTE))//if (tmp->flag == TOK_TEXT)
 		{
-			(*new)->full_cmd[i] = tmp->str;//ft_strdup(tmp->str); //lexer içeriğini eşitliyoruz.
+			(*new)->full_cmd[i] = ft_strdup(tmp->str);
 			i++;
 		}
 		cmd_set_fd(tmp, new);
 		tmp = tmp->next;
 	}
 	(*new)->full_cmd[i] = NULL;
+	(*new)->size = i;
 	return (tmp);
 }
 
 t_lexer	*cmd_create(t_cmd **lst, t_lexer *last)
-{	
+{
 	t_lexer *tmp;
 	t_cmd	*new;
 	int		i;

@@ -23,12 +23,12 @@
  */
 #include "../includes/minishell.h"
 
-int		cmd_export_add(t_base *base, t_cmd *cmd)
+int	cmd_export_add(t_base *base, t_cmd *cmd)
 {
 	t_env	*tmp;
 	t_env	*new;
 	int		i;
-	
+
 	i = 1;
 	while (cmd->full_cmd[i])
 	{
@@ -40,14 +40,15 @@ int		cmd_export_add(t_base *base, t_cmd *cmd)
 				exit_status(2, 0);
 				return(print_error(SHELLNAME, "export_new_add", NULL, strerror(ENOMEM)));
 			}
-			new->data = ft_split(cmd->full_cmd[i], '=');
-			if (cmd->full_cmd[i][ft_strlen(cmd->full_cmd[i]) - 1] == '=')
-				new->data[1] = ft_strdup("");
+			new->is_env_equal = false;
+			if (ft_strchr(cmd->full_cmd[i], '='))
+				new->is_env_equal = true;
+			new->data = env_split(cmd->full_cmd[i]);
 			tmp = base->env;
-			while (tmp->next->next != NULL)
+			while (tmp->next != NULL)
 				tmp = tmp->next;
-			new->next = tmp->next;
 			tmp->next = new;
+			new->next = NULL;
 		}
 		i++;
 	}
@@ -78,6 +79,7 @@ void	cmd_export_print(t_base *base, t_cmd *cmd)
 			}
 			write(cmd->outfile, "\n", 1);
 		}
+		free(str);
 		str = export_find_max_str(base);
 		tmp_down = base->env;
 		while (tmp_down != NULL)

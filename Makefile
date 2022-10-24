@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: akaraca <akaraca@student.42.tr>            +#+  +:+       +#+         #
+#    By: gsever <gsever@student.42kocaeli.com.tr    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/09/15 17:54:15 by gsever            #+#    #+#              #
-#    Updated: 2022/10/20 12:04:01 by akaraca          ###   ########.fr        #
+#    Updated: 2022/10/22 00:21:04 by gsever           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -96,8 +96,8 @@ else ifeq ($(UNAME), Darwin)
 	OS = "You are connected from 42 school's iMac 🖥 ! Welcome $(CYAN)$(USER)$(X)"
 	ifeq ($(USER), yuandre)
 		OS = "You are connected from -$(CYAN)MacBook$(X)- 💻 Welcome -$(CYAN)$(USER)$(X)-!"
-		RL_INC_OS := /opt/brew/Cellar/readline/8.2.1/include/
-		RL_LIB_OS := /opt/brew/Cellar/readline/8.2.1/lib
+		RL_INC_OS := /opt/homebrew/Cellar/readline/8.2.1/include/
+		RL_LIB_OS := /opt/homebrew/Cellar/readline/8.2.1/lib
 	endif
 	ifeq ($(USER), akaraca)
 		OS = "You are connected from -$(CYAN)MacBook$(X)- 💻 Welcome -$(CYAN)$(USER)$(X)-!"

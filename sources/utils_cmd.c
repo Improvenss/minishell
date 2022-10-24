@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   utils_cmd.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akaraca <akaraca@student.42.tr>            +#+  +:+       +#+        */
+/*   By: gsever <gsever@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/19 15:22:13 by akaraca           #+#    #+#             */
-/*   Updated: 2022/10/19 15:26:42 by akaraca          ###   ########.fr       */
+/*   Updated: 2022/10/24 14:00:06 by gsever           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-int cmd_count(t_cmd *cmd)
+int	cmd_count(t_cmd *cmd)
 {
 	int i;
 	t_cmd *tmp;

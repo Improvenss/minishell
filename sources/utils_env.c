@@ -38,72 +38,48 @@ int	env_strlen(t_env *env)
 	return (i);
 }
 
-int	env_datalen(char **data)
+char	*env_data(t_env *tmp)
 {
-	int	i;
-	int	len;
+	char	*new;
+	char	*del;
 
-	i = 0;
-	len = 0;
-	while (data[i])
+	new = ft_strdup(tmp->data[0]);
+	if (tmp->is_env_equal == true)
 	{
-		len = len + ft_strlen(data[i]);
-		i++;
+		del = new;
+		new = ft_strjoin(new, "=");
+		free(del);
 	}
-	return (len);
+	if (tmp->data[1] != NULL)
+	{
+		del = new;
+		new = ft_strjoin(new, tmp->data[1]);
+		free(del);
+	}
+	return (new);
 }
 
-char	*env_data_ret(char **data)
+char	**env_be_char(t_env *env)
 {
-	char	*ret;
+	char	**new;
+	t_env	*tmp;
+	int		size;
 	int		i;
-	int		l;
-	int		k;
 
-	ret = (char *)malloc(sizeof(char) * (env_datalen(data) + 2));
-	if (!ret)
-		return (NULL);
 	i = 0;
-	k = 0;
-	while (data[i] != NULL)
+	size = env_strlen(env);
+	new = (char **)malloc(sizeof(char *) * size);
+	tmp = env;
+	while (tmp != NULL)
 	{
-		l = 0;
-		while (data[i][l] != '\0')
-		{
-			ret[k] = data[i][l];
-			k++;
-			l++;
-		}
-		if (i == 0)
-		{
-			ret[k] = '=';
-			k++;
-		}
+		char *del = env_data(tmp);
+		new[i] = del;
+		free(del);
 		i++;
+		tmp = tmp->next;
 	}
-	ret[k] = '\0';
-	return (ret);
-}
-
-char	**env_struct_to_char(t_env *env)
-{
-	char	**tmp;
-	int		i;
-	t_env	*env_tmp;
-
-	tmp = (char **)malloc(sizeof(char *) * env_strlen(env) + 1);
-	if (!tmp)
-		return (NULL);
-	i = 0;
-	env_tmp = env;
-	while (env_tmp != NULL)
-	{
-		tmp[i] = env_data_ret(env_tmp->data);
-		i++;
-		env_tmp = env_tmp->next;
-	}
-	tmp[i] = NULL;
-	return (tmp);
+	new[i] = NULL;
+	return (new);
 }
 
 /** OK:
@@ -141,19 +117,29 @@ bool	env_is_have(t_base *base, char *env_var, char *value)
 void	set_env(t_base *base, char *env_name, char *new_str)
 {
 	t_env	*tmp;
-	int		exit;
+	char	*del;
+	bool	status;
 
-	exit = 0;
 	tmp = base->env;
-	while (tmp != NULL && exit == 0)
+	status = false; 
+	while (tmp != NULL)
 	{
 		if (ft_strcmp_edited(env_name, tmp->data[0]) == 0)
 		{
-			tmp->data[1] = new_str;
-			exit = 1;
+			status = true;
+			del = tmp->data[1];
+			if (new_str != NULL)
+				tmp->data[1] = ft_strdup(new_str);
+			else
+				tmp->data[1] = NULL;
+			free(new_str);
+			free(del);
+			break;
 		}
 		tmp = tmp->next;
 	}
+	if (status == false)
+		free(new_str);
 }
 
 char	*env_findret(t_base *base, char *env_name)
@@ -164,12 +150,89 @@ char	*env_findret(t_base *base, char *env_name)
 	while (tmp != NULL)
 	{
 		if (ft_strcmp_edited(env_name, tmp->data[0]) == 0)
-			return (tmp->data[1]);
+		{
+			if (tmp->data[1] != NULL)
+			{
+				return (ft_strdup(tmp->data[1]));
+			}
+			else
+				return (NULL);
+		}
 		tmp = tmp->next;
 	}
 	return (NULL);
 }
 
+char	*find_chr_ret_str(char *str, char c, bool status)
+{
+	int	i;
+
+	i = -1;
+	while (str[++i])
+	{
+		if (str[i] == c)
+			break;
+	}
+	if (status == true)
+	{
+		if (str[i] == '\0')
+			return (NULL);
+		else
+			return (ft_substr(str, i + 1, ft_strlen(str)));
+	}
+	return (ft_substr(str, 0, i));
+}
+
+int	env_size(char *src)
+{
+	char	*data_1;
+	char	*data_2;
+
+	data_1 = find_chr_ret_str(src, '=', false);
+	data_2 = find_chr_ret_str(src, '=', true);
+	if (data_2 == NULL)
+	{
+		free(data_1);
+		return (1);
+	}
+	else if (data_1 && data_2)
+	{
+		free(data_1);
+		free(data_2);
+		return (2);
+	}
+	return (0);
+}
+
+char	**env_split(char *src)
+{
+	char	**dst;
+
+	dst = NULL;
+	dst = (char **)malloc(sizeof(char *) * (3));
+	if (!dst)
+	{
+		print_error(SHELLNAME, NULL, NULL, strerror(ENOMEM));
+		return(NULL);
+	}
+	dst[0] = find_chr_ret_str(src, '=', false);
+	dst[1] = find_chr_ret_str(src, '=', true);
+	dst[2] = NULL;
+	return (dst);
+}
+
+/**
+ * @brief base->env structu bossa yeni olusturulacak(ilk baslangictaki init),
+ *  varsa yeni eklenecek env'yi sondaki linked-list'e ekleyecek.
+ * 
+ * @param base base->env structu icin.
+ * @param new_arg Disaridan ekleyecegimiz env.
+ * @fn malloc(): environment struct'u(env'nin 1 satiri icin) yer aciyoruz.
+ * @fn ft_strncmp(): Yeni eklenecek env'da '=' varsa ture yapacagiz.
+ * @fn ft_split(): env'nin ='in sol tarafi ve sag tarafi olacak sekilde,
+ *  ayiriyoruz, data[0]=data[1] oluyor.
+ * @return int OK: 0, NOK: ERROR
+ */
 int	env_struct(t_base *base, char *new_arg)
 {
 	t_env	*new;
@@ -181,7 +244,7 @@ int	env_struct(t_base *base, char *new_arg)
 	new->is_env_equal = false;
 	if (ft_strncmp(new_arg, "=", 1))
 		new->is_env_equal = true;
-	new->data = ft_split(new_arg, '=');
+	new->data = env_split(new_arg);
 	new->next = NULL;
 	if (base->env == NULL)
 	{
@@ -196,4 +259,23 @@ int	env_struct(t_base *base, char *new_arg)
 		temp->next = new;
 	}
 	return (0);
+}
+
+char	*env_findret_no_dup(t_base *base, char *env_name)
+{
+	t_env	*tmp;
+
+	tmp = base->env;
+	while (tmp != NULL)
+	{
+		if (ft_strcmp_edited(env_name, tmp->data[0]) == 0)
+		{
+			if (tmp->data[1] != NULL)
+				return (tmp->data[1]);
+			else
+				return (NULL);
+		}
+		tmp = tmp->next;
+	}
+	return (NULL);
 }

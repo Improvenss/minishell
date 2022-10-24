@@ -3,14 +3,24 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_env_expand.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akaraca <akaraca@student.42.tr>            +#+  +:+       +#+        */
+/*   By: gsever <gsever@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/19 16:50:31 by gsever            #+#    #+#             */
-/*   Updated: 2022/10/20 19:58:31 by akaraca          ###   ########.fr       */
+/*   Updated: 2022/10/24 13:40:13 by gsever           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
+int		is_it_expand(t_base *base)
+{
+	t_lexer *last;
+
+	last = lexer_lstlast(base->lexer);
+	if (last && last->flag & (TOK_REDIR | TOK_HEREDOC))
+		return (1);
+	return (0);
+}
 
 char	*env_expand_next_next(t_base *base, char *token, int *i, char *new)
 {
@@ -22,23 +32,26 @@ char	*env_expand_next_next(t_base *base, char *token, int *i, char *new)
 	while (token[*i] && token[*i] != '$' && !ft_strchr(WHITESPACES, token[*i]))
 		(*i)++;
 	env_name = ft_substr(token, l, *i - l);
-	if (!env_name)
-		return (ft_strdup(""));
 	str = env_findret(base, env_name);
+	if (!str)
+	{
+		free(str);
+		if (is_it_expand(base))
+			str = ft_strjoin("$", env_name);
+		else
+			str = ft_strdup("");
+	}
 	free(env_name);
 	if (new != NULL && str != NULL)
 	{
 		base->mem_1 = ft_strjoin(new, str);
 		free(new);
+		free(str);
 		return (base->mem_1);
 	}
-	if (new != NULL && str == NULL)
-		return (new);
 	if (new == NULL && str != NULL)
-	{
-		return (ft_strdup(str));
-	}
-	return (ft_strdup("")); //dup kullanılmaz ise hatalı olur.
+		return (str);
+	return (new);
 }
 
 char	*env_expand_next(t_base *base, char *token, int *i, char *new)
@@ -105,11 +118,11 @@ char	*env_expand(t_base *base, char *token)
 		{
 			i = i + 2;
 			if (new == NULL)
-				new = ft_strdup("777"); // hata aldığından dolayı strdup <3, hafızada yer açılmadan eşitlenme söz konusu ile freelenemez.
+				new = ft_strdup("$");
 			else
 			{
 				base->mem_1 = new;
-				new = ft_strjoin(new, "777");
+				new = ft_strjoin(new, "$");
 				free(base->mem_1);
 			}
 		}

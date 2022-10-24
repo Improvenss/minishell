@@ -6,7 +6,7 @@
 /*   By: gsever <gsever@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/19 14:08:10 by gsever            #+#    #+#             */
-/*   Updated: 2022/10/19 16:48:25 by gsever           ###   ########.fr       */
+/*   Updated: 2022/10/22 04:26:16 by gsever           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,13 @@ int	print_error(char *s1, char *s2, char *s3, char *message)
 		ft_putstr_fd(message, 2);
 	}
 	ft_putchar_fd('\n', 2);
+	return (ERROR);
+}
+
+int	print_error_errno(char *s1, char *s2, char *s3)
+{
+	print_error(s1, s2, s3, strerror(errno));
+	errno = 0;
 	return (ERROR);
 }
 

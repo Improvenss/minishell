@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd_set_fd.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akaraca <akaraca@student.42.tr>            +#+  +:+       +#+        */
+/*   By: gsever <gsever@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/19 16:45:03 by gsever            #+#    #+#             */
-/*   Updated: 2022/10/21 12:06:44 by akaraca          ###   ########.fr       */
+/*   Updated: 2022/10/24 13:30:02 by gsever           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	set_fd(int oldfd, char *path, int flags[2])
 {
-	int fd;
+	int	fd;
 
 	if (access(path, F_OK) == 1 && !flags[0])
 	{

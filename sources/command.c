@@ -54,7 +54,7 @@ void	commands_init(t_base *base)
 int	cmd_other(t_base *base, char **cmd_array)
 {
 	base->mem_1 = ft_path(base->env_path, cmd_array[0]);
-	base->env_chr = env_struct_to_char(base->env);
+	base->env_chr = env_be_char(base->env);
 	if (search_and_launch(cmd_array))
 	{
 		if (file_or_dir_search(cmd_array[0], O_DIRECTORY))
@@ -113,7 +113,7 @@ int	cmd_other(t_base *base, char **cmd_array)
 		exit_status(127, 0);
 	}
 	free(base->mem_1);
-	chr_free(base->env_chr);
+	free(base->env_chr);
 	return (0);
 }
 
@@ -145,7 +145,9 @@ int	command_find_arr(t_base *base, char **cmd_array)
 		c_name = ft_strlen(base->commands[i].name);
 		if (cmd_array && ft_strncmp_edited(cmd_array[0],
 			base->commands[i].name, c_name))
+		{
 			return (i + 1);
+		}
 	}
 	return (cmd_other(base, cmd_array));
 }
@@ -157,7 +159,7 @@ int	command_find_arr(t_base *base, char **cmd_array)
  * FIND: Islemleri bittikten sonra bizim kendi tanimladigimiz base->commands[]
  *  structunun icinde base->cmd->full_cmd komutlarimizi ariyoruz,
  *  buldugumuzda kendi yazmis oldugumuz cmd_* func()'larimizi calistiriyoruz.
- * NFIND: Eger bulamazsak 
+ * NFIND: Eger bulamazsak return(0);
  * 
  * @param base 
  * @param cmd 

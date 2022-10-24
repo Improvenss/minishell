@@ -23,122 +23,112 @@
  */
 #include "../includes/minishell.h"
 
-char	*clear_slash(t_base *base, char *str)
+/**
+ * @brief 
+ * 
+ * 				!!!!! NOTE !!!!!!
+ * 
+ * Kral burada char bur[PATH_MAX] yap getcwd'yi sizeof(buf) yap dene, sonra
+ *  sizeof(buf)'u PATH_MAX yap oyle dene, sonra malloc'lu olani ac freeyi ac
+ *  sizeof(buf)'u yine PATH_MAX yap boyle dene cok bazen degistiriyor
+ *  bazen degistirmiyor PWD= 'yi...
+ * 
+ * @param base 
+ * @return int 
+ */
+static int	update_pwd(t_base *base)
 {
-	char		*tmp;
-	size_t		i;
-	size_t		l;
+	char	buf[PATH_MAX];
 
-	tmp = (char *)malloc(sizeof(char) * ft_strlen(str));
-	if(!tmp)
-		return (NULL);
-	l = 0;
-	if (!ft_strncmp_edited(env_findret(base, "PWD"), "/", 1))
-		tmp[l++] = '/';
-	i = 0;
-	while (l <= ft_strlen(str) && str[i] != '/')
-		tmp[l++] = str[i++];
-	tmp[l] = '\0';
-	return (tmp);
-}
-
-char	*cd_slash(char *str)
-{
-	int		i;
-	int		l;
-	char	*tmp;
-
-	tmp = (char *)malloc(sizeof(char) * ft_strlen(str));
-	if (!tmp)
-		return (NULL);
-	i = 0;
-	l = 0;
-	while (str[i] == '/')
-		i++;
-	if (str[i] == '\0')
-		tmp[l++] = '/';
-	while (str[i])
-	{
-		if (str[i - 1] == '/' && str[i] != '\0')
-			tmp[l++] = '/';
-		tmp[l++] = str[i++];
-		while (str[i] == '/')
-			i++;
-	}
-	tmp[l] = '\0';
-	return (tmp);
-}
-
-char	*delete_front_slash(char *str)
-{
-	char	*tmp;
-	int		l;
-	int		i;
-
-	l = ft_strlen(str);
-	tmp = (char *)malloc(sizeof(char) * l);
-	while (str[l] != '/')
-		l--;
-	i = -1;
-	while (++i < l)
-		tmp[i] = str[i];
-	if (l == 0)
-		tmp[i++] = '/';
-	tmp[i] = '\0';
-	return (tmp);
-}
-
-int	cmd_cd(t_base *base, t_cmd *cmd)
-{
-	if (cmd->full_cmd[2] != NULL)
-	{
-		print_error(SHELLNAME, "cd", NULL, "too many arguments");
-		exit_status(1, 0);
-	}
-	else if (cmd->full_cmd[1] == NULL
-		|| ft_strncmp_edited(cmd->full_cmd[1], "~", 1)
-		|| ft_strncmp_edited(cmd->full_cmd[1], "--", 2))
+	if (env_findret_no_dup(base, "PWD"))
 	{
 		set_env(base, "OLDPWD", env_findret(base, "PWD"));
-		set_env(base, "PWD", env_findret(base, "HOME"));
-		chdir(env_findret(base, "HOME"));
-		exit_status(0, 0);
 	}
-	else if (ft_strncmp_edited(cmd->full_cmd[1], "-", 1))
+	if (getcwd(buf, sizeof(buf)) == NULL)
 	{
-		base->mem_1 = env_findret(base, "OLDPWD");
-		set_env(base, "OLDPWD", env_findret(base, "PWD"));
-		set_env(base, "PWD", base->mem_1);
-		chdir(base->mem_1);
-		ft_putstr_fd(base->mem_1, cmd->outfile);
-		write(cmd->outfile, "\n", 1);
-		exit_status(0, 0);
+		print_error_errno(SHELLNAME, "cd", NULL);
+		return (ERROR);
 	}
-	else if (cmd->full_cmd[1] != NULL && file_or_dir_search(cmd->full_cmd[1], O_DIRECTORY))
+	set_env(base, "PWD", ft_strdup(buf));
+	return (0);
+}
+
+/**
+ * @brief direction'umuzu bulup return etmek icin.
+ * 
+ * Dir'imiz;
+ * 		[cd], [cd --], [cd ~] komutalarini iceriyorsa $HOME dizinindeki dir'i
+ *  donecek, eger yoksa set edilmedi diyecek(unset'lemisiz).
+ * 		[cd -] varsa OLDPWD'yi dondurecek.
+ * 		[ direction ] varsa da direkt girdigimiz yolu dondurecek.
+ * 
+ * @param base base->env'ler icin.
+ * @param cmd cmd->full_cmd'ler icin.
+ * @fn ft_strncmp(): komutlarimizin icinde sunlar varsa.
+ * @fn env_findret(): base->env'lerimizin icindeki atamalarin
+ *  degerlerini dondurur.
+ * @fn print_error(): error mesaji.
+ * @return char* 
+ */
+static char	*get_dir(t_base *base, t_cmd *cmd)
+{
+	char	*dir;
+
+	dir = NULL;
+	if ((cmd->full_cmd[0] && cmd->full_cmd[1] == NULL)
+		|| ft_strncmp(cmd->full_cmd[1], "~", 2) == 0
+		|| ft_strncmp(cmd->full_cmd[1], "--", 3) == 0)
 	{
-		set_env(base, "OLDPWD", env_findret(base, "PWD"));
-		if (ft_strncmp_edited(cmd->full_cmd[1], "..", 2))
-			set_env(base, "PWD", delete_front_slash(env_findret(base, "PWD")));
-		else if (cmd->full_cmd[1][0] == '/')
-			set_env(base, "PWD", cd_slash(cmd->full_cmd[1]));
-		else if (!ft_strncmp_edited(cmd->full_cmd[1], ".", 1))
-		{
-			base->mem_1 = clear_slash(base, cmd->full_cmd[1]);
-			set_env(base, "PWD", ft_strjoin(env_findret(base, "PWD"), base->mem_1));
-			free(base->mem_1);
-		}
-		chdir(env_findret(base, "PWD"));
-		exit_status(0, 0);
+		dir = env_findret_no_dup(base, "HOME");
+		if (dir == NULL)
+			print_error(SHELLNAME, "cd", NULL, "HOME not set");
 	}
-	else if (file_or_dir_search(cmd->full_cmd[1], 0))
+	else if (cmd->full_cmd[0] && ft_strncmp(cmd->full_cmd[1], "-", 2) == 0)
 	{
-		print_error("cd", cmd->full_cmd[1], NULL, "Not a directory");
-		exit_status(1, 0);
+		dir = env_findret_no_dup(base, "OLDPWD");
+		if (dir == NULL)
+			print_error(SHELLNAME, "cd", NULL, "OLDPWD not set");
 	}
 	else
+		dir = cmd->full_cmd[1];
+	return (dir);
+}
+
+/**
+ * @brief Buradan basliyor get_dir()'le diri alip direkt chdir()'le
+ *  konumu degistiriyor, sonra - varsa OLD_PWD'yi yazidiriyor,
+ *  sonra env'deki PWD ya da OLDPWD'leri falan guncelliyor.
+ * 
+ * @param base base->env'ler icin.
+ * @param cmd cmd->full_cmd[] yani parserlenmis komutlarimiz.
+ * @fn get_dir(): cd komutunun yanina girilen argumanlara gore;
+ *  [ ] || [~] || [--] -> dir = $HOME.
+ *  [-] -> dir = $OLDPWD.
+ *  [dir] -> dir = cmd->full_cmd[1](yani dir).
+ * @fn chdir(): Burada gelen dir'imizi terminalimizin konumu yapiyoruz.
+ * @fn ft_strncmp(): cd komutunun yaninda '-' varsa oncdeki
+ *  konumu yazdiriyoruz.
+ * @fn ft_putendl_fd(): Burada fd(1)'e yaziyoruz.
+ * @fn update_pwd(): Env'lerimizdeki PWD'yi su anki konumumuza guncelliyoruz,
+ *  OLDPWD'yi de bir onceki konumumuza guncelliyoruz. Eger haricinde
+ *  bir seyler varsa onlari da hallediyoruz burada.
+ * @return int OK: 0, NOK: EXIT_FAILURE(1).
+ */
+int	cmd_cd(t_base *base, t_cmd *cmd)
+{
+	char	*dir;
+
+	dir = get_dir(base, cmd);
+	if (dir == NULL)
+		return (EXIT_FAILURE);
+	if (chdir(dir) == -1)
 	{
-		print_error("cd", cmd->full_cmd[1], NULL, "No such file or directory");
-		exit_status(1, 0);
+		print_error_errno(SHELLNAME, "cd", dir);
+		return (EXIT_FAILURE);
 	}
+	if (cmd->full_cmd[1] && ft_strncmp(cmd->full_cmd[1], "-", 2) == 0)
+		ft_putendl_fd(dir, STDOUT_FILENO);
+	if (update_pwd(base) == ERROR)
+		return (EXIT_FAILURE);
 	return (0);
 }

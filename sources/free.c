@@ -6,43 +6,46 @@
 /*   By: gsever <gsever@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/19 16:49:16 by gsever            #+#    #+#             */
-/*   Updated: 2022/10/20 14:54:23 by gsever           ###   ########.fr       */
+/*   Updated: 2022/10/24 13:55:39 by gsever           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void	chr_free(char **line)
+void	free_pp_str(char **line)
 {
 	int	i;
 
 	i = 0;
 	while (line[i])
 	{
-		free(line[i]);
-		if (line[i + 1] == NULL)
-			break;
-		i++;
+		free(line[i++]);
 	}
 	free(line);
 }
 
-void	cmd_free(t_cmd **cmd)
+void	free_env(t_env **env)
 {
-	t_cmd	*tmp;
+	t_env *tmp;
 
-	while (*cmd)
+	while (*env != NULL)
 	{
-		tmp = (*cmd)->next;
-		free((*cmd)->full_cmd);
-		//chr_free((*cmd)->full_cmd); // lexer içeriği freelendiğinden dolayı freelemeye gerek yok.
-		free(*cmd);
-		(*cmd) = tmp;
+		tmp = (*env)->next;
+		// if ((*env)->is_env_equal == false)
+		// {
+		// 	free((*env)->data[0]);
+		// 	free((*env)->data[1]);
+		// 	free((*env)->data);
+		// }
+		// else
+		free_pp_str((*env)->data);
+		free(*env);
+		(*env) = tmp;
 	}
-	*cmd = NULL;
+	*env = NULL;
 }
 
-void	lexer_free(t_lexer **lexer)
+void	free_lexer(t_lexer **lexer)
 {
 	t_lexer	*tmp;
 
@@ -56,24 +59,27 @@ void	lexer_free(t_lexer **lexer)
 	*lexer = NULL;
 }
 
-void	env_free(t_env **env)
+void	free_cmd(t_cmd **cmd)
 {
-	t_env *tmp;
+	t_cmd	*tmp;
 
-	tmp = (*env);
-	while (tmp != NULL)
+	while (*cmd)
 	{
-		chr_free(tmp->data);
-		tmp = tmp->next;
+		tmp = (*cmd)->next;
+		free_pp_str((*cmd)->full_cmd);
+		free(*cmd);
+		(*cmd) = tmp;
 	}
+	*cmd = NULL;
 }
 
-void	all_free(t_base **base)
+void	free_all(t_base *base)
 {
 	ft_putendl_fd(RED"exit"END, STDERR_FILENO);
 	rl_clear_history();
-	lexer_free(&(**base).lexer);
-	cmd_free(&(**base).cmd);
-	//env_free(&(**base).env);
-	free((*base)->input_line);
+	free_cmd(&base->cmd);
+	free_lexer(&base->lexer);
+	free_env(&base->env);
+	free(base->input_line);
+	free_pp_str(base->env_path);
 }

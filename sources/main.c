@@ -23,6 +23,22 @@
  */
 #include "../includes/minishell.h"
 
+/**
+ * @brief Set the arg object from main's 3. arguman.
+ * 
+ * base->cmd, env, lexer init'lerini yapiyor.
+ * 
+ * @param base For base->env_path.
+ * @param environ envp from main func.
+ * @fn env_struct()
+ * @fn env_free()
+ * @fn exit_status()
+ * @fn print_error()
+ * @fn strerror()
+ * @fn ft_split()
+ * @fn env_findret()
+ * @return int OK: 0, NOK: ERROR(-1)
+ */
 int	set_arg(t_base *base, char **environ)
 {
 	int	i;
@@ -36,17 +52,18 @@ int	set_arg(t_base *base, char **environ)
 	{
 		if (env_struct(base, environ[i]) == ERROR)
 		{
-			env_free(&base->env);
 			exit_status(ENOMEM, 0);
 			return (print_error(SHELLNAME, "env", NULL, strerror(ENOMEM)));
 		}
 	}
-	base->env_path = ft_split(env_findret(base, "PATH"), ':');
+	base->mem_1 = env_findret(base, "PATH");
+	base->env_path = ft_split(base->mem_1, ':');
 	if (base->env_path == NULL)
 	{
 		exit_status(ENOMEM, 0);
 		return (print_error(T_NAME, "env_path", NULL, strerror(ENOMEM)));
 	}
+	free(base->mem_1);
 	return (0);
 }
 
@@ -164,7 +181,7 @@ Ayrıştırıcı, başka bir dile kolay çeviri için verileri daha küçük ö�
  * @fn exit_status(): bash'tan cikildiktan sonra 0'la return ediyoruz.
  * 
  * NOTE: malloc() durumlari kontrol edilecek
- * TODO:malloc()
+ * TODO: malloc()
  * 	if (malloc == NULL),
  * TODO: cd'nin leaks'leri giderilecek,
  * TODO: < operatoru olusturulmayan dosya gordugunde hata
@@ -175,6 +192,12 @@ Ayrıştırıcı, başka bir dile kolay çeviri için verileri daha küçük ö�
  * TODO: cat << $pwd -> $pwd'nin expand edilmemesi gerekiyor,
  *  heredoc $pwd argümanı ile kapatılması gerekiyor.
  * TODO: exit komutu icin command_exec()'deki return degerleri duzene cekilecek.
+ * TODO: cat yazildiginda argumanlar bittikten sonra ctrl+c ile cikinca
+ *  2 kere promt yazdiriyor.
+ * TODO: unset PWD yapildiginda; cd - yaptigimizda
+ *  "bash: cd: OLDPWD not set" yazmasi gerekiyor, bizde yazmiyor calisiyor.
+ * IDK: buyuk harflerle PWD yazildiginda execve'ye gonderip calistiriyor
+ *  ama pwd yazarsak kucuk harflerle bizim cmd_pwd.c calisiyor
  * @return int 
  */
 int	main(int argc __attribute((unused))

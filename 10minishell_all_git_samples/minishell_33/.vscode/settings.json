@@ -1,0 +1,19 @@
+{
+	"files.associations": {
+		"sstream": "c",
+		"minishell.h": "c",
+		"array": "c",
+		"string": "c",
+		"string_view": "c",
+		"vector": "c",
+		"bitset": "c",
+		"functional": "c",
+		"iterator": "c",
+		"memory": "c",
+		"ostream": "c",
+		"chrono": "c",
+		"algorithm": "c",
+		"limits": "c",
+		"ratio": "c"
+	}
+}
