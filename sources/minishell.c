@@ -23,7 +23,7 @@
  */
 #include "../includes/minishell.h"
 
-void	close_fd(t_cmd *cmd)
+void	close_cmd_fd(t_cmd *cmd)
 {
 	t_cmd *tmp;
 
@@ -96,7 +96,8 @@ void	minishell(t_base *base)
 			exit_status(1, 0);
 		else
 			cmd(base);
-		close_fd(base->cmd);
+		close_cmd_fd(base->cmd);
+		free_fork_inits(base, base->fd);
 		free_cmd(&base->cmd);
 		free_lexer(&base->lexer);
 		free(base->input_line);

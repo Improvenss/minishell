@@ -6,7 +6,7 @@
 /*   By: akaraca <akaraca@student.42.tr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/19 16:48:49 by gsever            #+#    #+#             */
-/*   Updated: 2022/10/24 17:43:53 by akaraca          ###   ########.fr       */
+/*   Updated: 2022/10/25 16:06:20 by akaraca          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,12 @@
 void	ft_wait(t_base *base)
 {
 	int	i;
+	int	err;
 
 	i = -1;
 	while (++i < base->cmd_count)
-		waitpid(base->pid[i], &errno, 0);
+		waitpid(base->pid[i], &err, 0);
+	exit_status(err, 0);
 }
 
 void	fd_close(t_base *base)

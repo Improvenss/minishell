@@ -3,14 +3,31 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gsever <gsever@student.42kocaeli.com.tr    +#+  +:+       +#+        */
+/*   By: akaraca <akaraca@student.42.tr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/19 16:49:16 by gsever            #+#    #+#             */
-/*   Updated: 2022/10/24 13:55:39 by gsever           ###   ########.fr       */
+/*   Updated: 2022/10/25 16:04:33 by akaraca          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
+void	free_fork_inits(t_base *base, int **fd)
+{
+	int	i;
+
+	if (base->cmd_count > 1)
+	{
+		i = 0;
+		while (i < base->cmd_count)
+		{
+			free(fd[i]);
+			i++;
+		}
+		free(fd);
+		free(base->pid);
+	}
+}
 
 void	free_pp_str(char **line)
 {

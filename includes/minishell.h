@@ -6,7 +6,7 @@
 /*   By: akaraca <akaraca@student.42.tr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/24 19:40:24 by akaraca           #+#    #+#             */
-/*   Updated: 2022/10/24 19:52:52 by akaraca          ###   ########.fr       */
+/*   Updated: 2022/10/25 16:04:17 by akaraca          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -444,6 +444,7 @@ int		fork_start(t_base *base);
 int		fork_init(t_base *base);
 
 // free.c
+void	free_fork_inits(t_base *base, int **fd);
 void	free_pp_str(char **line);
 void	free_env(t_env **env);
 void	free_lexer(t_lexer **lexer);
