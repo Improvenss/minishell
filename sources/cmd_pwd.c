@@ -27,16 +27,16 @@ int	cmd_pwd(t_base *base __attribute((unused)), t_cmd *cmd)
 {
 	char	pwd[256];
 
-	if (cmd->full_cmd[1] == NULL)
-	{
+	// if (cmd->full_cmd[1] == NULL)
+	// {
 		getcwd(pwd, sizeof(pwd));
 		//ft_putendl_fd(pwd, 1);
 		ft_putendl_fd(pwd, cmd->outfile);
-	}
-	else
-	{
-		print_error(SHELLNAME, "pwd", NULL, "too many arguments");
-		exit_status(1, 0);
-	}
+	// }
+	// else
+	// {
+	// 	print_error(SHELLNAME, "pwd", NULL, "too many arguments");
+	// 	exit_status(1, 0);
+	// }
 	return (0);
 }

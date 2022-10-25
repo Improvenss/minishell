@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signal.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akaraca <akaraca@student.42.tr>            +#+  +:+       +#+        */
+/*   By: gsever <gsever@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/19 14:30:15 by akaraca           #+#    #+#             */
-/*   Updated: 2022/10/24 19:26:53 by akaraca          ###   ########.fr       */
+/*   Updated: 2022/10/25 22:12:16 by gsever           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,17 @@ int	termios_change(bool echo_ctrl_character)
 	if (status == -1)
 		return (ERROR);
 	return (0);
+}
+
+void	action_cat(int sig)
+{
+	if (sig == SIGINT)
+	{
+		exit_status(1, 0);
+		write(STDERR_FILENO, "\n", 1);
+		rl_replace_line("", 0);
+		rl_on_new_line();
+	}
 }
 
 void	action_heredoc(int sig)

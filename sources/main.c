@@ -198,6 +198,48 @@ Ayrıştırıcı, başka bir dile kolay çeviri için verileri daha küçük ö�
  *  "bash: cd: OLDPWD not set" yazmasi gerekiyor, bizde yazmiyor calisiyor.
  * IDK: buyuk harflerle PWD yazildiginda execve'ye gonderip calistiriyor
  *  ama pwd yazarsak kucuk harflerle bizim cmd_pwd.c calisiyor
+ * 
+OK: ls -l > 1.txt -a | cat << EOF
+OK: echo "$PWD $HOME"
+OK: echo "$ aaa"
+OK: ls > a | cat < a
+ERROR: ls > a | cat < a | cat a | pwd >> a | cat a
+	Sadece en sondaki pipe ciktiyi stdout'a(1)'e verecek biz gorebilecegiz.
+	2 kere calistirilinca buga giriyor.
+OK: IDK: ls > a | pwd >> a | cat a
+	Bash'teki cat hatali morq.
+OK: ls > a | pwd >> b
+OK: LOL: ls > a | pwd >> b | cat b
+	Bundaki cat'te sorun yok mesela :D
+OK: INTERESTING: pwd | cat << eof
+	Calisiyor ama CTRL+C yaptigimizda(^C) 2 kere PROMPT yaziyor
+OK: ls > a | cat << pwd
+OK: echo ""echo test | ls""
+OK: cd $pwd
+OK: echo ""echo test | ls                                          ""
+""ls | pwd""
+
+ls | a | wc -l
+unset PWD HOME OLDPWD -> cd, cd .., cd ., cd /usr/bin kontrolleri 
+pwd | wc -l
+echo ahmet > A ls > B
+ls -l -x -a> B
+ls >> A >> B << EOF
+cat << EOF
+A << EOF
+wc -l < A
+ls > A << EOF
+pwd >> A << EOF
+cat < A
+echo A << EOF
+echo > A
+pwd >> A
+echo ahmet >> A
+
+ls -l >> A > B
+ls > A | pwd > B | cat < A
+pwd | cat
+ * 
  * @return int 
  */
 int	main(int argc __attribute((unused))

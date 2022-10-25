@@ -25,7 +25,7 @@
 
 void	close_cmd_fd(t_cmd *cmd)
 {
-	t_cmd *tmp;
+	t_cmd	*tmp;
 
 	tmp = cmd;
 	while (tmp)
@@ -87,10 +87,10 @@ void	minishell(t_base *base)
 		if (!base->input_line)
 		{
 			termios_change(true);
-			break;
+			break ;
 		}
 		if (history_empty_check(base->input_line))
-		 	add_history(base->input_line);
+			add_history(base->input_line);
 		lexer(base, base->input_line);
 		if (lexer_syntax(base->lexer) == ERROR)
 			exit_status(1, 0);
@@ -101,6 +101,7 @@ void	minishell(t_base *base)
 		free_cmd(&base->cmd);
 		free_lexer(&base->lexer);
 		free(base->input_line);
+		// system("leaks minishell");
 	}
 	free_all(base);
 }

@@ -159,7 +159,7 @@ void	set_env(t_base *base, char *env_name, char *new_str)
 				tmp->data[1] = NULL;
 			free(new_str);
 			free(del);
-			break;
+			break ;
 		}
 		tmp = tmp->next;
 	}

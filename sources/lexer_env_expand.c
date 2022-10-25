@@ -6,7 +6,7 @@
 /*   By: gsever <gsever@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/19 16:50:31 by gsever            #+#    #+#             */
-/*   Updated: 2022/10/24 13:40:13 by gsever           ###   ########.fr       */
+/*   Updated: 2022/10/25 21:50:25 by gsever           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ char	*env_expand_next_next(t_base *base, char *token, int *i, char *new)
 		if (is_it_expand(base))
 			str = ft_strjoin("$", env_name);
 		else
-			str = ft_strdup("");
+			str = ft_strdup("");// ya da NULL;
 	}
 	free(env_name);
 	if (new != NULL && str != NULL)

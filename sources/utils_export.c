@@ -23,16 +23,17 @@
  */
 #include "../includes/minishell.h"
 
-int	export_dot_slash_check(char *str)
+int	export_left_arg_check(char *str)
 {
 	int	i;
 
 	i = 0;
 	while (str[i] != '\0' && str[i] != '=')
 	{
-		if (str[i] == '/' ||str[i] == '.')
+		if ((str[i] >= 97 && str[i] <= 122) || (str[i] >= 65 && str[i] <= 90))
+			i++;
+		else
 			return (1);
-		i++;
 	}
 	return (0);
 }
@@ -48,9 +49,10 @@ int	export_arg_check(char **str)
 		l = 0;
 		while (str[i][l])
 		{
-			if (l == 0 && (str[i][l] == '=' || export_dot_slash_check(str[i])))
+			if (l == 0 && (str[i][l] == '=' || export_left_arg_check(str[i])))
 			{
 				print_error("export", str[i], NULL, "not a valid identifier");
+				exit_status(1, 0);
 				return (0);
 			}
 			l++;
@@ -67,6 +69,11 @@ int	export_same_check(t_base *base, char *str)
 	char	*data_2;
 
 	data_1 = find_chr_ret_str(str, '=', false);
+	if (!ft_strcmp_edited(data_1, "_"))
+	{
+		free(data_1);
+		return (0);
+	}
 	data_2 = find_chr_ret_str(str, '=', true);
 	check = base->env;
 	while (check != NULL)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akaraca <akaraca@student.42.tr>            +#+  +:+       +#+        */
+/*   By: gsever <gsever@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/24 19:40:24 by akaraca           #+#    #+#             */
-/*   Updated: 2022/10/25 16:04:17 by akaraca          ###   ########.fr       */
+/*   Updated: 2022/10/25 16:12:58 by gsever           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -487,6 +487,7 @@ void	minishell(t_base *base);
 
 // signal.c
 int		termios_change(bool echo_ctrl_character);
+void	action_cat(int sig);
 void	action_heredoc(int sig);
 void	action(int sig);
 

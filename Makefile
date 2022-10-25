@@ -6,7 +6,7 @@
 #    By: gsever <gsever@student.42kocaeli.com.tr    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/09/15 17:54:15 by gsever            #+#    #+#              #
-#    Updated: 2022/10/22 00:21:04 by gsever           ###   ########.fr        #
+#    Updated: 2022/10/26 00:12:13 by gsever           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -149,6 +149,7 @@ re:
 	@$(MAKE) fclean --no-print-directory
 	@$(MAKE) all --no-print-directory
 
+# Use this command inside Ecole 42 schools iMac.
 brew_readline:
 	git clone --depth=1 https://github.com/Homebrew/brew \
 /goinfre/$(USER)/brew \

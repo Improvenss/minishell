@@ -77,7 +77,8 @@ static char	*get_dir(t_base *base, t_cmd *cmd)
 	dir = NULL;
 	if ((cmd->full_cmd[0] && cmd->full_cmd[1] == NULL)
 		|| ft_strncmp(cmd->full_cmd[1], "~", 2) == 0
-		|| ft_strncmp(cmd->full_cmd[1], "--", 3) == 0)
+		|| ft_strncmp(cmd->full_cmd[1], "--", 3) == 0
+		|| (cmd->full_cmd[1] != NULL && ft_strncmp_edited(cmd->full_cmd[1], "\0", 0)))// cd $pwd icin.
 	{
 		dir = env_findret_no_dup(base, "HOME");
 		if (dir == NULL)

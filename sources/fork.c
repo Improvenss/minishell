@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   fork.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akaraca <akaraca@student.42.tr>            +#+  +:+       +#+        */
+/*   By: gsever <gsever@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/19 16:48:49 by gsever            #+#    #+#             */
-/*   Updated: 2022/10/25 16:06:20 by akaraca          ###   ########.fr       */
+/*   Updated: 2022/10/25 22:11:34 by gsever           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
 /**
- * @brief !!!!!!!!!!!!!!! ERRNO DEGISTIRILECEK EXIT_ASODJFASLD() YAPILACAK.
+ * @brief 
  * 
  * @param base 
  */
@@ -42,11 +42,28 @@ void	fd_close(t_base *base)
 
 void	fork_dup(t_base *base, int i, t_cmd *cmd)
 {
-	(void)cmd;
-	if (i > 0)
-		dup2(base->fd[i - 1][0], 0);
-	if (i != base->cmd_count - 1)
-		dup2(base->fd[i][1], 1);
+	// printf("cmd_in:%d --- cmd_out:%d\n", cmd->infile, cmd->outfile);
+	if (i > 0 && cmd->infile == 0) // Baktigi yer
+	{
+		// printf("INFILE: i:%d,,, cmd:%d\n", i, cmd->infile);
+		dup2(base->fd[i - 1][0], 0);// infile
+	}
+	if (i != (base->cmd_count - 1) && cmd->outfile == 1)
+	{
+		// printf("OUTFILE: i:%d,,, cmd:%d\n", i, cmd->outfile);// cikarttigi yer
+		dup2(base->fd[i][1], 1); // outfile
+	}
+	dup2(cmd->infile, 0);
+	dup2(cmd->outfile, 1);
+
+	// if (i > 0)
+	// 	dup2(base->fd[i - 1][0], 0);
+	// 	if (cmd->infile != 0)
+	// 		dup2(cmd->infile, 0);
+	// if (i != base->cmd_count - 1)
+	// 	dup2(base->fd[i][1], 1);
+	// 	if (cmd->outfile != 1)
+	// 		dup2(cmd->outfile, 1);
 	// if (i > 0)
 	// 	dup2(base->fd[i - 1][cmd->infile], 0);
 	// if (i != base->cmd_count - 1)
@@ -82,6 +99,9 @@ int	fork_start(t_base *base)
 	while (base->cmd_count > 1 && ++i < base->cmd_count && tmp)
 	{
 		base->fd_i = i;
+		if (ft_strncmp_edited(base->cmd->full_cmd[0], "wc", 2) == 0
+			|| ft_strncmp_edited(base->cmd->full_cmd[0], "cat", 3) == 0)
+			signal(SIGINT, action_cat);
 		base->pid[i] = fork();
 		if (base->pid[i] == 0)
 		{
