@@ -6,7 +6,7 @@
 /*   By: gsever <gsever@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/19 14:59:37 by akaraca           #+#    #+#             */
-/*   Updated: 2022/10/27 01:45:42 by gsever           ###   ########.fr       */
+/*   Updated: 2022/10/27 02:27:16 by gsever           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,13 +25,38 @@ static int	quote_lenght(char *str)
 	i = 0;
 	while (str[++i])
 		if (str[i] == mark)
-			break;
+			break ;
 	if (str[i] != mark)
 	{
 		print_error(SHELLNAME, ERR_SYNTAX, NULL, ERR_QUOTE);
 		return (ERROR);
 	}
 	return (i + 1);
+}
+
+void	lexer_quote_next_next(t_lexer **new, int *i, int len, char **str)
+{
+	*i = *i + len;
+	if (!ft_strchr(WHITESPACES, *str[*i]) && other_lenght(str[*i]) == 0)
+		(*new)->flag |= TOK_CONNECTED;
+}
+
+int	lexer_quote_next(t_base *base, t_lexer **new, char *token, char c)
+{
+	t_lexer	*last;
+
+	last = lexer_lstlast(base->lexer);
+	if (!token)
+		return (print_error(SHELLNAME, NULL, NULL, strerror(ENOMEM)));
+	if (c == '\'')
+		*new = token_create(base, token,
+				lexer_type(last, TOK_TEXT + TOK_S_QUOTE));
+	else
+		*new = token_create(base, token,
+				lexer_type(last, TOK_TEXT + TOK_D_QUOTE));
+	if (!(*new))
+		return (print_error(SHELLNAME, NULL, NULL, strerror(ENOMEM)));
+	return (1);
 }
 
 int	lexer_quote(t_base *base, char *str, int *i)
@@ -56,17 +81,9 @@ int	lexer_quote(t_base *base, char *str, int *i)
 			node_merge(&last, token, str, i);
 			return (0);
 		}
-		if(!token)
-			return (print_error(SHELLNAME, NULL, NULL, strerror(ENOMEM)));
-		if (str[*i] == '\'')
-			new = token_create(base, token, lexer_type(last, TOK_TEXT + TOK_S_QUOTE));
-		else
-			new = token_create(base, token, lexer_type(last, TOK_TEXT + TOK_D_QUOTE));
-		if (!new)
-			return (print_error(SHELLNAME, NULL, NULL, strerror(ENOMEM)));
-		*i = *i + len;
-		if (!ft_strchr(WHITESPACES, str[*i]) && other_lenght(&str[*i]) == 0)
-			new->flag |= TOK_CONNECTED;
+		if (lexer_quote_next(base, &new, token, str[*i]) == ERROR)
+			return (ERROR);
+		lexer_quote_next_next(&new, i, len, &str);
 	}
 	return (0);
 }
