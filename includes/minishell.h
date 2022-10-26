@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gsever <gsever@student.42kocaeli.com.tr    +#+  +:+       +#+        */
+/*   By: akaraca <akaraca@student.42.tr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/24 19:40:24 by akaraca           #+#    #+#             */
-/*   Updated: 2022/10/25 16:12:58 by gsever           ###   ########.fr       */
+/*   Updated: 2022/10/26 16:28:28 by akaraca          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -305,10 +305,12 @@ typedef struct s_lexer
 typedef struct s_cmd
 {
 	char			**full_cmd;
-	char			*full_path;
+	char			**redirect; //+1
 	int				infile;
 	int				outfile;
+	int				red_size;
 	int				size;
+	struct s_cmd	*prev; //+1
 	struct s_cmd	*next;
 }		t_cmd;
 
@@ -417,14 +419,14 @@ void	cmd_set_fd(t_lexer *tmp, t_cmd **new);
 int		cmd_unset(t_base *base, t_cmd *cmd);
 
 // cmd.c
-t_lexer	*cmd_node_create(t_cmd **new, t_lexer *last, int i);
+t_lexer	*cmd_node_create(t_cmd **new, t_lexer *last, int i, int l);
 t_lexer	*cmd_create(t_cmd **lst, t_lexer *last);
 void	cmd(t_base *base);
 
 // command.c
 void	commands_init(t_base *base);
-int		cmd_other(t_base *base, char **cmd_array);
-int		command_find_arr(t_base *base, char **cmd_array);
+int		cmd_other(t_base *base, t_cmd *cmd, char **cmd_array);
+int		command_find_arr(t_base *base, t_cmd *cmd, char **cmd_array);
 int		command_exec(t_base *base, t_cmd *cmd);
 
 // debugging.c

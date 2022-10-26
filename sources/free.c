@@ -6,7 +6,7 @@
 /*   By: akaraca <akaraca@student.42.tr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/19 16:49:16 by gsever            #+#    #+#             */
-/*   Updated: 2022/10/25 16:04:33 by akaraca          ###   ########.fr       */
+/*   Updated: 2022/10/26 16:05:11 by akaraca          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,7 @@ void	free_cmd(t_cmd **cmd)
 	{
 		tmp = (*cmd)->next;
 		free_pp_str((*cmd)->full_cmd);
+		free_pp_str((*cmd)->redirect); // +1
 		free(*cmd);
 		(*cmd) = tmp;
 	}

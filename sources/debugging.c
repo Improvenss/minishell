@@ -6,7 +6,7 @@
 /*   By: akaraca <akaraca@student.42.tr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/16 20:52:46 by gsever            #+#    #+#             */
-/*   Updated: 2022/10/24 15:33:34 by akaraca          ###   ########.fr       */
+/*   Updated: 2022/10/26 16:13:00 by akaraca          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@
 void	debug_print_cmd(t_base *base, char *env_var, char *value)
 {
 	int	i;
+	int	l;
 	
 	if (env_is_have(base, env_var, value))
 	{
@@ -44,6 +45,12 @@ void	debug_print_cmd(t_base *base, char *env_var, char *value)
 			i = -1;
 			while (write->full_cmd[++i])
 				printf("CMD->[%d]: %s\n", i, write->full_cmd[i]);
+			l = 0;
+			while (write->redirect && write->redirect[l])
+			{
+				printf("CMD_RED->[%d]: %s\n", l, write->redirect[l]);
+				l++;
+			}
 			printf("[%d]: in: %d out: %d\n",i, write->infile, write->outfile);
 			write = write->next;
 		}

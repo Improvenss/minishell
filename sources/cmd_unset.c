@@ -47,7 +47,8 @@ int	cmd_unset(t_base *base, t_cmd *cmd)
 			}
 			before = tmp;
 			tmp = tmp->next;
-			tmp->prev = before;
+			if (tmp != NULL)
+				tmp->prev = before;
 		}
 	}
 	return (0);

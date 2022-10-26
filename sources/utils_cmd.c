@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_cmd.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gsever <gsever@student.42kocaeli.com.tr    +#+  +:+       +#+        */
+/*   By: akaraca <akaraca@student.42.tr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/19 15:22:13 by akaraca           #+#    #+#             */
-/*   Updated: 2022/10/24 14:00:06 by gsever           ###   ########.fr       */
+/*   Updated: 2022/10/26 16:10:49 by akaraca          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,8 +51,12 @@ void	cmd_lstadd_back(t_cmd **lst, t_cmd *new)
 	{
 		while (tmp->next)
 			tmp = tmp->next;
+		new->prev = tmp; //+1
 		tmp->next = new;
 	}
 	else
+	{
+		new->prev = NULL; //+1
 		*lst = new;
+	}
 }

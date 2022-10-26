@@ -30,7 +30,8 @@ int	export_left_arg_check(char *str)
 	i = 0;
 	while (str[i] != '\0' && str[i] != '=')
 	{
-		if ((str[i] >= 97 && str[i] <= 122) || (str[i] >= 65 && str[i] <= 90))
+		if ((str[i] >= 97 && str[i] <= 122) || (str[i] >= 65 && str[i] <= 90)
+			|| str[i] == '_')
 			i++;
 		else
 			return (1);

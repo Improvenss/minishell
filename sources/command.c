@@ -51,10 +51,45 @@ void	commands_init(t_base *base)
 	base->commands[7] = (t_commands){NULL, NULL};
 }
 
-int	cmd_other(t_base *base, char **cmd_array)
+void action_execve(int sig)
+{
+	if (sig == SIGINT)
+	{
+		exit_status(1, 0);
+		write(STDERR_FILENO, "\n", 1);
+		rl_replace_line("", 0);
+		//rl_on_new_line();
+	}
+}
+
+void	cmd_execve(t_base *base, t_cmd *cmd, char *command, char **cmd_array)
+{
+	int	pi;
+
+	pi = fork();
+	if (pi == 0)
+	{
+		if (base->fd_i != base->cmd_count - 1)
+		{
+			dup2(cmd->infile, 0);
+			dup2(cmd->outfile, 1);
+		}
+		if (cmd->infile == -1 || cmd->outfile == -1)
+			exit(1);
+		else
+			base->err = execve(command, cmd_array, base->env_chr);
+	}
+	waitpid(pi, &base->err, 0);
+	if (-1 & (cmd->infile | cmd->outfile)) // execve err çıktısını 256'ya böldüğünden dolayı ayrı bir exit durumu söz konusu ise 256'ya bölünmelidir.
+		base->err = base->err / 256;
+	exit_status(base->err, 0);
+}
+
+int	cmd_other(t_base *base, t_cmd *cmd, char **cmd_array)
 {
 	base->mem_1 = ft_path(base->env_path, cmd_array[0]);
 	base->env_chr = env_be_char(base->env);
+	signal(SIGINT, action_execve); // pipe dışında kullanıldığında wc'yi düzeltiyor.
 	if (search_and_launch(cmd_array))
 	{
 		if (file_or_dir_search(cmd_array[0], O_DIRECTORY))
@@ -63,54 +98,12 @@ int	cmd_other(t_base *base, char **cmd_array)
 			exit_status(1, 0);
 		}
 		else
-		{
-			int	pi;
-			// signal(SIGINT, action_heredoc);
-			pi = fork();
-			if (pi == 0)
-			{
-				base->err = execve(base->mem_1, cmd_array, base->env_chr);
-			}
-			waitpid(pi, &base->err, 0);
-			exit_status(base->err, 0);
-		}
+			cmd_execve(base, cmd, base->mem_1, cmd_array);
 	}
-	else if (base->mem_1)
-	{
-		int	pi;
-		signal(SIGINT, action_cat);
-		pi = fork();
-		if (pi == 0)
-		{
-			if (base->fd_i != base->cmd_count - 1)
-			{
-				dup2(base->cmd->infile, 0);
-				dup2(base->cmd->outfile, 1);
-			}
-			if (base->cmd->infile == -1 || base->cmd->outfile == -1)
-				exit(1);
-			else
-			{	
-				base->err = execve(base->mem_1, cmd_array, base->env_chr);
-			}
-		}
-		waitpid(pi, &base->err, 0);
-		if (-1 & (base->cmd->infile | base->cmd->outfile)) // execve err çıktısını 256'ya böldüğünden dolayı ayrı bir exit durumu söz konusu ise 256'ya bölünmelidir.
-			base->err = base->err / 256;
-		exit_status(base->err, 0);
-	}
-	else if (access(cmd_array[0], 0) == 0)
-	{
-		int	pi;
-
-		pi = fork();
-		if (pi == 0)
-		{
-			base->err = execve(cmd_array[0], cmd_array, base->env_chr);
-		}
-		waitpid(pi, &base->err, 0);
-		exit_status(base->err, 0);
-	}
+	else if (base->mem_1 && !file_or_dir_search(cmd_array[0], O_DIRECTORY)) // . ve .. yazınca çalışıyordu bu yüzden directory değilse durumu berlirttik.
+		cmd_execve(base, cmd, base->mem_1, cmd_array); // grep'in çalışması için lazım.
+	else if (access(cmd_array[0], 0) == 0 && !file_or_dir_search(cmd_array[0], O_DIRECTORY)) //$HOME dizini access'de 0 değerini alıyor ama bu bir dizi, bu yüzden buraya girmemelidir.
+		cmd_execve(base, cmd, cmd_array[0], cmd_array); // /bin/ls için
 	else 
 	{
 		print_error(SHELLNAME, NULL, cmd_array[0], "command not found");
@@ -136,7 +129,7 @@ int	cmd_other(t_base *base, char **cmd_array)
  * NOTE: exit komutu yazildiginda exit'e ozel olarak ERROR donecek
  * @return int NULL: 0, OK: commands[] index'i, NOK: execve's return value.
  */
-int	command_find_arr(t_base *base, char **cmd_array)
+int	command_find_arr(t_base *base, t_cmd *cmd, char **cmd_array)
 {
 	int	c_name;
 	int	i;
@@ -153,7 +146,7 @@ int	command_find_arr(t_base *base, char **cmd_array)
 			return (i + 1);
 		}
 	}
-	return (cmd_other(base, cmd_array));
+	return (cmd_other(base, cmd, cmd_array));
 }
 
 /**
@@ -173,7 +166,7 @@ int	command_exec(t_base *base, t_cmd *cmd)
 {
 	int	cmd_i;
 
-	cmd_i = command_find_arr(base, cmd->full_cmd);
+	cmd_i = command_find_arr(base, cmd, cmd->full_cmd);
 	if (cmd_i > 0 && cmd_i < 8)
 		return (base->commands[cmd_i - 1].func(base, cmd));
 	return (0);
