@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akaraca <akaraca@student.42.tr>            +#+  +:+       +#+        */
+/*   By: gsever <gsever@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/19 16:46:00 by gsever            #+#    #+#             */
-/*   Updated: 2022/10/26 18:20:29 by akaraca          ###   ########.fr       */
+/*   Updated: 2022/10/26 19:16:12 by gsever           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,8 +107,8 @@ int	cmd_set_me_fd(t_base *base, t_cmd *cmd, int max)
 	int flags[2];
 
 	i = -1;
-	last_in = STDIN_FILENO;
-	last_out = STDOUT_FILENO;
+	last_in = -1;//STDIN_FILENO;
+	last_out = -1;//STDOUT_FILENO;
 	//printf("%d\n", __LINE__);
 	while (cmd->redirect[++i])
 	{
@@ -161,8 +161,10 @@ int	cmd_set_me_fd(t_base *base, t_cmd *cmd, int max)
 		}
 		i--;
 	}
-	cmd->infile = last_in;
-	cmd->outfile = last_out;
+	if (last_in != -1)
+		cmd->infile = last_in;
+	if (last_out != -1)
+		cmd->outfile = last_out;
 	if (cmd->outfile == -1 || cmd->infile == -1)
 		exit_status(1, 0);
 	return (1);
