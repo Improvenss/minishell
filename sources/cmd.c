@@ -6,7 +6,7 @@
 /*   By: gsever <gsever@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/19 16:46:00 by gsever            #+#    #+#             */
-/*   Updated: 2022/10/26 19:16:12 by gsever           ###   ########.fr       */
+/*   Updated: 2022/10/26 20:08:44 by gsever           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,8 +135,11 @@ int	cmd_set_me_fd(t_base *base, t_cmd *cmd, int max)
 			// if (cmd->outfile != 1)
 			// 	close(cmd->outfile);
 			cmd->outfile = set_fd(cmd->outfile, cmd->redirect[i + 1], flags);
-			if (i == max - 2)
+			if (last_out == -1)
+			{
+				printf(">>: outfile: %d\n", cmd->outfile);
 				last_out = cmd->outfile;
+			}
 
 		}
 		else if (ft_strncmp_edited(cmd->redirect[i], ">", 1))
@@ -146,8 +149,11 @@ int	cmd_set_me_fd(t_base *base, t_cmd *cmd, int max)
 			// if (cmd->outfile != 1)
 			// 	close(cmd->outfile);
 			cmd->outfile = set_fd(cmd->outfile, cmd->redirect[i + 1], flags);
-			if (i == max - 2)
+			if (last_out == -1)
+			{
+				printf(">>: outfile: %d\n", cmd->outfile);
 				last_out = cmd->outfile;
+			}
 		}
 		else if (ft_strncmp_edited(cmd->redirect[i], "<", 1))
 		{
@@ -156,8 +162,11 @@ int	cmd_set_me_fd(t_base *base, t_cmd *cmd, int max)
 			// if (cmd->infile != 0)
 			// 	close(cmd->infile);
 			cmd->infile = set_fd(cmd->infile, cmd->redirect[i + 1], flags);
-			if (i == max - 2)
+			if (last_in == -1)
+			{
+				printf("<: infile: %d\n", cmd->infile);
 				last_in = cmd->infile;
+			}
 		}
 		i--;
 	}

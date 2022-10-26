@@ -103,7 +103,6 @@ void	minishell(t_base *base)
 		}
 		free_lexer(&base->lexer);
 		free(base->input_line);
-		// system("leaks minishell");
 	}
 	free_all(base);
 }

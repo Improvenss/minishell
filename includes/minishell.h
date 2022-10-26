@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akaraca <akaraca@student.42.tr>            +#+  +:+       +#+        */
+/*   By: gsever <gsever@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/24 19:40:24 by akaraca           #+#    #+#             */
-/*   Updated: 2022/10/26 18:05:25 by akaraca          ###   ########.fr       */
+/*   Updated: 2022/10/26 19:56:50 by gsever           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -305,12 +305,12 @@ typedef struct s_lexer
 typedef struct s_cmd
 {
 	char			**full_cmd;
-	char			**redirect; //+1
+	char			**redirect;
 	int				infile;
 	int				outfile;
 	int				red_size;
 	int				size;
-	struct s_cmd	*prev; //+1
+	struct s_cmd	*prev;
 	struct s_cmd	*next;
 }		t_cmd;
 

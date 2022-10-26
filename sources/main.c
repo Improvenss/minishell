@@ -204,7 +204,8 @@ Ayrıştırıcı, başka bir dile kolay çeviri için verileri daha küçük ö�
  * TODO: signal();
  * TODO: sagdan okuma...
  * TODO: cmd_syntax....
- * TODO: heredoc onceligi var; ls > a | cat << asdf 'de a dosyasi olusturulmayacak.
+ * TODO: heredoc onceligi var; ls > a | cat << asdf
+ *  'de a dosyasi olusturulmayacak.
  * TODO: dosya yoksa hata verdirilecek.
  * 
  * TODO: . komutu error dondurmesi gerekiyor.
