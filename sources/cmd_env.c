@@ -23,7 +23,7 @@
  */
 #include "../includes/minishell.h"
 
-int	cmd_env(t_base *base, t_cmd *cmd)
+int	cmd_env(t_base *base, t_cmd *cmd, int i __attribute((unused)))
 {
 	t_env	*tmp;
 

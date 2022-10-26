@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-/**
+/** NORMOK:
  * @file command.c
  * @author Ahmet KARACA (akaraca)
  * @author Gorkem SEVER (gsever)
@@ -22,45 +22,6 @@
  * 
  */
 #include "../includes/minishell.h"
-
-/**
- * @brief PDF'den istenilen komutlarimizi burada base->commands[]'i
- *  t_commands structuna init ediyoruz.
- * 
- * Terminal'imize girilen girdimizde buradaki komutlardan biri varsa sahip
- *  olduklari functionlari calistirilacak.
- * 
- * @param base base->commands[8]'in icine init ediyoruz.
- * @fn cmd_echo()
- * @fn cmd_cd()
- * @fn cmd_pwd()
- * @fn cmd_unset()
- * @fn cmd_export()
- * @fn cmd_env()
- * @fn cmd_exit()
- */
-void	commands_init(t_base *base)
-{
-	base->commands[0] = (t_commands){"echo", cmd_echo};
-	base->commands[1] = (t_commands){"cd", cmd_cd};
-	base->commands[2] = (t_commands){"pwd", cmd_pwd};
-	base->commands[3] = (t_commands){"unset", cmd_unset};
-	base->commands[4] = (t_commands){"export", cmd_export};
-	base->commands[5] = (t_commands){"env", cmd_env};
-	base->commands[6] = (t_commands){"exit", cmd_exit};
-	base->commands[7] = (t_commands){NULL, NULL};
-}
-
-void action_execve(int sig)
-{
-	if (sig == SIGINT)
-	{
-		exit_status(1, 0);
-		write(STDERR_FILENO, "\n", 1);
-		rl_replace_line("", 0);
-		//rl_on_new_line();
-	}
-}
 
 void	cmd_execve(t_base *base, t_cmd *cmd, char *command, char **cmd_array)
 {
@@ -80,16 +41,31 @@ void	cmd_execve(t_base *base, t_cmd *cmd, char *command, char **cmd_array)
 			base->err = execve(command, cmd_array, base->env_chr);
 	}
 	waitpid(pi, &base->err, 0);
-	if (-1 & (cmd->infile | cmd->outfile)) // execve err çıktısını 256'ya böldüğünden dolayı ayrı bir exit durumu söz konusu ise 256'ya bölünmelidir.
+	if (-1 & (cmd->infile | cmd->outfile))
 		base->err = base->err / 256;
 	exit_status(base->err, 0);
 }
 
+static void	cmd_other_part_two(t_base *base, t_cmd *cmd, char **cmd_array)
+{
+	if (base->mem_1 && !file_or_dir_search(cmd_array[0], O_DIRECTORY))
+		cmd_execve(base, cmd, base->mem_1, cmd_array);
+	else if (access(cmd_array[0], 0) == 0
+		&& !file_or_dir_search(cmd_array[0], O_DIRECTORY))
+		cmd_execve(base, cmd, cmd_array[0], cmd_array);
+	else
+	{
+		print_error(SHELLNAME, NULL, cmd_array[0], "command not found");
+		exit_status(127, 0);
+	}
+}
+
 int	cmd_other(t_base *base, t_cmd *cmd, char **cmd_array)
 {
+	base->env_path = ft_split(env_findret_no_dup(base, "PATH"), ':');
 	base->mem_1 = ft_path(base->env_path, cmd_array[0]);
 	base->env_chr = env_be_char(base->env);
-	signal(SIGINT, action_execve); // pipe dışında kullanıldığında wc'yi düzeltiyor.
+	signal(SIGINT, action_execve);
 	if (search_and_launch(cmd_array))
 	{
 		if (file_or_dir_search(cmd_array[0], O_DIRECTORY))
@@ -100,17 +76,11 @@ int	cmd_other(t_base *base, t_cmd *cmd, char **cmd_array)
 		else
 			cmd_execve(base, cmd, base->mem_1, cmd_array);
 	}
-	else if (base->mem_1 && !file_or_dir_search(cmd_array[0], O_DIRECTORY)) // . ve .. yazınca çalışıyordu bu yüzden directory değilse durumu berlirttik.
-		cmd_execve(base, cmd, base->mem_1, cmd_array); // grep'in çalışması için lazım.
-	else if (access(cmd_array[0], 0) == 0 && !file_or_dir_search(cmd_array[0], O_DIRECTORY)) //$HOME dizini access'de 0 değerini alıyor ama bu bir dizi, bu yüzden buraya girmemelidir.
-		cmd_execve(base, cmd, cmd_array[0], cmd_array); // /bin/ls için
-	else 
-	{
-		print_error(SHELLNAME, NULL, cmd_array[0], "command not found");
-		exit_status(127, 0);
-	}
+	else
+		cmd_other_part_two(base, cmd, cmd_array);
 	free(base->mem_1);
 	free_pp_str(base->env_chr);
+	free_pp_str(base->env_path);
 	return (0);
 }
 
@@ -141,7 +111,7 @@ int	command_find_arr(t_base *base, t_cmd *cmd, char **cmd_array)
 	{
 		c_name = ft_strlen(base->commands[i].name);
 		if (cmd_array && ft_strncmp_edited(cmd_array[0],
-			base->commands[i].name, c_name))
+				base->commands[i].name, c_name))
 		{
 			return (i + 1);
 		}
@@ -168,6 +138,6 @@ int	command_exec(t_base *base, t_cmd *cmd)
 
 	cmd_i = command_find_arr(base, cmd, cmd->full_cmd);
 	if (cmd_i > 0 && cmd_i < 8)
-		return (base->commands[cmd_i - 1].func(base, cmd));
+		return (base->commands[cmd_i - 1].func(base, cmd, 0));
 	return (0);
 }

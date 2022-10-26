@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-/**
+/** NORMOK:
  * @file utils_export.c
  * @author Ahmet KARACA (akaraca)
  * @author Gorkem SEVER (gsever)
@@ -23,59 +23,11 @@
  */
 #include "../includes/minishell.h"
 
-int	export_left_arg_check(char *str)
-{
-	int	i;
-
-	i = 0;
-	while (str[i] != '\0' && str[i] != '=')
-	{
-		if ((str[i] >= 97 && str[i] <= 122) || (str[i] >= 65 && str[i] <= 90)
-			|| str[i] == '_')
-			i++;
-		else
-			return (1);
-	}
-	return (0);
-}
-
-int	export_arg_check(char **str)
-{
-	int	i;
-	int	l;
-
-	i = 1;
-	while (str[i])
-	{
-		l = 0;
-		while (str[i][l])
-		{
-			if (l == 0 && (str[i][l] == '=' || export_left_arg_check(str[i])))
-			{
-				print_error("export", str[i], NULL, "not a valid identifier");
-				exit_status(1, 0);
-				return (0);
-			}
-			l++;
-		}
-		i++;
-	}
-	return (1);
-}
-
-int	export_same_check(t_base *base, char *str)
+static int	export_same_check_part_two(t_base *base, char *str,
+	char *data_1, char *data_2)
 {
 	t_env	*check;
-	char	*data_1;
-	char	*data_2;
 
-	data_1 = find_chr_ret_str(str, '=', false);
-	if (!ft_strcmp_edited(data_1, "_"))
-	{
-		free(data_1);
-		return (0);
-	}
-	data_2 = find_chr_ret_str(str, '=', true);
 	check = base->env;
 	while (check != NULL)
 	{
@@ -97,6 +49,23 @@ int	export_same_check(t_base *base, char *str)
 		}
 		check = check->next;
 	}
+	return (1);
+}
+
+int	export_same_check(t_base *base, char *str)
+{
+	char	*data_1;
+	char	*data_2;
+
+	data_1 = find_chr_ret_str(str, '=', false);
+	if (!ft_strcmp_edited(data_1, "_"))
+	{
+		free(data_1);
+		return (0);
+	}
+	data_2 = find_chr_ret_str(str, '=', true);
+	if (export_same_check_part_two(base, str, data_1, data_2) == 0)
+		return (0);
 	free(data_1);
 	free(data_2);
 	return (1);
@@ -116,19 +85,16 @@ char	*export_find_max_str(t_base *base)
 {
 	t_env	*tmp;
 	char	*max;
-	//char	*max_before;
 
 	tmp = base->env;
 	max = tmp->data[0];
 	while (tmp != NULL)
 	{
-		//max_before = max;
 		if (ft_strcmp_edited(max, tmp->data[0]) < 0)
 			max = tmp->data[0];
 		tmp = tmp->next;
 	}
 	return (max);
-	//return (max_before); //max = _ olduğundan dolayı bir önceki değeri döndürüyorum.
 }
 
 char	*export_find_min_str(t_base *base)

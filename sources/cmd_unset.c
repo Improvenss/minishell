@@ -23,14 +23,12 @@
  */
 #include "../includes/minishell.h"
 
-int	cmd_unset(t_base *base, t_cmd *cmd)
+int	cmd_unset(t_base *base, t_cmd *cmd, int i __attribute((unused)))
 {
 	t_env	*tmp;
 	t_env	*before;
 	t_env	*del;
-	int	i;
 
-	i = 0;
 	while (cmd->full_cmd[++i] != NULL)
 	{
 		tmp = base->env;
@@ -43,7 +41,7 @@ int	cmd_unset(t_base *base, t_cmd *cmd)
 				tmp->prev->next = tmp->next;
 				free_pp_str(del->data);
 				free(del);
-				break;
+				break ;
 			}
 			before = tmp;
 			tmp = tmp->next;

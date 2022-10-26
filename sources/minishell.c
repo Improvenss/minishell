@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-/**
+/** NORMOK:
  * @file minishell.c
  * @author Ahmet KARACA (akaraca)
  * @author Gorkem SEVER (gsever)
@@ -23,19 +23,20 @@
  */
 #include "../includes/minishell.h"
 
-void	close_cmd_fd(t_cmd *cmd)
+static void	minishell_part_2(t_base *base)
 {
-	t_cmd	*tmp;
-
-	tmp = cmd;
-	while (tmp)
+	lexer(base, base->input_line);
+	if (lexer_syntax(base->lexer) == ERROR)
+		exit_status(2, 0);
+	else
 	{
-		if (tmp->infile != 0)
-			close(tmp->infile);
-		if (tmp->outfile != 1)
-			close(tmp->outfile);
-		tmp = tmp->next;
+		cmd(base);
+		close_cmd_fd(base->cmd);
+		free_fork_inits(base, base->fd);
+		free_cmd(&base->cmd);
 	}
+	free_lexer(&base->lexer);
+	free(base->input_line);
 }
 
 /**
@@ -91,18 +92,7 @@ void	minishell(t_base *base)
 		}
 		if (history_empty_check(base->input_line))
 			add_history(base->input_line);
-		lexer(base, base->input_line);
-		if (lexer_syntax(base->lexer) == ERROR)
-			exit_status(2, 0);
-		else
-		{
-			cmd(base);
-			close_cmd_fd(base->cmd);
-			free_fork_inits(base, base->fd);
-			free_cmd(&base->cmd);
-		}
-		free_lexer(&base->lexer);
-		free(base->input_line);
+		minishell_part_2(base);
 	}
 	free_all(base);
 }

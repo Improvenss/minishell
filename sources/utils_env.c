@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-/**
+/** NORMOK:
  * @file utils_env.c
  * @author Ahmet KARACA (akaraca)
  * @author Gorkem SEVER (gsever)
@@ -23,171 +23,6 @@
  */
 #include "../includes/minishell.h"
 
-int	env_strlen(t_env *env)
-{
-	int		i;
-	t_env	*tmp;
-
-	i = 0;
-	tmp = env;
-	while (tmp != NULL)
-	{
-		i++;
-		tmp = tmp->next;
-	}
-	return (i);
-}
-
-char	*env_data(t_env *tmp)
-{
-	// char *new;
-	// int	i;
-	// int	l;
-
-	// new = (char *)malloc(sizeof(char) * (ft_strlen(tmp->data[0]) + ft_strlen(tmp->data[1]) + 1));
-	// i = 0;
-	// l = 0;
-	// while (tmp->data[0][i])
-	// {
-	// 	new[l] = tmp->data[0][i];
-	// 	i++;
-	// 	l++;
-	// }
-	// if (tmp->is_env_equal == true)
-	// 	new[l++] = '=';
-	// i = 0;
-	// while (tmp->data[1][i])
-	// {
-	// 	new[l] = tmp->data[1][i];
-	// 	i++;
-	// 	l++;
-	// }
-	// new[l] = '\0';
-	// return (new);
-
-	char	*new;
-	char	*del;
-
-	new = ft_strdup(tmp->data[0]);
-	if (tmp->is_env_equal == true)
-	{
-		del = new;
-		new = ft_strjoin(new, "=");
-		free(del);
-	}
-	if (tmp->data[1] != NULL)
-	{
-		del = new;
-		new = ft_strjoin(new, tmp->data[1]);
-		free(del);
-	}
-	return (new);
-}
-
-char	**env_be_char(t_env *env)
-{
-	char	**new;
-	t_env	*tmp;
-	int		size;
-	int		i;
-
-	i = 0;
-	size = env_strlen(env);
-	new = (char **)malloc(sizeof(char *) * (size + 1));
-	if (!new)
-		return (NULL);
-	tmp = env;
-	while (tmp != NULL)
-	{
-		new[i] = env_data(tmp);
-		i++;
-		tmp = tmp->next;
-	}
-	new[i] = NULL;
-	return (new);
-}
-
-/** OK:
- * @brief Environmentlerin icinde disaridan verdigimiz variable ve valuesini
- *  ariyoruz; eger varsa true donuyor, yoksa(bulamazsa) false donuyor.
- * 
- * @param base For base->env
- * @param env_var env -> [HERE]=not_here
- * @param value env -> [not_here]=[HERE]
- * @return If variable found OK: true. Not found NOK: false.
- */
-bool	env_is_have(t_base *base, char *env_var, char *value)
-{
-	t_env	*tmp;
-
-	tmp = base->env;
-	while(tmp)
-	{
-		if (ft_strncmp(tmp->data[0], env_var, ft_strlen(env_var)) == 0
-			&& ft_strncmp(tmp->data[1], value, ft_strlen(value)) == 0)
-			return (true);
-		tmp = tmp->next;
-	}
-	return (false);
-}
-
-/**
- * @brief Set the env object
- * 
- * @param base 
- * @param env_name 
- * @param new_str 
- * @note int exit; kullanilmiyor.
- */
-void	set_env(t_base *base, char *env_name, char *new_str)
-{
-	t_env	*tmp;
-	char	*del;
-	bool	status;
-
-	tmp = base->env;
-	status = false; 
-	while (tmp != NULL)
-	{
-		if (ft_strcmp_edited(env_name, tmp->data[0]) == 0)
-		{
-			status = true;
-			del = tmp->data[1];
-			if (new_str != NULL)
-				tmp->data[1] = ft_strdup(new_str);
-			else
-				tmp->data[1] = NULL;
-			free(new_str);
-			free(del);
-			break ;
-		}
-		tmp = tmp->next;
-	}
-	if (status == false)
-		free(new_str);
-}
-
-char	*env_findret(t_base *base, char *env_name)
-{
-	t_env	*tmp;
-
-	tmp = base->env;
-	while (tmp != NULL)
-	{
-		if (ft_strcmp_edited(env_name, tmp->data[0]) == 0)
-		{
-			if (tmp->data[1] != NULL)
-			{
-				return (ft_strdup(tmp->data[1]));
-			}
-			else
-				return (NULL);
-		}
-		tmp = tmp->next;
-	}
-	return (NULL);
-}
-
 char	*find_chr_ret_str(char *str, char c, bool status)
 {
 	int	i;
@@ -196,7 +31,7 @@ char	*find_chr_ret_str(char *str, char c, bool status)
 	while (str[++i])
 	{
 		if (str[i] == c)
-			break;
+			break ;
 	}
 	if (status == true)
 	{
@@ -238,7 +73,7 @@ char	**env_split(char *src)
 	if (!dst)
 	{
 		print_error(SHELLNAME, NULL, NULL, strerror(ENOMEM));
-		return(NULL);
+		return (NULL);
 	}
 	dst[0] = find_chr_ret_str(src, '=', false);
 	dst[1] = find_chr_ret_str(src, '=', true);
@@ -284,23 +119,4 @@ int	env_struct(t_base *base, char *new_arg)
 		temp->next = new;
 	}
 	return (0);
-}
-
-char	*env_findret_no_dup(t_base *base, char *env_name)
-{
-	t_env	*tmp;
-
-	tmp = base->env;
-	while (tmp != NULL)
-	{
-		if (ft_strcmp_edited(env_name, tmp->data[0]) == 0)
-		{
-			if (tmp->data[1] != NULL)
-				return (tmp->data[1]);
-			else
-				return (NULL);
-		}
-		tmp = tmp->next;
-	}
-	return (NULL);
 }

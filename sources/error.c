@@ -6,11 +6,11 @@
 /*   By: gsever <gsever@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/19 14:08:10 by gsever            #+#    #+#             */
-/*   Updated: 2022/10/22 04:26:16 by gsever           ###   ########.fr       */
+/*   Updated: 2022/10/26 21:38:52 by gsever           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-/**
+/** NORMOK:
  * @file error.c
  * @author Ahmet KARACA (akaraca)
  * @author Gorkem SEVER (gsever)
@@ -56,9 +56,9 @@ int	print_error_errno(char *s1, char *s2, char *s3)
 	return (ERROR);
 }
 
-int exit_status(int err, bool status)
+int	exit_status(int err, bool status)
 {
-	static int error_value;
+	static int	error_value;
 
 	if (status == false)
 		error_value = err;

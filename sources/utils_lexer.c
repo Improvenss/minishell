@@ -6,15 +6,26 @@
 /*   By: gsever <gsever@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/19 14:56:51 by akaraca           #+#    #+#             */
-/*   Updated: 2022/10/24 14:02:27 by gsever           ###   ########.fr       */
+/*   Updated: 2022/10/26 21:51:55 by gsever           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+/** NORMOK:
+ * @file utils_lexer.c
+ * @author Ahmet KARACA (akaraca)
+ * @author Gorkem SEVER (gsever)
+ * @brief 
+ * @version 0.1
+ * @date 2022-08-07
+ * 
+ * @copyright Copyright (c) 2022
+ * 
+ */
 #include "../includes/minishell.h"
 
-t_lexer *token_create(t_base *base, char *str, int type)
+t_lexer	*token_create(t_base *base, char *str, int type)
 {
-	t_lexer *new;
+	t_lexer	*new;
 	t_lexer	*temp;
 
 	new = (t_lexer *)malloc(sizeof(t_lexer));
@@ -40,7 +51,7 @@ t_lexer *token_create(t_base *base, char *str, int type)
 	return (new);
 }
 
-int other_lenght(char *str)
+int	other_lenght(char *str)
 {
 	if (*str == '<' && *(str + 1) != '<')
 		return (1);
@@ -55,14 +66,14 @@ int other_lenght(char *str)
 	return (0);
 }
 
-void node_merge(t_lexer **lexer, char *token, char *str, int *i)
+void	node_merge(t_lexer **lexer, char *token, char *str, int *i)
 {
 	char	*tmp;
 
 	if (!ft_strchr(WHITESPACES, str[*i]) && other_lenght(&str[*i]) == 0)
 		(*lexer)->flag = TOK_CONNECTED + TOK_TEXT;
-	else if ((*lexer)->prev && (*lexer)->prev->flag & (TOK_REDIR | TOK_HEREDOC)) //"AHMETKARACA" > "42"'MAHMUT'$PWD
-	  	(*lexer)->flag = TOK_REDIR_FILE;
+	else if ((*lexer)->prev && (*lexer)->prev->flag & (TOK_REDIR | TOK_HEREDOC))
+		(*lexer)->flag = TOK_REDIR_FILE;
 	else
 		(*lexer)->flag = TOK_TEXT;
 	tmp = ft_strjoin((*lexer)->str, token);
@@ -73,7 +84,7 @@ void node_merge(t_lexer **lexer, char *token, char *str, int *i)
 
 t_lexer	*lexer_lstlast(t_lexer *lexer)
 {
-	t_lexer *tmp;
+	t_lexer	*tmp;
 
 	if (lexer == NULL)
 		return (NULL);

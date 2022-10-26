@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-/**
+/** NORMOK:
  * @file main.c
  * @author Ahmet KARACA (akaraca)
  * @author Gorkem SEVER (gsever)
@@ -56,14 +56,6 @@ int	set_arg(t_base *base, char **environ)
 			return (print_error(SHELLNAME, "env", NULL, strerror(ENOMEM)));
 		}
 	}
-	base->mem_1 = env_findret(base, "PATH");
-	base->env_path = ft_split(base->mem_1, ':');
-	if (base->env_path == NULL)
-	{
-		exit_status(ENOMEM, 0);
-		return (print_error(T_NAME, "env_path", NULL, strerror(ENOMEM)));
-	}
-	free(base->mem_1);
 	return (0);
 }
 

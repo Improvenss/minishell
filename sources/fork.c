@@ -3,78 +3,35 @@
 /*                                                        :::      ::::::::   */
 /*   fork.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akaraca <akaraca@student.42.tr>            +#+  +:+       +#+        */
+/*   By: gsever <gsever@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/19 16:48:49 by gsever            #+#    #+#             */
-/*   Updated: 2022/10/26 18:20:25 by akaraca          ###   ########.fr       */
+/*   Updated: 2022/10/26 23:25:03 by gsever           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+/** NORMOK:
+ * @file fork.c
+ * @author Ahmet KARACA (akaraca)
+ * @author Gorkem SEVER (gsever)
+ * @brief 
+ * @version 0.1
+ * @date 2022-08-07
+ * 
+ * @copyright Copyright (c) 2022
+ * 
+ */
 #include "../includes/minishell.h"
 
-/**
- * @brief 
- * 
- * @param base 
- */
-void	ft_wait(t_base *base)
+static void	fork_start_part_two(t_base *base)
 {
-	int	i;
-	int	err;
-
-	i = -1;
-	while (++i < base->cmd_count)
-		waitpid(base->pid[i], &err, 0);
-	exit_status(err, 0);
-}
-
-void	fd_close(t_base *base)
-{
-	int	i;
-
-	i = -1;
-	while (++i < base->cmd_count)
+	if (base->cmd_count > 1)
 	{
-		close(base->fd[i][0]);
-		close(base->fd[i][1]);
+		fd_close(base);
+		ft_wait(base);
 	}
-}
-
-void	fork_dup(t_base *base, int i, t_cmd *cmd)
-{
-	//printf("cmd_in:%d --- cmd_out:%d\n", cmd->infile, cmd->outfile);
-	if (i > 0 && cmd->infile == 0) // Baktığı yer
-	{
-		//printf("INFILE: i:%d,,, cmd:%d\n", i, cmd->infile);
-		dup2(base->fd[i - 1][0], 0); // infile
-	}
-	if (i != (base->cmd_count - 1))// && cmd->outfile == 1) // Çıkarttığı yer
-	{
-		//printf("OUTFILE: i:%d,,,cmd:%d\n", i, cmd->outfile);
-		dup2(base->fd[i][1], 1); // outfile
-	}
-	// dup2(cmd->infile, 0);
-	// dup2(cmd->outfile, 1);
-	//--------------------------------------------------------//
-	// if (i > 0) // Baktığı yer
-	// {
-	// 	if (cmd->infile != 0)
-	// 		dup2(cmd->infile, 0);
-	// 	else
-	// 		dup2(base->fd[i - 1][0], 0); // infile
-	// }
-	// if (i != base->cmd_count - 1) // Çıkarttığı yer
-	// {
-	// 	if (cmd->outfile != 1)
-	// 		dup2(cmd->outfile, 1);
-	// 	else
-	// 		dup2(base->fd[i][1], 1); // outfile
-	// }
-	//--------------------------------------------------------//
-	// if (i > 0)
-	// 	dup2(base->fd[i - 1][cmd->infile], 0);
-	// if (i != base->cmd_count - 1)
-	// 	dup2(base->fd[i][cmd->outfile], 1);
+	if (base->cmd_count == 1)
+		command_exec(base, base->cmd);
 }
 
 /**
@@ -106,29 +63,18 @@ int	fork_start(t_base *base)
 	while (base->cmd_count > 1 && ++i < base->cmd_count && tmp)
 	{
 		base->fd_i = i;
-		// printf("#%s#\n", tmp->full_cmd[0]);
-		if (ft_strncmp_edited(tmp->full_cmd[0], "wc", 2) == 0) // pipe içinde wc kullanıldığında düzeltiyor
-		{
-			signal(SIGINT, SIG_IGN); //içerideki sinyali ignorluyoruz.
-		}
+		if (ft_strncmp_edited(tmp->full_cmd[0], "wc", 2) == 0)
+			signal(SIGINT, SIG_IGN);
 		base->pid[i] = fork();
 		if (base->pid[i] == 0)
 		{
 			fork_dup(base, i, tmp);
 			fd_close(base);
-			// command_exec(base, tmp);
-			// printf("buldumm\n");
 			exit(command_exec(base, tmp));
 		}
 		tmp = tmp->next;
 	}
-	if (base->cmd_count > 1)
-	{
-		fd_close(base);
-		ft_wait(base);
-	}
-	if (base->cmd_count == 1)
-		command_exec(base, base->cmd);
+	fork_start_part_two(base);
 	return (0);
 }
 

@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-/**
+/** NORMOK:
  * @file cmd_cd.c
  * @author Ahmet KARACA (akaraca)
  * @author Gorkem SEVER (gsever)
@@ -25,13 +25,6 @@
 
 /**
  * @brief 
- * 
- * 				!!!!! NOTE !!!!!!
- * 
- * Kral burada char bur[PATH_MAX] yap getcwd'yi sizeof(buf) yap dene, sonra
- *  sizeof(buf)'u PATH_MAX yap oyle dene, sonra malloc'lu olani ac freeyi ac
- *  sizeof(buf)'u yine PATH_MAX yap boyle dene cok bazen degistiriyor
- *  bazen degistirmiyor PWD= 'yi...
  * 
  * @param base 
  * @return int 
@@ -78,7 +71,8 @@ static char	*get_dir(t_base *base, t_cmd *cmd)
 	if ((cmd->full_cmd[0] && cmd->full_cmd[1] == NULL)
 		|| ft_strncmp(cmd->full_cmd[1], "~", 2) == 0
 		|| ft_strncmp(cmd->full_cmd[1], "--", 3) == 0
-		|| (cmd->full_cmd[1] != NULL && ft_strncmp_edited(cmd->full_cmd[1], "\0", 0)))// cd $pwd icin.
+		|| (cmd->full_cmd[1] != NULL
+			&& ft_strncmp_edited(cmd->full_cmd[1], "\0", 0)))
 	{
 		dir = env_findret_no_dup(base, "HOME");
 		if (dir == NULL)
@@ -115,7 +109,7 @@ static char	*get_dir(t_base *base, t_cmd *cmd)
  *  bir seyler varsa onlari da hallediyoruz burada.
  * @return int OK: 0, NOK: EXIT_FAILURE(1).
  */
-int	cmd_cd(t_base *base, t_cmd *cmd)
+int	cmd_cd(t_base *base, t_cmd *cmd, int i __attribute((unused)))
 {
 	char	*dir;
 

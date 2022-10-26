@@ -6,10 +6,21 @@
 /*   By: gsever <gsever@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/19 14:30:15 by akaraca           #+#    #+#             */
-/*   Updated: 2022/10/25 22:12:16 by gsever           ###   ########.fr       */
+/*   Updated: 2022/10/26 21:28:34 by gsever           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+/** NORMOK:
+ * @file signal.c
+ * @author Ahmet KARACA (akaraca)
+ * @author Gorkem SEVER (gsever)
+ * @brief 
+ * @version 0.1
+ * @date 2022-08-07
+ * 
+ * @copyright Copyright (c) 2022
+ * 
+ */
 #include "../includes/minishell.h"
 
 /**
@@ -42,6 +53,16 @@ int	termios_change(bool echo_ctrl_character)
 	return (0);
 }
 
+void	action_execve(int sig)
+{
+	if (sig == SIGINT)
+	{
+		exit_status(1, 0);
+		write(STDERR_FILENO, "\n", 1);
+		rl_replace_line("", 0);
+	}
+}
+
 void	action_cat(int sig)
 {
 	if (sig == SIGINT)
@@ -61,7 +82,6 @@ void	action_heredoc(int sig)
 		ioctl(STDIN_FILENO, TIOCSTI, "\n");
 		rl_replace_line("", 0);
 		rl_on_new_line();
-		//rl_redisplay();
 	}
 }
 

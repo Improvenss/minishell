@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-/**
+/** NORMOK:
  * @file cmd_echo.c
  * @author Ahmet KARACA (akaraca)
  * @author Gorkem SEVER (gsever)
@@ -23,9 +23,8 @@
  */
 #include "../includes/minishell.h"
 
-void	cmd_echo_print(t_base *base, t_cmd *cmd, int i)
+void	cmd_echo_print(t_cmd *cmd, int i)
 {
-	(void)base;
 	int	l;
 
 	while (cmd->full_cmd[i])
@@ -41,13 +40,12 @@ void	cmd_echo_print(t_base *base, t_cmd *cmd, int i)
 	}
 }
 
-int	cmd_echo(t_base *base, t_cmd *cmd)
+int	cmd_echo(t_base *base __attribute((unused)),
+	t_cmd *cmd, int i __attribute((unused)))
 {
-	int		i;
 	bool	new_line;
 
-	i = 0;
-	if(cmd->full_cmd[1] == NULL)
+	if (cmd->full_cmd[1] == NULL)
 		write(cmd->outfile, "\n", 1);
 	else
 	{
@@ -58,7 +56,7 @@ int	cmd_echo(t_base *base, t_cmd *cmd)
 			write(cmd->outfile, "\0", 1);
 		else
 		{
-			cmd_echo_print(base, cmd, i);
+			cmd_echo_print(cmd, i);
 			if (new_line)
 				write(cmd->outfile, "\n", 1);
 		}

@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   debugging.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akaraca <akaraca@student.42.tr>            +#+  +:+       +#+        */
+/*   By: gsever <gsever@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/16 20:52:46 by gsever            #+#    #+#             */
-/*   Updated: 2022/10/26 16:13:00 by akaraca          ###   ########.fr       */
+/*   Updated: 2022/10/26 21:51:37 by gsever           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-/**
+/** NORMOK:
  * @file debugging.c
  * @author Ahmet KARACA (akaraca)
  * @author Gorkem SEVER (gsever)
@@ -20,7 +20,7 @@
  * 
  * @copyright Copyright (c) 2022
  * 
-*/
+ */
 #include "../includes/minishell.h"
 
 /**
@@ -33,12 +33,12 @@
  */
 void	debug_print_cmd(t_base *base, char *env_var, char *value)
 {
-	int	i;
-	int	l;
-	
+	t_cmd	*write;
+	int		i;
+	int		l;
+
 	if (env_is_have(base, env_var, value))
 	{
-		t_cmd *write;
 		write = base->cmd;
 		while (write)
 		{
@@ -51,7 +51,7 @@ void	debug_print_cmd(t_base *base, char *env_var, char *value)
 				printf("CMD_RED->[%d]: %s\n", l, write->redirect[l]);
 				l++;
 			}
-			printf("[%d]: in: %d out: %d\n",i, write->infile, write->outfile);
+			printf("[%d]: in: %d out: %d\n", i, write->infile, write->outfile);
 			write = write->next;
 		}
 		printf("##########################################################\n");
@@ -68,9 +68,11 @@ void	debug_print_cmd(t_base *base, char *env_var, char *value)
  */
 void	debug_print_str(t_base *base, char *env_var, char *value)
 {
+	t_lexer	*tmp;
+
+	tmp = base->lexer;
 	if (env_is_have(base, env_var, value))
 	{
-		t_lexer *tmp = base->lexer;
 		while (tmp)
 		{
 			printf("			->: STR: %s FLAG: %d\n", tmp->str, tmp->flag);

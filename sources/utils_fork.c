@@ -1,17 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lexer_pipe.c                                       :+:      :+:    :+:   */
+/*   utils_fork.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gsever <gsever@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/19 14:49:38 by akaraca           #+#    #+#             */
-/*   Updated: 2022/10/26 23:34:29 by gsever           ###   ########.fr       */
+/*   Created: 2022/10/26 22:45:44 by gsever            #+#    #+#             */
+/*   Updated: 2022/10/26 22:49:17 by gsever           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 /** NORMOK:
- * @file lexer_pipe.c
+ * @file utils_fork.c
  * @author Ahmet KARACA (akaraca)
  * @author Gorkem SEVER (gsever)
  * @brief 
@@ -23,23 +23,38 @@
  */
 #include "../includes/minishell.h"
 
-int	lexer_pipe(t_base *base, char *str, int *i)
+/**
+ * @brief 
+ * 
+ * @param base 
+ */
+void	ft_wait(t_base *base)
 {
-	char	*token;
-	t_lexer	*new;
+	int	i;
+	int	err;
 
-	if (str[*i] == '|' && str[*i + 1] != '|' && str[*i - 1] != '|')
+	i = -1;
+	while (++i < base->cmd_count)
+		waitpid(base->pid[i], &err, 0);
+	exit_status(err, 0);
+}
+
+void	fd_close(t_base *base)
+{
+	int	i;
+
+	i = -1;
+	while (++i < base->cmd_count)
 	{
-		token = ft_substr(str, *i, 1);
-		if (!token)
-			return (print_error(SHELLNAME, NULL, NULL, strerror(ENOMEM)));
-		new = token_create(base, token, TOK_PIPE);
-		if (!new)
-		{
-			free(token);
-			return (print_error(SHELLNAME, NULL, NULL, strerror(ENOMEM)));
-		}
-		(*i)++;
+		close(base->fd[i][0]);
+		close(base->fd[i][1]);
 	}
-	return (0);
+}
+
+void	fork_dup(t_base *base, int i, t_cmd *cmd)
+{
+	if (i > 0 && cmd->infile == 0)
+		dup2(base->fd[i - 1][0], 0);
+	if (i != (base->cmd_count - 1))
+		dup2(base->fd[i][1], 1);
 }

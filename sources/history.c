@@ -6,10 +6,21 @@
 /*   By: gsever <gsever@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/19 16:49:57 by gsever            #+#    #+#             */
-/*   Updated: 2022/10/19 16:50:05 by gsever           ###   ########.fr       */
+/*   Updated: 2022/10/26 21:45:38 by gsever           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+/** NORMOK:
+ * @file history.c
+ * @author Ahmet KARACA (akaraca)
+ * @author Gorkem SEVER (gsever)
+ * @brief 
+ * @version 0.1
+ * @date 2022-08-07
+ * 
+ * @copyright Copyright (c) 2022
+ * 
+ */
 #include "../includes/minishell.h"
 
 int	history_empty_check(char *input_line)

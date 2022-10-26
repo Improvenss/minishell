@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-/**
+/** NORMOK:
  * @file lexer.c
  * @author Ahmet KARACA (akaraca)
  * @author Gorkem SEVER (gsever)
@@ -31,13 +31,13 @@ void	lexer(t_base *base, char *str)
 	while (str && str[i])
 	{
 		if (lexer_pipe(base, str, &i) == ERROR)
-			break;
+			break ;
 		if (lexer_redir(base, str, &i) == ERROR)
-			break;
+			break ;
 		if (lexer_text(base, str, &i) == ERROR)
-			break;
+			break ;
 		if (lexer_quote(base, str, &i) == ERROR)
-			break;
+			break ;
 		while (str[i] && ft_strchr(WHITESPACES, str[i]))
 			i++;
 	}

@@ -6,7 +6,7 @@
 /*   By: gsever <gsever@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/24 19:40:24 by akaraca           #+#    #+#             */
-/*   Updated: 2022/10/26 19:56:50 by gsever           ###   ########.fr       */
+/*   Updated: 2022/10/27 00:16:13 by gsever           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -272,7 +272,7 @@ typedef struct s_cmd	t_cmd;
 typedef struct s_commands
 {
 	char	*name;
-	int		(*func)(t_base *base, t_cmd *cmd);
+	int		(*func)(t_base *base, t_cmd *cmd, int i);
 }		t_commands;
 
 /**
@@ -390,25 +390,25 @@ typedef struct s_base
 /* ************************************************************************** */
 
 // cmd_cd.c
-int		cmd_cd(t_base *base, t_cmd *cmd);
+int		cmd_cd(t_base *base, t_cmd *cmd, int i);
 
 // cmd_echo.c
-void	cmd_echo_print(t_base *base, t_cmd *cmd, int i);
-int		cmd_echo(t_base *base, t_cmd *cmd);
+void	cmd_echo_print(t_cmd *cmd, int i);
+int		cmd_echo(t_base *base, t_cmd *cmd, int i);
 
 // cmd_env.c
-int		cmd_env(t_base *base, t_cmd *cmd);
+int		cmd_env(t_base *base, t_cmd *cmd, int i);
 
 // cmd_exit.c
-int		cmd_exit(t_base *base, t_cmd *cmd);
+int		cmd_exit(t_base *base, t_cmd *cmd, int i);
 
 // cmd_export.c
-int		cmd_export_add(t_base *base, t_cmd *cmd);
-void	cmd_export_print(t_base *base, t_cmd *cmd);
-int		cmd_export(t_base *base, t_cmd *cmd);
+int		cmd_export_add(t_base *base, t_cmd *cmd, int i);
+void	cmd_export_print(t_base *base, t_cmd *cmd, int i);
+int		cmd_export(t_base *base, t_cmd *cmd, int i);
 
 // cmd_pwd.c
-int		cmd_pwd(t_base *base, t_cmd *cmd);
+int		cmd_pwd(t_base *base, t_cmd *cmd, int i);
 
 // cmd_set_fd.c
 int		set_fd(int oldfd, char *path, int *flags);
@@ -417,7 +417,7 @@ int		set_heredoc(char *limit);
 void	cmd_set_fd(t_lexer *tmp, t_cmd **new);
 
 // cmd_unset.c
-int		cmd_unset(t_base *base, t_cmd *cmd);
+int		cmd_unset(t_base *base, t_cmd *cmd, int i);
 
 // cmd.c
 t_lexer	*cmd_node_create(t_cmd **new, t_lexer *last, int i, int l);
@@ -425,7 +425,6 @@ t_lexer	*cmd_create(t_cmd **lst, t_lexer *last);
 void	cmd(t_base *base);
 
 // command.c
-void	commands_init(t_base *base);
 int		cmd_other(t_base *base, t_cmd *cmd, char **cmd_array);
 int		command_find_arr(t_base *base, t_cmd *cmd, char **cmd_array);
 int		command_exec(t_base *base, t_cmd *cmd);
@@ -440,15 +439,10 @@ int		print_error_errno(char *s1, char *s2, char *s3);
 int		exit_status(int err, bool status);
 
 // fork.c
-void	ft_wait(t_base *base);
-void	fd_close(t_base *base);
-void	fork_dup(t_base *base, int i, t_cmd *cmd);
 int		fork_start(t_base *base);
 int		fork_init(t_base *base);
 
 // free.c
-void	free_fork_inits(t_base *base, int **fd);
-void	free_pp_str(char **line);
 void	free_env(t_env **env);
 void	free_lexer(t_lexer **lexer);
 void	free_cmd(t_cmd **cmd);
@@ -456,6 +450,9 @@ void	free_all(t_base *base);
 
 // history.c
 int		history_empty_check(char *input_line);
+
+// init.c
+void	commands_init(t_base *base);
 
 // lexer_env_expand.c
 int		is_it_expand(t_base *base);
@@ -490,11 +487,18 @@ void	minishell(t_base *base);
 
 // signal.c
 int		termios_change(bool echo_ctrl_character);
+void	action_execve(int sig);
 void	action_cat(int sig);
 void	action_heredoc(int sig);
 void	action(int sig);
 
+// utils_cmd_two.c
+t_lexer	*cmd_node_create(t_cmd **new, t_lexer *last, int i, int l);
+t_lexer	*cmd_create(t_cmd **lst, t_lexer *last);
+t_cmd	*cmd_lstlast(t_cmd *cmd);
+
 // utils_cmd.c
+void	close_cmd_fd(t_cmd *cmd);
 int		cmd_count(t_cmd *cmd);
 char	*str_add(char *tmp, char *str);
 void	cmd_lstadd_back(t_cmd **lst, t_cmd *new);
@@ -524,6 +528,15 @@ int		export_same_check(t_base *base, char *str);
 int		export_lstsize(t_env *lst);
 char	*export_find_max_str(t_base *base);
 char	*export_find_min_str(t_base *base);
+
+// utils_fork.c
+void	ft_wait(t_base *base);
+void	fd_close(t_base *base);
+void	fork_dup(t_base *base, int i, t_cmd *cmd);
+
+// utils_free.c
+void	free_fork_inits(t_base *base, int **fd);
+void	free_pp_str(char **line);
 
 // utils_func.c
 char	*ft_chrjoin(char *s1, char c);

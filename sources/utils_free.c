@@ -1,17 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lexer_pipe.c                                       :+:      :+:    :+:   */
+/*   utils_free.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gsever <gsever@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/19 14:49:38 by akaraca           #+#    #+#             */
-/*   Updated: 2022/10/26 23:34:29 by gsever           ###   ########.fr       */
+/*   Created: 2022/10/26 21:12:35 by gsever            #+#    #+#             */
+/*   Updated: 2022/10/26 22:52:50 by gsever           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 /** NORMOK:
- * @file lexer_pipe.c
+ * @file utils_free.c
  * @author Ahmet KARACA (akaraca)
  * @author Gorkem SEVER (gsever)
  * @brief 
@@ -23,23 +23,32 @@
  */
 #include "../includes/minishell.h"
 
-int	lexer_pipe(t_base *base, char *str, int *i)
+void	free_fork_inits(t_base *base, int **fd)
 {
-	char	*token;
-	t_lexer	*new;
+	int	i;
 
-	if (str[*i] == '|' && str[*i + 1] != '|' && str[*i - 1] != '|')
+	if (base->cmd_count > 1)
 	{
-		token = ft_substr(str, *i, 1);
-		if (!token)
-			return (print_error(SHELLNAME, NULL, NULL, strerror(ENOMEM)));
-		new = token_create(base, token, TOK_PIPE);
-		if (!new)
+		i = 0;
+		while (i < base->cmd_count)
 		{
-			free(token);
-			return (print_error(SHELLNAME, NULL, NULL, strerror(ENOMEM)));
+			free(fd[i]);
+			i++;
 		}
-		(*i)++;
+		free(fd);
+		free(base->pid);
 	}
-	return (0);
+}
+
+void	free_pp_str(char **line)
+{
+	int	i;
+
+	i = 0;
+	while (line && line[i])
+	{
+		free(line[i++]);
+	}
+	if (line != NULL)
+		free(line);
 }

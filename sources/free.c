@@ -3,58 +3,32 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akaraca <akaraca@student.42.tr>            +#+  +:+       +#+        */
+/*   By: gsever <gsever@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/19 16:49:16 by gsever            #+#    #+#             */
-/*   Updated: 2022/10/26 16:05:11 by akaraca          ###   ########.fr       */
+/*   Updated: 2022/10/26 22:53:19 by gsever           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+/** NORMOK:
+ * @file free.c
+ * @author Görkem SEVER (gsever)
+ * @brief 
+ * @version 0.1
+ * @date 2022-10-26
+ * 
+ * @copyright Copyright (c) 2022
+ * 
+ */
 #include "../includes/minishell.h"
-
-void	free_fork_inits(t_base *base, int **fd)
-{
-	int	i;
-
-	if (base->cmd_count > 1)
-	{
-		i = 0;
-		while (i < base->cmd_count)
-		{
-			free(fd[i]);
-			i++;
-		}
-		free(fd);
-		free(base->pid);
-	}
-}
-
-void	free_pp_str(char **line)
-{
-	int	i;
-
-	i = 0;
-	while (line[i])
-	{
-		free(line[i++]);
-	}
-	free(line);
-}
 
 void	free_env(t_env **env)
 {
-	t_env *tmp;
+	t_env	*tmp;
 
 	while (*env != NULL)
 	{
 		tmp = (*env)->next;
-		// if ((*env)->is_env_equal == false)
-		// {
-		// 	free((*env)->data[0]);
-		// 	free((*env)->data[1]);
-		// 	free((*env)->data);
-		// }
-		// else
 		free_pp_str((*env)->data);
 		free(*env);
 		(*env) = tmp;
@@ -84,7 +58,7 @@ void	free_cmd(t_cmd **cmd)
 	{
 		tmp = (*cmd)->next;
 		free_pp_str((*cmd)->full_cmd);
-		free_pp_str((*cmd)->redirect); // +1
+		free_pp_str((*cmd)->redirect);
 		free(*cmd);
 		(*cmd) = tmp;
 	}
@@ -99,5 +73,4 @@ void	free_all(t_base *base)
 	free_lexer(&base->lexer);
 	free_env(&base->env);
 	free(base->input_line);
-	free_pp_str(base->env_path);
 }

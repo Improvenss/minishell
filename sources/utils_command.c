@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_command.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akaraca <akaraca@student.42.tr>            +#+  +:+       +#+        */
+/*   By: gsever <gsever@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/19 15:59:26 by akaraca           #+#    #+#             */
-/*   Updated: 2022/10/19 16:00:18 by akaraca          ###   ########.fr       */
+/*   Updated: 2022/10/26 22:55:56 by gsever           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ char	*ft_path(char **path, char *cmd_name)
 	int		i;
 
 	i = -1;
+	if (path == NULL)
+		return (NULL);
 	while (path[++i])
 	{
 		dir2 = ft_strjoin("/", cmd_name);

@@ -1,17 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lexer_pipe.c                                       :+:      :+:    :+:   */
+/*   utils_export_two.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gsever <gsever@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/19 14:49:38 by akaraca           #+#    #+#             */
-/*   Updated: 2022/10/26 23:34:29 by gsever           ###   ########.fr       */
+/*   Created: 2022/10/26 23:10:58 by gsever            #+#    #+#             */
+/*   Updated: 2022/10/26 23:13:27 by gsever           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 /** NORMOK:
- * @file lexer_pipe.c
+ * @file utils_export_two.c
  * @author Ahmet KARACA (akaraca)
  * @author Gorkem SEVER (gsever)
  * @brief 
@@ -23,23 +23,43 @@
  */
 #include "../includes/minishell.h"
 
-int	lexer_pipe(t_base *base, char *str, int *i)
+int	export_left_arg_check(char *str)
 {
-	char	*token;
-	t_lexer	*new;
+	int	i;
 
-	if (str[*i] == '|' && str[*i + 1] != '|' && str[*i - 1] != '|')
+	i = 0;
+	while (str[i] != '\0' && str[i] != '=')
 	{
-		token = ft_substr(str, *i, 1);
-		if (!token)
-			return (print_error(SHELLNAME, NULL, NULL, strerror(ENOMEM)));
-		new = token_create(base, token, TOK_PIPE);
-		if (!new)
-		{
-			free(token);
-			return (print_error(SHELLNAME, NULL, NULL, strerror(ENOMEM)));
-		}
-		(*i)++;
+		if ((str[i] >= 97 && str[i] <= 122)
+			|| (str[i] >= 65 && str[i] <= 90)
+			|| str[i] == '_')
+			i++;
+		else
+			return (1);
 	}
 	return (0);
+}
+
+int	export_arg_check(char **str)
+{
+	int	i;
+	int	l;
+
+	i = 1;
+	while (str[i])
+	{
+		l = 0;
+		while (str[i][l])
+		{
+			if (l == 0 && (str[i][l] == '=' || export_left_arg_check(str[i])))
+			{
+				print_error("export", str[i], NULL, "not a valid identifier");
+				exit_status(1, 0);
+				return (0);
+			}
+			l++;
+		}
+		i++;
+	}
+	return (1);
 }
