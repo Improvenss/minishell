@@ -22,7 +22,7 @@
  * 
  */
 #include "../includes/minishell.h"
-/*
+
 int	cmd_unset(t_base *base, t_cmd *cmd)
 {
 	t_env	*tmp;
@@ -53,7 +53,6 @@ int	cmd_unset(t_base *base, t_cmd *cmd)
 	}
 	return (0);
 }
-*/
 
 // int	cmd_unset(t_base *base, t_cmd *cmd)
 // {
@@ -86,17 +85,17 @@ int	cmd_unset(t_base *base, t_cmd *cmd)
 // 	return (0);
 // }
 
-int	cmd_unset(t_base *base, t_cmd *cmd)
-{
-	t_env	*tmp;
-	// t_env	*deleted;
-	(void)cmd;
+// int	cmd_unset(t_base *base, t_cmd *cmd)
+// {
+// 	t_env	*tmp;
+// 	// t_env	*deleted;
+// 	(void)cmd;
 
-	tmp = base->env;
-	while (tmp)
-	{
-		printf("env: %s\n", tmp->data[0]);
-		tmp = tmp->next;
-	}
-	return (0);
-}
+// 	tmp = base->env;
+// 	while (tmp)
+// 	{
+// 		printf("env: %s\n", tmp->data[0]);
+// 		tmp = tmp->next;
+// 	}
+// 	return (0);
+// }
