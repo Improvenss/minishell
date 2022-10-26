@@ -199,6 +199,22 @@ Ayrıştırıcı, başka bir dile kolay çeviri için verileri daha küçük ö�
  * IDK: buyuk harflerle PWD yazildiginda execve'ye gonderip calistiriyor
  *  ama pwd yazarsak kucuk harflerle bizim cmd_pwd.c calisiyor
  * 
+ * TODO: unset = (env yoksa segmentation yiyior)!!!!!!!!!!! 
+ * 	Bunu duzelttigimizda make test'teki segmentation'larin hepsi duzelmesi gerek.
+ * TODO: signal();
+ * TODO: sagdan okuma...
+ * TODO: cmd_syntax....
+ * TODO: heredoc onceligi var; ls > a | cat << asdf 'de a dosyasi olusturulmayacak.
+ * TODO: dosya yoksa hata verdirilecek.
+ * 
+ * TODO: . komutu error dondurmesi gerekiyor.
+ * TODO: ..komutu error dondurmesi gerekiyor.
+ * TODO: export asdf="/bin/echo 1"
+ * 	$asdf yaptigimizda 1 yazdirmasi lazim...
+ * TODO: herhangi_bir_yerde_alt_cizgi_varsa= calismiyor env'ye eklemesi lazim
+ * 	ornek; export asdf_asdf=deneme
+ * TODO:
+ * 
 OK: ls -l > 1.txt -a | cat << EOF
 OK: echo "$PWD $HOME"
 OK: echo "$ aaa"

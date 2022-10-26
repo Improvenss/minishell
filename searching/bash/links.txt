@@ -10,3 +10,4 @@ Lexer and Parser
 
 https://stackoverflow.com/questions/657846/how-do-i-write-non-ascii-characters-using-echo
 https://ss64.com/ascii.html
+https://stackoverflow.com/questions/7101995/what-does-if-eq-0-mean-for-shell-scripts

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd_set_fd.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akaraca <akaraca@student.42.tr>            +#+  +:+       +#+        */
+/*   By: gsever <gsever@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/19 16:45:03 by gsever            #+#    #+#             */
-/*   Updated: 2022/10/24 19:52:49 by akaraca          ###   ########.fr       */
+/*   Updated: 2022/10/26 04:27:50 by gsever           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,8 @@ int	set_fd(int oldfd, char *path, int *flags)
 
 char	*get_heredoc_str(char *limit)
 {
-	char		*str;
-	char		*tmp;
+	char	*str;
+	char	*tmp;
 
 	str = NULL;
 	tmp = NULL;

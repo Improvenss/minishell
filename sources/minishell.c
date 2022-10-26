@@ -93,12 +93,14 @@ void	minishell(t_base *base)
 			add_history(base->input_line);
 		lexer(base, base->input_line);
 		if (lexer_syntax(base->lexer) == ERROR)
-			exit_status(1, 0);
+			exit_status(2, 0);
 		else
+		{
 			cmd(base);
-		close_cmd_fd(base->cmd);
-		free_fork_inits(base, base->fd);
-		free_cmd(&base->cmd);
+			close_cmd_fd(base->cmd);
+			free_fork_inits(base, base->fd);
+			free_cmd(&base->cmd);
+		}
 		free_lexer(&base->lexer);
 		free(base->input_line);
 		// system("leaks minishell");

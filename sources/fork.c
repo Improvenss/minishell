@@ -6,7 +6,7 @@
 /*   By: gsever <gsever@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/19 16:48:49 by gsever            #+#    #+#             */
-/*   Updated: 2022/10/25 22:11:34 by gsever           ###   ########.fr       */
+/*   Updated: 2022/10/26 05:57:28 by gsever           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,8 +90,8 @@ void	fork_dup(t_base *base, int i, t_cmd *cmd)
  */
 int	fork_start(t_base *base)
 {
-	int i;
-	t_cmd *tmp;
+	t_cmd	*tmp;
+	int		i;
 
 	i = -1;
 	base->fd_i = -1;
@@ -107,8 +107,9 @@ int	fork_start(t_base *base)
 		{
 			fork_dup(base, i, tmp);
 			fd_close(base);
-			command_exec(base, tmp);
-			exit(0);
+			// command_exec(base, tmp);
+			// printf("buldumm\n");
+			exit(command_exec(base, tmp));
 		}
 		tmp = tmp->next;
 	}
@@ -118,7 +119,10 @@ int	fork_start(t_base *base)
 		ft_wait(base);
 	}
 	if (base->cmd_count == 1)
+	{
+		printf("noktaaaa\n");
 		command_exec(base, base->cmd);
+	}
 	return (0);
 }
 
