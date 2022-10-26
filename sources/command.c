@@ -69,7 +69,7 @@ void	cmd_execve(t_base *base, t_cmd *cmd, char *command, char **cmd_array)
 	pi = fork();
 	if (pi == 0)
 	{
-		if (base->fd_i != base->cmd_count - 1)
+		if (base->fd_i != base->cmd_count)
 		{
 			dup2(cmd->infile, 0);
 			dup2(cmd->outfile, 1);

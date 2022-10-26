@@ -6,7 +6,7 @@
 /*   By: akaraca <akaraca@student.42.tr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/24 19:40:24 by akaraca           #+#    #+#             */
-/*   Updated: 2022/10/26 16:28:28 by akaraca          ###   ########.fr       */
+/*   Updated: 2022/10/26 18:05:25 by akaraca          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -367,6 +367,7 @@ typedef struct s_env
  */
 typedef struct s_base
 {
+	int			heredoc_status;
 	char		**env_chr;
 	int			err;
 	char		*mem_1;

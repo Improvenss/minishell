@@ -6,7 +6,7 @@
 /*   By: akaraca <akaraca@student.42.tr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/19 16:46:00 by gsever            #+#    #+#             */
-/*   Updated: 2022/10/26 16:13:13 by akaraca          ###   ########.fr       */
+/*   Updated: 2022/10/26 18:20:29 by akaraca          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,7 @@ t_cmd	*cmd_lstlast(t_cmd *cmd)
 	return (tmp);
 }
 
-int	cmd_set_me_fd(t_cmd *cmd, int max)
+int	cmd_set_me_fd(t_base *base, t_cmd *cmd, int max)
 {
 	int	i;
 	int	last_in;
@@ -107,8 +107,8 @@ int	cmd_set_me_fd(t_cmd *cmd, int max)
 	int flags[2];
 
 	i = -1;
-	last_in = -1;
-	last_out = -1;
+	last_in = STDIN_FILENO;
+	last_out = STDOUT_FILENO;
 	//printf("%d\n", __LINE__);
 	while (cmd->redirect[++i])
 	{
@@ -118,12 +118,15 @@ int	cmd_set_me_fd(t_cmd *cmd, int max)
 			if (cmd->redirect[i + 1] == NULL)
 				last_in = cmd->infile; // son argüman ise hafızaya almam gerekiyor. Değilse zaten bir işe yaramayacak.
 			if (cmd->infile == -1)
+			{
+				base->heredoc_status = 0;
 				return (0);
+			}
 		}
 	}
 	i = max - 2;
 	//printf("%d\n", __LINE__);
-	while (i >= 0 && exit_status(0, 1) == 0)
+	while (i >= 0)
 	{
 		if (ft_strncmp_edited(cmd->redirect[i], ">>", 2))
 		{
@@ -158,10 +161,8 @@ int	cmd_set_me_fd(t_cmd *cmd, int max)
 		}
 		i--;
 	}
-	if (last_in != -1)
-		cmd->infile = last_in;
-	if (last_out != -1)
-		cmd->outfile = last_out;
+	cmd->infile = last_in;
+	cmd->outfile = last_out;
 	if (cmd->outfile == -1 || cmd->infile == -1)
 		exit_status(1, 0);
 	return (1);
@@ -174,10 +175,10 @@ void	cmd_set_me(t_base *base)
 
 	i = base->cmd_count;
 	tmp = cmd_lstlast(base->cmd); // cmd'nin en son argümanından başlamam gerekiyor.
-	while (i-- > 0 && tmp)
+	while (i-- > 0 && tmp && base->heredoc_status == 1)
 	{
 		if (tmp->red_size > 0)
-			cmd_set_me_fd(tmp, tmp->red_size);
+			cmd_set_me_fd(base, tmp, tmp->red_size);
 		tmp = tmp->prev;
 	}
 }
@@ -192,6 +193,7 @@ void	cmd(t_base *base)
 		tmp = cmd_create(&base->cmd, tmp);
 	}
 	base->cmd_count = cmd_count(base->cmd);
+	base->heredoc_status = 1;
 	exit_status(0, 0); // +1
 	cmd_set_me(base); // +1
 	debug_print_cmd(base, "DEBUG", "print");
@@ -200,7 +202,7 @@ void	cmd(t_base *base)
 		print_error(SHELLNAME, "fork", NULL, "Cannot allocate memory");
 		cmd_exit(base, base->cmd);
 	}
-	if (exit_status(0, 1) == 0) // +1
+	if (base->heredoc_status == 1) // +1
 		fork_start(base);
 	else
 		exit_status(1, 0);
