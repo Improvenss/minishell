@@ -6,7 +6,7 @@
 /*   By: gsever <gsever@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/24 19:40:24 by akaraca           #+#    #+#             */
-/*   Updated: 2022/10/27 00:16:13 by gsever           ###   ########.fr       */
+/*   Updated: 2022/10/27 01:45:31 by gsever           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -458,7 +458,7 @@ void	commands_init(t_base *base);
 int		is_it_expand(t_base *base);
 char	*env_expand_next_next(t_base *base, char *token, int *i, char *new);
 char	*env_expand_next(t_base *base, char *token, int *i, char *new);
-char	*env_expand(t_base *base, char *token);
+char	*env_expand(t_base *base, char *token, int i, int l);
 
 // lexer_pipe.c
 int		lexer_pipe(t_base *base, char *str, int *i);

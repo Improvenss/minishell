@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd_set_fd.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akaraca <akaraca@student.42.tr>            +#+  +:+       +#+        */
+/*   By: gsever <gsever@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/19 16:45:03 by gsever            #+#    #+#             */
-/*   Updated: 2022/10/26 18:07:07 by akaraca          ###   ########.fr       */
+/*   Updated: 2022/10/27 01:32:05 by gsever           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,15 +50,15 @@ char	*get_heredoc_str(char *limit)
 	str = NULL;
 	tmp = NULL;
 	signal(SIGINT, action_heredoc);
-	while (exit_status(0, 1) != 130 && (!ft_strncmp_edited(str, limit, ft_strlen(limit))
-	|| !str))
+	while (exit_status(0, 1) != 130
+		&& (!ft_strncmp_edited(str, limit, ft_strlen(limit)) || !str))
 	{
 		free(str);
 		str = readline("> ");
 		if (!str)
 		{
 			printf("%s (wanted `%s\')\n", "minishell: warning: here-document delimited by end-of-file", limit);
-			break;
+			break ;
 		}
 		if (!ft_strncmp_edited(str, limit, ft_strlen(limit)))
 			tmp = str_add(tmp, str);

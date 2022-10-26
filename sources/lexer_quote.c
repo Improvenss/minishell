@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_quote.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akaraca <akaraca@student.42.tr>            +#+  +:+       +#+        */
+/*   By: gsever <gsever@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/19 14:59:37 by akaraca           #+#    #+#             */
-/*   Updated: 2022/10/19 15:17:49 by akaraca          ###   ########.fr       */
+/*   Updated: 2022/10/27 01:45:42 by gsever           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ int	lexer_quote(t_base *base, char *str, int *i)
 	{
 		token = ft_substr(str, *i + 1, len - 2);
 		if (ft_strchr(token, '$') && str[*i] == '"')
-			token = env_expand(base, token);
+			token = env_expand(base, token, 0, 0);
 		last = lexer_lstlast(base->lexer);
 		if (last && last->flag & TOK_CONNECTED)
 		{

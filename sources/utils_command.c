@@ -6,10 +6,21 @@
 /*   By: gsever <gsever@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/19 15:59:26 by akaraca           #+#    #+#             */
-/*   Updated: 2022/10/26 22:55:56 by gsever           ###   ########.fr       */
+/*   Updated: 2022/10/27 00:41:13 by gsever           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+/** NORMOK:
+ * @file utils_command.c
+ * @author Ahmet KARACA (akaraca)
+ * @author Gorkem SEVER (gsever)
+ * @brief 
+ * @version 0.1
+ * @date 2022-08-07
+ * 
+ * @copyright Copyright (c) 2022
+ * 
+ */
 #include "../includes/minishell.h"
 
 char	*ft_path(char **path, char *cmd_name)
@@ -39,9 +50,9 @@ int	file_or_dir_search(char *str, int flag)
 {
 	int	fd;
 
-	fd = open(str, flag); //NO_MATCH (0)-> Flag olarak bir tanımlıyıcıya ihtiyacımız yok, belirtilen dizin içerisinde dosya varlık yokluk kontrolü gereklidir. (windowsta var)
+	fd = open(str, flag);
 	close(fd);
-	if (fd == -1) //dosya yok ise -1 döner.
+	if (fd == -1)
 		return (0);
 	return (1);
 }

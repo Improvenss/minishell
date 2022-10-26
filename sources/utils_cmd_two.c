@@ -6,11 +6,49 @@
 /*   By: gsever <gsever@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/26 23:56:02 by gsever            #+#    #+#             */
-/*   Updated: 2022/10/27 00:37:25 by gsever           ###   ########.fr       */
+/*   Updated: 2022/10/27 00:57:00 by gsever           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+/** NORMOK:
+ * @file utils_cmd_two.c
+ * @author Ahmet KARACA (akaraca)
+ * @author Gorkem SEVER (gsever)
+ * @brief 
+ * @version 0.1
+ * @date 2022-08-07
+ * 
+ * @copyright Copyright (c) 2022
+ * 
+ */
 #include "../includes/minishell.h"
+
+t_lexer	*cmd_node_create_set(t_lexer *tmp, t_cmd **new, int *i, int *l)
+{
+	*i = 0;
+	*l = 0;
+	while (tmp && tmp->flag != TOK_PIPE)
+	{
+		if (tmp->flag & (TOK_TEXT | TOK_D_QUOTE | TOK_S_QUOTE))
+		{
+			if (tmp->str[0] != '\0')
+			{
+				(*new)->full_cmd[*i] = ft_strdup(tmp->str);
+				(*i)++;
+			}
+		}
+		else if (tmp->flag & (TOK_REDIR | TOK_HEREDOC | TOK_REDIR_FILE))
+		{
+			if (tmp->str[0] != '\0')
+			{
+				(*new)->redirect[*l] = ft_strdup(tmp->str);
+				(*l)++;
+			}
+		}
+		tmp = tmp->next;
+	}
+	return (tmp);
+}
 
 t_lexer	*cmd_node_create(t_cmd **new, t_lexer *last, int i, int l)
 {
@@ -30,28 +68,7 @@ t_lexer	*cmd_node_create(t_cmd **new, t_lexer *last, int i, int l)
 	(*new)->outfile = STDOUT_FILENO;
 	(*new)->next = NULL;
 	tmp = last;
-	i = 0;
-	l = 0;
-	while (tmp && tmp->flag != TOK_PIPE)
-	{
-		if (tmp->flag & (TOK_TEXT | TOK_D_QUOTE | TOK_S_QUOTE))
-		{
-			if (tmp->str[0] != '\0')
-			{
-				(*new)->full_cmd[i] = ft_strdup(tmp->str);
-				i++;
-			}
-		}
-		else if (tmp->flag & (TOK_REDIR | TOK_HEREDOC | TOK_REDIR_FILE))
-		{
-			if (tmp->str[0] != '\0')
-			{
-				(*new)->redirect[l] = ft_strdup(tmp->str);
-				l++;
-			}
-		}
-		tmp = tmp->next;
-	}
+	tmp = cmd_node_create_set(tmp, new, &i, &l);
 	(*new)->full_cmd[i] = NULL;
 	(*new)->redirect[l] = NULL;
 	(*new)->size = i;

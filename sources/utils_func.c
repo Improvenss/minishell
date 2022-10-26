@@ -3,13 +3,24 @@
 /*                                                        :::      ::::::::   */
 /*   utils_func.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akaraca <akaraca@student.42.tr>            +#+  +:+       +#+        */
+/*   By: gsever <gsever@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/19 14:31:10 by akaraca           #+#    #+#             */
-/*   Updated: 2022/10/24 16:57:59 by akaraca          ###   ########.fr       */
+/*   Updated: 2022/10/27 01:17:36 by gsever           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+/** NORMOK:
+ * @file utils_func.c
+ * @author Ahmet KARACA (akaraca)
+ * @author Gorkem SEVER (gsever)
+ * @brief 
+ * @version 0.1
+ * @date 2022-08-07
+ * 
+ * @copyright Copyright (c) 2022
+ * 
+ */
 #include "../includes/minishell.h"
 
 char	*ft_chrjoin(char *s1, char c)
@@ -53,7 +64,7 @@ int	ft_strncmp_edited(const char *s1, const char *s2, size_t n)
 		s2++;
 		n--;
 	}
-	if (n == 0 && s1[n] == '\0')//(s1[n] == ' ' || s1[n] == '\0'))
+	if (n == 0 && s1[n] == '\0')
 		return (1);
 	return (0);
 }
