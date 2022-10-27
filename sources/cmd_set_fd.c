@@ -3,34 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   cmd_set_fd.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gsever <gsever@student.42kocaeli.com.tr    +#+  +:+       +#+        */
+/*   By: akaraca <akaraca@student.42.tr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/19 16:45:03 by gsever            #+#    #+#             */
-/*   Updated: 2022/10/27 01:32:05 by gsever           ###   ########.fr       */
+/*   Updated: 2022/10/27 02:39:52 by akaraca          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-int	set_fd(int oldfd, char *path, int *flags)
+int	set_fd_set(int oldfd, char *path, int *flags)
 {
 	int	fd;
 
-	if (access(path, F_OK) == 1 && !flags[0])
-	{
-		exit_status(127, 0);
-		return (print_error(SHELLNAME, "No such file or directory", path, NULL));
-	}
-	else if (access(path, R_OK) == -1 && !flags[0])
-	{
-		exit_status(126, 0);
-		return (print_error(SHELLNAME, path, "No such file or directory", NULL));
-	}
-	else if (access(path, W_OK) == -1 && access(path, F_OK) == 0 && flags[0])
-	{
-		exit_status(126, 0);
-		return (print_error(SHELLNAME, "permission denied", path, NULL));
-	}
 	if (flags[0] && flags[1])
 		fd = open(path, O_CREAT | O_WRONLY | O_APPEND, 0666);
 	else if (flags[0] && !flags[1])
@@ -40,6 +25,28 @@ int	set_fd(int oldfd, char *path, int *flags)
 	else
 		fd = oldfd;
 	return (fd);
+}
+
+int	set_fd(int oldfd, char *path, int *flags)
+{
+	if (access(path, F_OK) == 1 && !flags[0])
+	{
+		exit_status(127, 0);
+		return (print_error(SHELLNAME, path, \
+		"No such file or directory", NULL));
+	}
+	else if (access(path, R_OK) == -1 && !flags[0])
+	{
+		exit_status(126, 0);
+		return (print_error(SHELLNAME, path, \
+		"No such file or directory", NULL));
+	}
+	else if (access(path, W_OK) == -1 && access(path, F_OK) == 0 && flags[0])
+	{
+		exit_status(126, 0);
+		return (print_error(SHELLNAME, "permission denied", path, NULL));
+	}
+	return (set_fd_set(oldfd, path, flags));
 }
 
 char	*get_heredoc_str(char *limit)
@@ -57,7 +64,8 @@ char	*get_heredoc_str(char *limit)
 		str = readline("> ");
 		if (!str)
 		{
-			printf("%s (wanted `%s\')\n", "minishell: warning: here-document delimited by end-of-file", limit);
+			printf("%s (wanted `%s\')\n", "minishell: warning: \
+			here-document delimited by end-of-file", limit);
 			break ;
 		}
 		if (!ft_strncmp_edited(str, limit, ft_strlen(limit)))
@@ -76,7 +84,7 @@ int	set_heredoc(char *limit)
 	if (pipe(fd) == -1)
 		return (print_error(SHELLNAME, "error creating pipe", NULL, NULL));
 	str = get_heredoc_str(limit);
-	if (str == NULL) //crlt+D için
+	if (str == NULL)
 	{
 		close(fd[WRITE_END]);
 		return (fd[READ_END]);
@@ -90,34 +98,4 @@ int	set_heredoc(char *limit)
 		return (-1);
 	}
 	return (fd[READ_END]);
-}
-
-void	cmd_set_fd(t_lexer *tmp, t_cmd **new)
-{
-	int flags[2];
-
-	if (ft_strncmp_edited(tmp->str, ">>", 2))
-	{
-		flags[0] = 1;
-		flags[1] = 1;
-		(*new)->outfile = set_fd((*new)->outfile, tmp->next->str, flags);
-	}
-	else if (ft_strncmp_edited(tmp->str, ">", 1))
-	{
-		flags[0] = 1;
-		flags[1] = 0;
-		(*new)->outfile = set_fd((*new)->outfile, tmp->next->str, flags);
-	}
-	else if (ft_strncmp_edited(tmp->str, "<<", 2))
-	{
-		(*new)->infile = set_heredoc(tmp->next->str);
-	}
-	else if (ft_strncmp_edited(tmp->str, "<", 1))
-	{
-		flags[0] = 0;
-		flags[1] = 0;
-		(*new)->infile = set_fd((*new)->infile, tmp->next->str, flags);
-	}
-	if ((*new)->outfile == -1 || (*new)->infile == -1)
-		exit_status(1, 0);
 }

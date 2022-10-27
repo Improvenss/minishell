@@ -23,7 +23,7 @@
  */
 #include "../includes/minishell.h"
 
-void	lexer(t_base *base, char *str)
+int	lexer(t_base *base, char *str)
 {
 	int	i;
 
@@ -42,6 +42,10 @@ void	lexer(t_base *base, char *str)
 			i++;
 	}
 	if (str[i] != '\0')
+	{
 		exit_status(ENOMEM, 0);
+		return (ERROR);
+	}
 	debug_print_str(base, "DEBUG", "print");
+	return (1);
 }

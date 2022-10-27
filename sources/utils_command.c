@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_command.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gsever <gsever@student.42kocaeli.com.tr    +#+  +:+       +#+        */
+/*   By: akaraca <akaraca@student.42.tr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/19 15:59:26 by akaraca           #+#    #+#             */
-/*   Updated: 2022/10/27 00:41:13 by gsever           ###   ########.fr       */
+/*   Updated: 2022/10/27 09:01:14 by akaraca          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,9 +51,9 @@ int	file_or_dir_search(char *str, int flag)
 	int	fd;
 
 	fd = open(str, flag);
-	close(fd);
 	if (fd == -1)
 		return (0);
+	close(fd);
 	return (1);
 }
 

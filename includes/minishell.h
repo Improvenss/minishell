@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gsever <gsever@student.42kocaeli.com.tr    +#+  +:+       +#+        */
+/*   By: akaraca <akaraca@student.42.tr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/24 19:40:24 by akaraca           #+#    #+#             */
-/*   Updated: 2022/10/27 01:45:31 by gsever           ###   ########.fr       */
+/*   Updated: 2022/10/27 09:11:58 by akaraca          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -476,7 +476,7 @@ int		lexer_syntax(t_lexer *lexer);
 int		lexer_text(t_base *base, char *str, int *i);
 
 // lexer.c
-void	lexer(t_base *base, char *str);
+int		lexer(t_base *base, char *str);
 
 // main.c
 int		set_arg(t_base *base, char **environ);

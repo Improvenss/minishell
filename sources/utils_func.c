@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_func.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gsever <gsever@student.42kocaeli.com.tr    +#+  +:+       +#+        */
+/*   By: akaraca <akaraca@student.42.tr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/19 14:31:10 by akaraca           #+#    #+#             */
-/*   Updated: 2022/10/27 01:17:36 by gsever           ###   ########.fr       */
+/*   Updated: 2022/10/27 08:48:54 by akaraca          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,11 +28,12 @@ char	*ft_chrjoin(char *s1, char c)
 	char	*tmp;
 	int		i;
 
-	tmp = (char *)malloc(sizeof(char) * (ft_strlen(s1) + 1));
+	i = ft_strlen(s1);
+	tmp = (char *)malloc(sizeof(char) * (i + 2));
 	if (!tmp)
 		return (NULL);
 	i = 0;
-	while (s1[i])
+	while (s1 && s1[i])
 	{
 		tmp[i] = s1[i];
 		i++;

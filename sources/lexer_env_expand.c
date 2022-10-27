@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_env_expand.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gsever <gsever@student.42kocaeli.com.tr    +#+  +:+       +#+        */
+/*   By: akaraca <akaraca@student.42.tr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/19 16:50:31 by gsever            #+#    #+#             */
-/*   Updated: 2022/10/27 02:19:58 by gsever           ###   ########.fr       */
+/*   Updated: 2022/10/27 09:01:17 by akaraca          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,16 @@ int	is_it_expand(t_base *base)
 	return (0);
 }
 
+char	*env_expand_seperate_third(t_base *base, char *env_name, char *str)
+{
+	free(str);
+	if (is_it_expand(base))
+		str = ft_strjoin("$", env_name);
+	else
+		str = ft_strdup("");
+	return (str);
+}
+
 char	*env_expand_next_next(t_base *base, char *token, int *i, char *new)
 {
 	int		l;
@@ -34,13 +44,7 @@ char	*env_expand_next_next(t_base *base, char *token, int *i, char *new)
 	env_name = ft_substr(token, l, *i - l);
 	str = env_findret(base, env_name);
 	if (!str)
-	{
-		free(str);
-		if (is_it_expand(base))
-			str = ft_strjoin("$", env_name);
-		else
-			str = ft_strdup("");
-	}
+		str = env_expand_seperate_third(base, env_name, str);
 	free(env_name);
 	if (new != NULL && str != NULL)
 	{
@@ -54,20 +58,26 @@ char	*env_expand_next_next(t_base *base, char *token, int *i, char *new)
 	return (new);
 }
 
+char	*env_expand_seperate_second(t_base *base, char *new)
+{
+	if (new == NULL)
+		return (ft_strdup("$"));
+	else
+	{
+		base->mem_1 = new;
+		base->mem_2 = ft_strjoin(new, "$");
+		free(base->mem_1);
+		return (base->mem_2);
+	}
+	return (new);
+}
+
 char	*env_expand_next(t_base *base, char *token, int *i, char *new)
 {
-	(*i)++; // knk buradaki i'yi oncesinde bu func'a girmeden arttirabilirsek tam 25  satir olacak.
+	(*i)++;
 	if (token[*i] == '\0')
 	{
-		if (new == NULL)
-			return (ft_strdup("$"));
-		else
-		{
-			base->mem_1 = new;
-			base->mem_2 = ft_strjoin(new, "$");
-			free(base->mem_1);
-			return (base->mem_2);
-		}
+		return (env_expand_seperate_second(base, new));
 	}
 	if (token[*i] == '?')
 	{
@@ -86,23 +96,23 @@ char	*env_expand_next(t_base *base, char *token, int *i, char *new)
 	if (ft_strchr(WHITESPACES, token[*i]))
 	{
 		(*i)++;
-		return (ft_chrjoin("$", token[*i - 1]));
+		return (ft_chrjoin("$", token[*i]));
 	}
 	return (env_expand_next_next(base, token, i, new));
 }
 
 static void	env_expand_seperate_first(t_base *base,
-	char *new, char *token, int *i)
+	char **new, char *token, int *i)
 {
 	while (token[*i] == '$' && token[*i + 1] == '$')
 	{
-		i = i + 2;
-		if (new == NULL)
-			new = ft_strdup("$");
+		*i = *i + 2;
+		if (*new == NULL)
+			*new = ft_strdup("$");
 		else
 		{
-			base->mem_1 = new;
-			new = ft_strjoin(new, "$");
+			base->mem_1 = *new;
+			*new = ft_strjoin(*new, "$");
 			free(base->mem_1);
 		}
 	}
@@ -128,7 +138,7 @@ char	*env_expand(t_base *base, char *token, int i, int l)
 			free(base->mem_1);
 			free(base->mem_2);
 		}
-		env_expand_seperate_first(base, new, token, &i);
+		env_expand_seperate_first(base, &new, token, &i);
 		if (token[i] == '$')
 			new = env_expand_next(base, token, &i, new);
 	}

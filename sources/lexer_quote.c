@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_quote.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gsever <gsever@student.42kocaeli.com.tr    +#+  +:+       +#+        */
+/*   By: akaraca <akaraca@student.42.tr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/19 14:59:37 by akaraca           #+#    #+#             */
-/*   Updated: 2022/10/27 02:27:16 by gsever           ###   ########.fr       */
+/*   Updated: 2022/10/27 09:07:42 by akaraca          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,10 +34,10 @@ static int	quote_lenght(char *str)
 	return (i + 1);
 }
 
-void	lexer_quote_next_next(t_lexer **new, int *i, int len, char **str)
+void	lexer_quote_next_next(t_lexer **new, int *i, int len, char *str)
 {
 	*i = *i + len;
-	if (!ft_strchr(WHITESPACES, *str[*i]) && other_lenght(str[*i]) == 0)
+	if (!ft_strchr(WHITESPACES, str[*i]) && other_lenght(&str[*i]) == 0)
 		(*new)->flag |= TOK_CONNECTED;
 }
 
@@ -83,7 +83,7 @@ int	lexer_quote(t_base *base, char *str, int *i)
 		}
 		if (lexer_quote_next(base, &new, token, str[*i]) == ERROR)
 			return (ERROR);
-		lexer_quote_next_next(&new, i, len, &str);
+		lexer_quote_next_next(&new, i, len, str);
 	}
 	return (0);
 }
