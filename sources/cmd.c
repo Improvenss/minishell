@@ -6,7 +6,7 @@
 /*   By: gsever <gsever@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/19 16:46:00 by gsever            #+#    #+#             */
-/*   Updated: 2022/10/27 12:07:51 by gsever           ###   ########.fr       */
+/*   Updated: 2022/10/27 12:29:27 by gsever           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,12 +22,14 @@ static void	cmd_set_me_fd_two(t_cmd *cmd,
 		flags[0] = 1;
 		flags[1] = 1;
 		cmd->outfile = set_fd(cmd->outfile, cmd->redirect[i + 1], flags);
+		cmd_set_me_fd_last_out(cmd, last_out);
 	}
 	else if (ft_strncmp_edited(cmd->redirect[i], ">", 1))
 	{
 		flags[0] = 1;
 		flags[1] = 0;
 		cmd->outfile = set_fd(cmd->outfile, cmd->redirect[i + 1], flags);
+		cmd_set_me_fd_last_out(cmd, last_out);
 	}
 	else if (ft_strncmp_edited(cmd->redirect[i], "<", 1))
 	{
@@ -37,8 +39,6 @@ static void	cmd_set_me_fd_two(t_cmd *cmd,
 		if (*last_in == -1)
 			*last_in = cmd->infile;
 	}
-	if (*last_out == -1)
-		*last_out = cmd->outfile;
 }
 
 static int	cmd_set_me_fd_first(t_base *base, t_cmd *cmd,

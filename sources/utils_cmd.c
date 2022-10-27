@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_cmd.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akaraca <akaraca@student.42.tr>            +#+  +:+       +#+        */
+/*   By: gsever <gsever@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/19 15:22:13 by akaraca           #+#    #+#             */
-/*   Updated: 2022/10/27 08:56:23 by akaraca          ###   ########.fr       */
+/*   Updated: 2022/10/27 12:29:49 by gsever           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,12 @@
  * 
  */
 #include "../includes/minishell.h"
+
+void	cmd_set_me_fd_last_out(t_cmd *cmd, int *last_out)
+{
+	if (*last_out == -1)
+		*last_out = cmd->outfile;
+}
 
 void	close_cmd_fd(t_cmd *cmd)
 {

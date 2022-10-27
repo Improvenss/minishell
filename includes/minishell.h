@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akaraca <akaraca@student.42.tr>            +#+  +:+       +#+        */
+/*   By: gsever <gsever@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/24 19:40:24 by akaraca           #+#    #+#             */
-/*   Updated: 2022/10/27 10:11:27 by akaraca          ###   ########.fr       */
+/*   Updated: 2022/10/27 12:29:45 by gsever           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -498,6 +498,7 @@ t_lexer	*cmd_create(t_cmd **lst, t_lexer *last);
 t_cmd	*cmd_lstlast(t_cmd *cmd);
 
 // utils_cmd.c
+void	cmd_set_me_fd_last_out(t_cmd *cmd, int *last_out);
 void	close_cmd_fd(t_cmd *cmd);
 int		cmd_count(t_cmd *cmd);
 char	*str_add(char *tmp, char *str);
