@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akaraca <akaraca@student.42.tr>            +#+  +:+       +#+        */
+/*   By: gsever <gsever@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/19 16:46:00 by gsever            #+#    #+#             */
-/*   Updated: 2022/10/27 09:43:13 by akaraca          ###   ########.fr       */
+/*   Updated: 2022/10/27 12:07:51 by gsever           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,20 +35,20 @@ static void	cmd_set_me_fd_two(t_cmd *cmd,
 		flags[1] = 0;
 		cmd->infile = set_fd(cmd->infile, cmd->redirect[i + 1], flags);
 		if (*last_in == -1)
-			last_in = &cmd->infile;
+			*last_in = cmd->infile;
 	}
 	if (*last_out == -1)
-		last_out = &cmd->outfile;
+		*last_out = cmd->outfile;
 }
 
 static int	cmd_set_me_fd_first(t_base *base, t_cmd *cmd,
-	int *last_in __attribute((unused)), int i)
+	int *last_in, int i)
 {
 	if (ft_strncmp_edited(cmd->redirect[i], "<<", 2))
 	{
 		cmd->infile = set_heredoc(cmd->redirect[i + 1]);
 		if (cmd->redirect[i + 1] == NULL)
-			last_in = &cmd->infile;
+			*last_in = cmd->infile;
 		if (cmd->infile == -1)
 		{
 			base->heredoc_status = 0;
