@@ -6,7 +6,7 @@
 /*   By: akaraca <akaraca@student.42.tr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/19 16:46:00 by gsever            #+#    #+#             */
-/*   Updated: 2022/10/27 09:02:42 by akaraca          ###   ########.fr       */
+/*   Updated: 2022/10/27 09:43:13 by akaraca          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,11 +66,16 @@ int	cmd_set_me_fd(t_base *base, t_cmd *cmd, int last_in, int last_out)
 	max = cmd->red_size;
 	i = -1;
 	while (cmd->redirect[++i])
+	{
 		if (cmd_set_me_fd_first(base, cmd, &last_in, i) == 0)
 			return (0);
+	}
 	i = max - 2;
-	while (i-- >= 0)
+	while (i >= 0)
+	{
 		cmd_set_me_fd_two(cmd, &last_in, &last_out, i);
+		i--;
+	}
 	if (last_in != -1)
 		cmd->infile = last_in;
 	if (last_out != -1)
