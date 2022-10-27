@@ -6,7 +6,7 @@
 /*   By: gsever <gsever@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/26 23:43:29 by gsever            #+#    #+#             */
-/*   Updated: 2022/10/26 23:53:49 by gsever           ###   ########.fr       */
+/*   Updated: 2022/10/27 13:15:38 by gsever           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ bool	env_is_have(t_base *base, char *env_var, char *value)
 	t_env	*tmp;
 
 	tmp = base->env;
-	while(tmp)
+	while (tmp)
 	{
 		if (ft_strncmp(tmp->data[0], env_var, ft_strlen(env_var)) == 0
 			&& ft_strncmp(tmp->data[1], value, ft_strlen(value)) == 0)
