@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_env_expand.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akaraca <akaraca@student.42.tr>            +#+  +:+       +#+        */
+/*   By: gsever <gsever@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/19 16:50:31 by gsever            #+#    #+#             */
-/*   Updated: 2022/10/27 10:11:28 by akaraca          ###   ########.fr       */
+/*   Updated: 2022/10/27 12:59:41 by gsever           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	is_it_expand(t_base *base, int status)
 
 char	*env_expand_seperate_third(t_base *base, char *env_name)
 {
-	char *str;
+	char	*str;
 
 	if (is_it_expand(base, TOK_HEREDOC))
 	{
@@ -107,7 +107,7 @@ char	*env_expand_next(t_base *base, char *token, int *i, char *new)
 	if (ft_strchr(WHITESPACES, token[*i]))
 	{
 		(*i)++;
-		return (ft_chrjoin("$", token[*i]));
+		return (ft_chrjoin("$", token[*i - 1]));
 	}
 	return (env_expand_next_next(base, token, i, new));
 }
